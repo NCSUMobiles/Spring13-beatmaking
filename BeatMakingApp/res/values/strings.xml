@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Beat Making App</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string-array name="pattern_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    
+    <string name="p_00">P_00</string>
+    <string name="p_01">P_01</string>
+    <string name="p_02">P_02</string>
+    <string name="p_03">P_03</string>
+    <string name="p_10">P_10</string>
+    <string name="p_11">P_11</string>
+    <string name="p_12">P_12</string>
+    <string name="p_13">P_13</string>
+    <string name="p_20">P_20</string>
+    <string name="p_21">P_21</string>
+    <string name="p_22">P_22</string>
+    <string name="p_23">P_23</string>
+    <string name="p_30">P_30</string>
+    <string name="p_31">P_31</string>
+    <string name="p_32">P_32</string>
+    <string name="p_33">P_33</string>
+</resources>
