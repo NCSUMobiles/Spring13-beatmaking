@@ -33,6 +33,7 @@ public class PatternActivity extends Activity {
 	int bpm = 120;
 	int bars = 4;
 
+	int check = 0;
 	int beatInBar = 0;
 	int soundIndex = 0;
 	Comparator<Sound> comp = new LongComparator();
@@ -52,30 +53,19 @@ public class PatternActivity extends Activity {
 		setContentView(R.layout.pattern_layout);
 		final Context context = this;
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		
-		String message = "";
-		
-		try
-		{
-			Intent intent = getIntent();
-			message = intent.getStringExtra(TrackActivity.EXTRA_MESSAGE);
-		}
-		catch (Exception e)
-		{
-			e.toString();
-		}
-		
+
+		String message = "";		
+		Intent intent = getIntent();
+		message = intent.getStringExtra("msgFromParent");
 		if (message == null)
-			message = "first time";
-		else
-			message = "second time";
+			message = "default";
 
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-			alertDialogBuilder.setTitle(message);
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-
-
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle(message);
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+			
+		
 		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
@@ -258,6 +248,7 @@ public class PatternActivity extends Activity {
 	    // Always call the superclass so it can restore the view hierarchy
 	    super.onResume();
 	    
+
 	    
 	}
 	
@@ -266,22 +257,10 @@ public class PatternActivity extends Activity {
 		Intent trackIntent = new Intent(this,TrackActivity.class);
 		trackIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(trackIntent);
-
+		finish();
 	}
 	
-	@Override
-	public void onBackPressed() {
-	    new AlertDialog.Builder(this)
-	        .setTitle("Really Exit?")
-	        .setMessage("Are you sure you want to exit?")
-	        .setNegativeButton(android.R.string.no, null)
-	        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-	            public void onClick(DialogInterface arg0, int arg1) {
-	                PatternActivity.super.onBackPressed();
-	            }
-	        }).create().show();
-	}
 	
 	
 	public void onDestroy() {
