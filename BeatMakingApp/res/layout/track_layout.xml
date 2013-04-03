@@ -56,6 +56,7 @@
         android:orientation="vertical" >
 
         <Button
+            android:id="@+id/pattern1_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -64,6 +65,7 @@
             android:text="Pattern 1" />
 
         <Button
+            android:id="@+id/pattern2_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -72,6 +74,7 @@
             android:text="Pattern 2" />
 
         <Button
+            android:id="@+id/pattern3_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -80,6 +83,7 @@
             android:text="Pattern 3" />
 
         <Button
+            android:id="@+id/pattern4_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
