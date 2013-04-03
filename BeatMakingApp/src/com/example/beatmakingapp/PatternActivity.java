@@ -1,10 +1,13 @@
 package com.example.beatmakingapp;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -29,29 +32,75 @@ public class PatternActivity extends Activity {
 	boolean currentPlaybackThread = true;
 	int bpm = 120;
 	int bars = 4;
+
 	int beatInBar = 0;
 	int soundIndex = 0;
 	Comparator<Sound> comp = new LongComparator();
 	PriorityQueue<Sound> backQueue = new PriorityQueue<Sound>(10, comp);
 	PriorityQueue<Sound> frontQueue = new PriorityQueue<Sound>(1, comp);
 	private static Handler mainHandler = new Handler();
-	private static SoundPool sp00;
+
 	private static Thread playbackThread1;
 	private static Looper l1;
+
+	private final int[][] soundIds = new int[4][4];
+	private ArrayList<SoundPool> arrSoundPool = new ArrayList<SoundPool>();
+
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pattern_layout);
 		final Context context = this;
-		sp00 = new SoundPool(16, AudioManager.STREAM_MUSIC, 0);
-		final int id00 = sp00.load(this, raw.closedhat, 1);
-		final int id01 = sp00.load(this, raw.cymbal, 1);
-		final int id02 = sp00.load(this, raw.halfopenhat, 1);
-		final int id03 = sp00.load(this, raw.hitom, 1);
-		final int id10 = sp00.load(this, raw.kick, 1);
-		final int id11 = sp00.load(this, raw.lowtom, 1);
-		final int id12 = sp00.load(this, raw.openhat, 1);
-		final int id13 = sp00.load(this, raw.snare, 1);
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		
+		String message = "";
+		
+		try
+		{
+			Intent intent = getIntent();
+			message = intent.getStringExtra(TrackActivity.EXTRA_MESSAGE);
+		}
+		catch (Exception e)
+		{
+			e.toString();
+		}
+		
+		if (message == null)
+			message = "first time";
+		else
+			message = "second time";
+
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+			alertDialogBuilder.setTitle(message);
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+
+
+		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
+		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
+		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
+		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
+
+		for (int i=0;i<4;i++)
+		{
+			soundIds[0][0] = arrSoundPool.get(i).load(this, raw.closedhat, 1);
+			soundIds[0][1] = arrSoundPool.get(i).load(this, raw.cymbal, 1);
+			soundIds[0][2] = arrSoundPool.get(i).load(this, raw.halfopenhat, 1);
+			soundIds[0][3] = arrSoundPool.get(i).load(this, raw.hitom, 1);
+			soundIds[1][0] = arrSoundPool.get(i).load(this, raw.kick, 1);
+			soundIds[1][1] = arrSoundPool.get(i).load(this, raw.lowtom, 1);
+			soundIds[1][2] = arrSoundPool.get(i).load(this, raw.openhat, 1);
+			soundIds[1][3] = arrSoundPool.get(i).load(this, raw.snare, 1);
+			soundIds[2][0] = arrSoundPool.get(i).load(this, raw.closedhat, 1);
+			soundIds[2][1] = arrSoundPool.get(i).load(this, raw.cymbal, 1);
+			soundIds[2][2] = arrSoundPool.get(i).load(this, raw.halfopenhat, 1);
+			soundIds[2][3] = arrSoundPool.get(i).load(this, raw.hitom, 1);
+			soundIds[3][0] = arrSoundPool.get(i).load(this, raw.kick, 1);
+			soundIds[3][1] = arrSoundPool.get(i).load(this, raw.lowtom, 1);
+			soundIds[3][2] = arrSoundPool.get(i).load(this, raw.openhat, 1);
+			soundIds[3][3] = arrSoundPool.get(i).load(this, raw.snare, 1);	
+		}
+
 
 		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
 		final float volume = (float) am
@@ -77,7 +126,7 @@ public class PatternActivity extends Activity {
 									final Sound s = frontQueue.remove();
 									// mainHandler.post(new Runnable() {
 									// public void run() {
-									sp00.play(s.getId(), volume, volume, 1, 0,
+									arrSoundPool.get(0).play(s.getId(), volume, volume, 1, 0,
 											(float) 1.0);
 									// }
 									// });
@@ -86,7 +135,7 @@ public class PatternActivity extends Activity {
 							if (timeSinceLastBeat >= 60000 / bpm) {
 								mainHandler.post(new Runnable() {
 									public void run() {
-										// sp00.play(id00, volume, volume, 1, 0,
+										// arrSoundPool.get(0).play(id00, volume, volume, 1, 0,
 										// (float) 1.0);
 									}
 								});
@@ -120,14 +169,15 @@ public class PatternActivity extends Activity {
 		}, "PlaybackThread");
 		playbackThread1.start();
 
-		final Button trackButton = (Button) findViewById(R.id.track_button);
-		trackButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent trackIntent = new Intent().setClass(context,
-						TrackActivity.class);
-				startActivity(trackIntent);
-			}
-		});
+
+//		final Button trackButton = (Button) findViewById(R.id.track_button);
+//		trackButton.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View v) {
+//
+//				
+//			}
+//		});
+
 		final ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -137,7 +187,7 @@ public class PatternActivity extends Activity {
 				timeAtLastBeat = SystemClock.elapsedRealtime();
 			}
 		});
-	
+
 		final ImageButton recordButton = (ImageButton) findViewById(R.id.record_button);
 		recordButton.setOnClickListener(new View.OnClickListener() {
 
@@ -157,157 +207,87 @@ public class PatternActivity extends Activity {
 
 			}
 		});
-		final Button pad_00 = (Button) findViewById(R.id.pad_00);
-		pad_00.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
+
+		ArrayList<ArrayList<Button>> pad = new ArrayList<ArrayList<Button>>();
+		for(int i = 0; i < 4; i++)
+			pad.add(new ArrayList<Button>());
+
+
+		Button btn;
+
+		int[][] padIds = {{R.id.pad_00,R.id.pad_01,R.id.pad_02,R.id.pad_03},{R.id.pad_10,R.id.pad_11,R.id.pad_12,R.id.pad_13},{R.id.pad_20,R.id.pad_21,R.id.pad_22,R.id.pad_23},{R.id.pad_30,R.id.pad_31,R.id.pad_32,R.id.pad_33}};
+
+		for(int i=0;i<4;i++)
+		{
+			for(int j=0;j<4;j++)
+			{
+				final int ii = i;
+				final int jj = j;
+
+				btn = (Button) findViewById(padIds[i][j]);
+				pad.get(i).add(btn);
+
+
+				pad.get(i).get(j).setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						new Thread(new Runnable() {
 							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id00, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id00, volume, volume, 1, 0,
-										(float) 1.0);
+								mainHandler.post(new Runnable() {
+									public void run() {
+
+
+										if (state_recording == true)
+											backQueue.add(new Sound(soundIds[ii][jj], SystemClock
+													.elapsedRealtime() - timeAtStart));
+										arrSoundPool.get(0).play(soundIds[ii][jj], volume, volume, 1, 0,
+												(float) 1.0);
+									}
+								});
 							}
-						});
+						}).start();
 					}
-				}).start();
+				});
 			}
-		});
-		final Button pad_01 = (Button) findViewById(R.id.pad_01);
-		pad_01.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
-							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id01, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id01, volume, volume, 1, 0,
-										(float) 1.0);
-							}
-						});
-					}
-				}).start();
-			}
-		});
-		final Button pad_02 = (Button) findViewById(R.id.pad_02);
-		pad_02.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
-							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id02, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id02, volume, volume, 1, 0,
-										(float) 1.0);
-							}
-						});
-					}
-				}).start();
-			}
-		});
-		final Button pad_03 = (Button) findViewById(R.id.pad_03);
-		pad_03.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
-							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id03, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id03, volume, volume, 1, 0,
-										(float) 1.0);
-							}
-						});
-					}
-				}).start();
-			}
-		});
-		final Button pad_10 = (Button) findViewById(R.id.pad_10);
-		pad_10.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
-							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id10, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id10, volume, volume, 1, 0,
-										(float) 1.0);
-							}
-						});
-					}
-				}).start();
-			}
-		});
-		final Button pad_11 = (Button) findViewById(R.id.pad_11);
-		pad_11.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
-							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id11, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id11, volume, volume, 1, 0,
-										(float) 1.0);
-							}
-						});
-					}
-				}).start();
-			}
-		});
-		final Button pad_12 = (Button) findViewById(R.id.pad_12);
-		pad_12.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
-							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id12, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id12, volume, volume, 1, 0,
-										(float) 1.0);
-							}
-						});
-					}
-				}).start();
-			}
-		});
-		final Button pad_13 = (Button) findViewById(R.id.pad_13);
-		pad_13.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-					public void run() {
-						mainHandler.post(new Runnable() {
-							public void run() {
-								if (state_recording == true)
-									backQueue.add(new Sound(id13, SystemClock
-											.elapsedRealtime() - timeAtStart));
-								sp00.play(id13, volume, volume, 1, 0,
-										(float) 1.0);
-							}
-						});
-					}
-				}).start();
-			}
-		});
+		}
+
 	}
 
+	@Override
+	public void onResume() {
+	    // Always call the superclass so it can restore the view hierarchy
+	    super.onResume();
+	    
+	    
+	}
+	
+	public void callTrackActivity(View v)
+	{
+		Intent trackIntent = new Intent(this,TrackActivity.class);
+		trackIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(trackIntent);
+
+	}
+	
+	@Override
+	public void onBackPressed() {
+	    new AlertDialog.Builder(this)
+	        .setTitle("Really Exit?")
+	        .setMessage("Are you sure you want to exit?")
+	        .setNegativeButton(android.R.string.no, null)
+	        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+	            public void onClick(DialogInterface arg0, int arg1) {
+	                PatternActivity.super.onBackPressed();
+	            }
+	        }).create().show();
+	}
+	
+	
 	public void onDestroy() {
 		super.onDestroy();
 		l1.quit();
-		if (sp00 != null)
-			sp00.release();
+		if (arrSoundPool.get(0) != null)
+			arrSoundPool.get(0).release();
 	}
 }
