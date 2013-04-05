@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.25" />
+
+            <Button
+                android:id="@+id/pattern1Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Pattern 1" />
+
+            <Button
+                android:id="@+id/pattern2Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Pattern 2" />
+
+            <Button
+                android:id="@+id/pattern3Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Pattern 3" />
+
+            <Button
+                android:id="@+id/pattern4Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Pattern 4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.25" />
+
+            <ImageButton
+                android:id="@+id/addPattern1Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/add_button" />
+
+            <ImageButton
+                android:id="@+id/addPattern2Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/add_button" />
+
+            <ImageButton
+                android:id="@+id/addPattern3Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/add_button" />
+
+            <ImageButton
+                android:id="@+id/addPattern4Button"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/add_button" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.25"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="1" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="2" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="4" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="1" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="2" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="fill_parent"
+                        android:text="4" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pattern1TrackRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/rounded_button_blue"
+                        android:text="Pattern 2" />
+
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/rounded_button_blue"
+                        android:text="Pattern 2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/rounded_button_yellow"
+                        android:text="Pattern 3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/rounded_button_green"
+                        android:text="Pattern 4" />
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/play_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/play_button_normal" />
+
+        <ImageButton
+            android:id="@+id/play_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/stop_button_normal" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+
+        <Button
+            android:id="@+id/add_pattern_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/picker_up_button"/>
+
+
+        <EditText
+            android:id="@+id/add_pattern_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_alignLeft="@+id/add_pattern_up"
+            android:layout_alignRight="@+id/add_pattern_up"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/add_pattern_up"
+            android:inputType="number" />
+    
+
+        <Button
+            android:id="@+id/add_pattern_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/add_pattern_edit"
+            android:background="@drawable/picker_down_button" />
+
+
+
+
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/add_pattern_down"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/add_pattern_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_pattern_down"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/empty_view"
+        android:text="OK" />
+
+    <Button
+        android:id="@+id/add_pattern_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_pattern_down"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/empty_view"
+        android:text="Cancel" />
+
+</RelativeLayout>

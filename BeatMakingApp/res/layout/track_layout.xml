@@ -56,7 +56,6 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/pattern1_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -65,7 +64,6 @@
             android:text="Pattern 1" />
 
         <Button
-            android:id="@+id/pattern2_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -74,7 +72,6 @@
             android:text="Pattern 2" />
 
         <Button
-            android:id="@+id/pattern3_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -83,19 +80,12 @@
             android:text="Pattern 3" />
 
         <Button
-            android:id="@+id/pattern4_button"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Pattern 4" />
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Voice" />
     </LinearLayout>
 
     <RelativeLayout
@@ -110,8 +100,7 @@
             android:id="@+id/horizontalScrollView1"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_alignLeft="@+id/horizontal_scroll_part"
-             >
+            android:layout_alignLeft="@+id/horizontal_scroll_part" >
 
             <LinearLayout
                 android:id="@+id/linear_layout_inside_hori_scroll"
