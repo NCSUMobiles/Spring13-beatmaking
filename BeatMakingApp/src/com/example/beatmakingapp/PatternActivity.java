@@ -47,32 +47,30 @@ public class PatternActivity extends Activity {
 	private final int[][] soundIds = new int[4][4];
 	private ArrayList<SoundPool> arrSoundPool = new ArrayList<SoundPool>();
 
-
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pattern_layout);
 		final Context context = this;
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		String message = "";		
+		String message = "";
 		Intent intent = getIntent();
 		message = intent.getStringExtra("msgFromParent");
 		if (message == null)
 			message = "default";
 
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				context);
 		alertDialogBuilder.setTitle(message);
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
-			
-		
+
 		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 
-		for (int i=0;i<4;i++)
-		{
+		for (int i = 0; i < 4; i++) {
 			soundIds[0][0] = arrSoundPool.get(i).load(this, raw.closedhat, 1);
 			soundIds[0][1] = arrSoundPool.get(i).load(this, raw.cymbal, 1);
 			soundIds[0][2] = arrSoundPool.get(i).load(this, raw.halfopenhat, 1);
@@ -88,9 +86,8 @@ public class PatternActivity extends Activity {
 			soundIds[3][0] = arrSoundPool.get(i).load(this, raw.kick, 1);
 			soundIds[3][1] = arrSoundPool.get(i).load(this, raw.lowtom, 1);
 			soundIds[3][2] = arrSoundPool.get(i).load(this, raw.openhat, 1);
-			soundIds[3][3] = arrSoundPool.get(i).load(this, raw.snare, 1);	
+			soundIds[3][3] = arrSoundPool.get(i).load(this, raw.snare, 1);
 		}
-
 
 		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
 		final float volume = (float) am
@@ -116,8 +113,9 @@ public class PatternActivity extends Activity {
 									final Sound s = frontQueue.remove();
 									// mainHandler.post(new Runnable() {
 									// public void run() {
-									arrSoundPool.get(0).play(s.getId(), volume, volume, 1, 0,
-											(float) 1.0);
+									arrSoundPool.get(0).play(
+											s.getSoundPoolId(), volume, volume,
+											1, 0, (float) 1.0);
 									// }
 									// });
 								}
@@ -125,7 +123,8 @@ public class PatternActivity extends Activity {
 							if (timeSinceLastBeat >= 60000 / bpm) {
 								mainHandler.post(new Runnable() {
 									public void run() {
-										// arrSoundPool.get(0).play(id00, volume, volume, 1, 0,
+										// arrSoundPool.get(0).play(id00,
+										// volume, volume, 1, 0,
 										// (float) 1.0);
 									}
 								});
@@ -159,14 +158,13 @@ public class PatternActivity extends Activity {
 		}, "PlaybackThread");
 		playbackThread1.start();
 
-
-//		final Button trackButton = (Button) findViewById(R.id.track_button);
-//		trackButton.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View v) {
-//
-//				
-//			}
-//		});
+		// final Button trackButton = (Button) findViewById(R.id.track_button);
+		// trackButton.setOnClickListener(new View.OnClickListener() {
+		// public void onClick(View v) {
+		//
+		//
+		// }
+		// });
 
 		final ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
 		playButton.setOnClickListener(new View.OnClickListener() {
@@ -199,45 +197,51 @@ public class PatternActivity extends Activity {
 		});
 
 		ArrayList<ArrayList<Button>> pad = new ArrayList<ArrayList<Button>>();
-		for(int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++)
 			pad.add(new ArrayList<Button>());
-
 
 		Button btn;
 
-		int[][] padIds = {{R.id.pad_00,R.id.pad_01,R.id.pad_02,R.id.pad_03},{R.id.pad_10,R.id.pad_11,R.id.pad_12,R.id.pad_13},{R.id.pad_20,R.id.pad_21,R.id.pad_22,R.id.pad_23},{R.id.pad_30,R.id.pad_31,R.id.pad_32,R.id.pad_33}};
+		int[][] padIds = {
+				{ R.id.pad_00, R.id.pad_01, R.id.pad_02, R.id.pad_03 },
+				{ R.id.pad_10, R.id.pad_11, R.id.pad_12, R.id.pad_13 },
+				{ R.id.pad_20, R.id.pad_21, R.id.pad_22, R.id.pad_23 },
+				{ R.id.pad_30, R.id.pad_31, R.id.pad_32, R.id.pad_33 } };
 
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
 				final int ii = i;
 				final int jj = j;
 
 				btn = (Button) findViewById(padIds[i][j]);
 				pad.get(i).add(btn);
 
-
-				pad.get(i).get(j).setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						new Thread(new Runnable() {
-							public void run() {
-								mainHandler.post(new Runnable() {
+				pad.get(i).get(j)
+						.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								new Thread(new Runnable() {
 									public void run() {
-
-
-										if (state_recording == true)
-											backQueue.add(new Sound(soundIds[ii][jj], SystemClock
-													.elapsedRealtime() - timeAtStart));
-										arrSoundPool.get(0).play(soundIds[ii][jj], volume, volume, 1, 0,
-												(float) 1.0);
+										mainHandler.post(new Runnable() {
+											public void run() {
+												if (state_recording == true)
+													backQueue.add(new Sound(
+															soundIds[ii][jj],
+															ii,
+															jj,
+															SystemClock
+																	.elapsedRealtime()
+																	- timeAtStart));
+												arrSoundPool.get(0).play(
+														soundIds[ii][jj],
+														volume, volume, 1, 0,
+														(float) 1.0);
+											}
+										});
 									}
-								});
+								}).start();
 							}
-						}).start();
-					}
-				});
+						});
 			}
 		}
 
@@ -245,24 +249,18 @@ public class PatternActivity extends Activity {
 
 	@Override
 	public void onResume() {
-	    // Always call the superclass so it can restore the view hierarchy
-	    super.onResume();
-	    
+		// Always call the superclass so it can restore the view hierarchy
+		super.onResume();
 
-	    
 	}
-	
-	public void callTrackActivity(View v)
-	{
-		Intent trackIntent = new Intent(this,TrackActivity.class);
+
+	public void callTrackActivity(View v) {
+		Intent trackIntent = new Intent(this, TrackActivity.class);
 		trackIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(trackIntent);
 		finish();
 	}
-	
 
-	
-	
 	public void onDestroy() {
 		super.onDestroy();
 		l1.quit();
