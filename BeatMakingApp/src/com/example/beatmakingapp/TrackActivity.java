@@ -41,6 +41,7 @@ public class TrackActivity extends Activity {
 		pattern1Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
+
 				Intent intent = new Intent().setClass(context, PatternActivity.class); 
 			    String message = "first";
 			    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -53,6 +54,7 @@ public class TrackActivity extends Activity {
 		pattern2Button = (Button) findViewById(R.id.pattern2Button);
 		pattern2Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+
 
 				Intent intent = new Intent().setClass(context, PatternActivity.class); 
 			    String message = "second";

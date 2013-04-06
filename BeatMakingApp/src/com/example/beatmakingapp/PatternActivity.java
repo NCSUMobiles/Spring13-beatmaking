@@ -36,76 +36,57 @@ public class PatternActivity extends Activity {
 	int check = 0;
 	int beatInBar = 0;
 	int soundIndex = 0;
-	//Comparator<Sound> comp = new LongComparator();
-	//PriorityQueue<Sound> backQueue = new PriorityQueue<Sound>(10, comp);
+
 	PriorityQueue<Sound> frontQueue = new PriorityQueue<Sound>(1, Global.comp);
 	private static Handler mainHandler = new Handler();
 
 	private static Thread playbackThread1;
 	private static Looper l1;
 	
-	private int patternId = 0;
-	//private final int[][] soundIds = new int[4][4];
-	//private ArrayList<SoundPool> arrSoundPool = new ArrayList<SoundPool>();
+	private int patternId = -1;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.pattern_layout);
+		final Context context = this;
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
 		Global.patternContext = this;
 		if(Global.initialized == false) {
 			Global.initialize();
 			Global.initialized = true;
 		}
-		setContentView(R.layout.pattern_layout);
-		final Context context = this;
-		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
+		
 		String message = "";
 		Intent intent = getIntent();
 		message = intent.getStringExtra("msgFromParent");
 		if (message == null)
 			message = "default";
-		if(message.equals("first") || message.equals("default")) {
+		
+		final Button button = (Button) findViewById(R.id.pattern_number_button);
+		if(message.equals("first") || message.equals("default") ||  message.equals("default : first")) {
 			patternId = 0;
+			button.setText("Pat-1");
 		}
 		else if(message.equals("second")) {
 			patternId = 1;
+			button.setText("Pat-2");
 		}
 		else if(message.equals("third")) {
 			patternId = 2;
+			button.setText("Pat-3");
 		}
 		else if(message.equals("fourth")) {
 			patternId = 3;
+			button.setText("Pat-4");
 		}
 
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				context);
-		alertDialogBuilder.setTitle(message);
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-
-		for (int i = 0; i < 4; i++) {
-			Global.soundIds[0][0] = Global.arrSoundPool.get(i).load(this, raw.closedhat, 1);
-			Global.soundIds[0][1] = Global.arrSoundPool.get(i).load(this, raw.cymbal, 1);
-			Global.soundIds[0][2] = Global.arrSoundPool.get(i).load(this, raw.halfopenhat, 1);
-			Global.soundIds[0][3] = Global.arrSoundPool.get(i).load(this, raw.hitom, 1);
-			Global.soundIds[1][0] = Global.arrSoundPool.get(i).load(this, raw.kick, 1);
-			Global.soundIds[1][1] = Global.arrSoundPool.get(i).load(this, raw.lowtom, 1);
-			Global.soundIds[1][2] = Global.arrSoundPool.get(i).load(this, raw.openhat, 1);
-			Global.soundIds[1][3] = Global.arrSoundPool.get(i).load(this, raw.snare, 1);
-			Global.soundIds[2][0] = Global.arrSoundPool.get(i).load(this, raw.closedhat, 1);
-			Global.soundIds[2][1] = Global.arrSoundPool.get(i).load(this, raw.cymbal, 1);
-			Global.soundIds[2][2] = Global.arrSoundPool.get(i).load(this, raw.halfopenhat, 1);
-			Global.soundIds[2][3] = Global.arrSoundPool.get(i).load(this, raw.hitom, 1);
-			Global.soundIds[3][0] = Global.arrSoundPool.get(i).load(this, raw.kick, 1);
-			Global.soundIds[3][1] = Global.arrSoundPool.get(i).load(this, raw.lowtom, 1);
-			Global.soundIds[3][2] = Global.arrSoundPool.get(i).load(this, raw.openhat, 1);
-			Global.soundIds[3][3] = Global.arrSoundPool.get(i).load(this, raw.snare, 1);
-		}
+//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+//				context);
+//		alertDialogBuilder.setTitle(((Integer)patternId).toString());
+//		AlertDialog alertDialog = alertDialogBuilder.create();
+//		alertDialog.show();
 
 		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
 		final float volume = (float) am
@@ -282,7 +263,7 @@ public class PatternActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		l1.quit();
-		if (Global.arrSoundPool.get(0) != null)
-			Global.arrSoundPool.get(0).release();
+		//if (Global.arrSoundPool.get(patternId) != null)
+			//Global.arrSoundPool.get(patternId).release();
 	}
 }
