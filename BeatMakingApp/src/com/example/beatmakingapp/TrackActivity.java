@@ -139,14 +139,25 @@ public class TrackActivity extends Activity {
 							pattern1SegmentPositions.add(num);
 							Collections.sort(pattern1SegmentPositions);
 							LinearLayout p1TrackLayout = (LinearLayout) findViewById(R.id.pattern1TrackRow);
-							Button p1B = new Button(context);
-							// TODO: change 300 value to 300 * pattern.numBars
-							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-									300, LayoutParams.WRAP_CONTENT);
-							lp.gravity = 17;
-							p1B.setLayoutParams(lp);
-							p1B.setBackgroundResource(R.drawable.rounded_button_red);
-							p1TrackLayout.addView(p1B);
+							p1TrackLayout.removeAllViews();
+							// TODO: change 300 value to 300 + ...
+							int lastP = 0;
+							for(int p: pattern1SegmentPositions) {
+								if(p-(lastP + 1) > 0) {
+									View buffer = new View(context);
+									LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300*(p-(lastP+1)), LayoutParams.WRAP_CONTENT);
+									buffer.setLayoutParams(lp);
+									p1TrackLayout.addView(buffer);
+								}
+								Button p1B = new Button(context);
+								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+										300, LayoutParams.WRAP_CONTENT);
+								lp.gravity = 17;
+								p1B.setLayoutParams(lp);
+								p1B.setBackgroundResource(R.drawable.rounded_button_red);
+								p1TrackLayout.addView(p1B);
+								lastP = p;
+							}
 						}
 						else
 							System.out.println("INVALID");
