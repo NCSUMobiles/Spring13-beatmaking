@@ -9,6 +9,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -47,6 +51,12 @@ public class PatternActivity extends Activity {
 	
 	private int patternId = -1;
 
+	public int[][] padIds = {
+			{ R.id.pad_00, R.id.pad_01, R.id.pad_02, R.id.pad_03 },
+			{ R.id.pad_10, R.id.pad_11, R.id.pad_12, R.id.pad_13 },
+			{ R.id.pad_20, R.id.pad_21, R.id.pad_22, R.id.pad_23 },
+			{ R.id.pad_30, R.id.pad_31, R.id.pad_32, R.id.pad_33 } };
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -59,6 +69,8 @@ public class PatternActivity extends Activity {
 			Global.initialized = true;
 		}
 		
+
+		
 		String message = "";
 		Intent intent = getIntent();
 		message = intent.getStringExtra("msgFromParent");
@@ -70,20 +82,24 @@ public class PatternActivity extends Activity {
 			patternId = 0;
 			bars = Global.pattern1Bars;
 			button.setText("Pat-1");
+			updateGradient("yellow");
 		}
 		else if(message.equals("second")) {
 			patternId = 1;
 			bars = Global.pattern1Bars;
 			button.setText("Pat-2");
+			updateGradient("green");
 		}
 		else if(message.equals("third")) {
 			patternId = 2;
 			bars = Global.pattern1Bars;
 			button.setText("Pat-3");
+			updateGradient("blue");
 		}
 		else if(message.equals("fourth")) {
 			patternId = 3;
 			button.setText("Pat-4");
+			updateGradient("purple");
 		}
 
 //		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -205,11 +221,7 @@ public class PatternActivity extends Activity {
 
 		Button btn;
 
-		int[][] padIds = {
-				{ R.id.pad_00, R.id.pad_01, R.id.pad_02, R.id.pad_03 },
-				{ R.id.pad_10, R.id.pad_11, R.id.pad_12, R.id.pad_13 },
-				{ R.id.pad_20, R.id.pad_21, R.id.pad_22, R.id.pad_23 },
-				{ R.id.pad_30, R.id.pad_31, R.id.pad_32, R.id.pad_33 } };
+
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -264,6 +276,24 @@ public class PatternActivity extends Activity {
 		finish();
 	}
 
+	public void updateGradient(String name)
+	{
+		Button btn;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				btn = (Button) findViewById(padIds[i][j]);
+				if (name.compareTo("yellow")==0)
+					btn.setBackgroundResource(R.drawable.gradient_yellow);
+				else if (name.compareTo("green")==0)
+					btn.setBackgroundResource(R.drawable.gradient_green);
+				else if (name.compareTo("blue")==0)
+					btn.setBackgroundResource(R.drawable.gradient_blue);
+				else if (name.compareTo("purple")==0)
+					btn.setBackgroundResource(R.drawable.gradient_purple);
+			}
+		}
+	}
+	
 	public void onDestroy() {
 		super.onDestroy();
 		l1.quit();
