@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-            android:background="@drawable/blue" >
+    android:orientation="vertical">
     
 
     <LinearLayout
@@ -39,7 +38,6 @@
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_button_yellow"
                     android:clickable="false"
                     android:text="Pattern1" />
 
@@ -102,6 +100,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_00" />
 
             <Button
@@ -109,6 +112,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_01" />
 
             <Button
@@ -116,6 +124,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_02" />
 
             <Button
@@ -123,6 +136,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_03" />
         </LinearLayout>
 
@@ -137,6 +155,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_10" />
 
             <Button
@@ -144,6 +167,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_11" />
 
             <Button
@@ -151,6 +179,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_12" />
 
             <Button
@@ -158,6 +191,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_13" />
         </LinearLayout>
 
@@ -172,6 +210,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_20" />
 
             <Button
@@ -179,6 +222,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_21" />
 
             <Button
@@ -186,6 +234,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_22" />
 
             <Button
@@ -193,6 +246,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_23" />
         </LinearLayout>
 
@@ -207,6 +265,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_30" />
 
             <Button
@@ -214,6 +277,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_31" />
 
             <Button
@@ -221,6 +289,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_32" />
 
             <Button
@@ -228,6 +301,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@drawable/gradient"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/p_33" />
         </LinearLayout>
     </LinearLayout>

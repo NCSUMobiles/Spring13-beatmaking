@@ -48,11 +48,10 @@ public class PatternActivity extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.pattern_layout);
 		final Context context = this;
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
 		Global.patternContext = this;
 		if(Global.initialized == false) {
 			Global.initialize();
