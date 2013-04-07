@@ -1,8 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"/>
+    <item android:id="@+id/newProject" android:title="@string/newProject" android:orderInCategory="100"></item>
+    <item android:id="@+id/loadProject" android:title="@string/loadProject" android:orderInCategory="100"></item>
+    <item android:id="@+id/saveProject" android:title="@string/saveProject" android:orderInCategory="100"></item>
 
 </menu>
