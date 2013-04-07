@@ -17,7 +17,16 @@ public class Global {
 	public static ArrayList<SoundPool> arrSoundPool = new ArrayList<SoundPool>();
 	public static Comparator<Sound> comp = new LongComparator();
 	public static ArrayList<PriorityQueue<Sound>> patternSoundQueues = new ArrayList<PriorityQueue<Sound>>();
+	public static PriorityQueue<Sound> trackSoundQueue = new PriorityQueue<Sound>();
 	public static ArrayList<Integer> pattern1SegmentPositions = new ArrayList<Integer>();
+	public static ArrayList<Integer> pattern2SegmentPositions = new ArrayList<Integer>();
+	public static ArrayList<Integer> pattern3SegmentPositions = new ArrayList<Integer>();
+	public static ArrayList<Integer> pattern4SegmentPositions = new ArrayList<Integer>();
+	public static int pattern1Bars = 4;
+	public static int pattern2Bars = 4;
+	public static int pattern3Bars = 4;
+	public static int pattern4Bars = 4;
+	public static int bpm = 120;
 	public static int[][] soundIds = new int[4][4];
 	public static Context patternContext;
 	

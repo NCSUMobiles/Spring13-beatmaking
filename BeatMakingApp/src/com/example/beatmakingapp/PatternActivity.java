@@ -68,14 +68,17 @@ public class PatternActivity extends Activity {
 		final Button button = (Button) findViewById(R.id.pattern_number_button);
 		if(message.equals("first") || message.equals("default") ||  message.equals("default : first")) {
 			patternId = 0;
+			bars = Global.pattern1Bars;
 			button.setText("Pat-1");
 		}
 		else if(message.equals("second")) {
 			patternId = 1;
+			bars = Global.pattern1Bars;
 			button.setText("Pat-2");
 		}
 		else if(message.equals("third")) {
 			patternId = 2;
+			bars = Global.pattern1Bars;
 			button.setText("Pat-3");
 		}
 		else if(message.equals("fourth")) {
@@ -120,7 +123,7 @@ public class PatternActivity extends Activity {
 									// });
 								}
 							}
-							if (timeSinceLastBeat >= 60000 / bpm) {
+							if (timeSinceLastBeat >= 60000 / Global.bpm) {
 								mainHandler.post(new Runnable() {
 									public void run() {
 										// arrSoundPool.get(0).play(id00,
@@ -132,7 +135,7 @@ public class PatternActivity extends Activity {
 								timeAtLastBeat = currentTime;
 								//
 							}
-							if (timeSinceStart >= ((240000 * bars) / bpm)) {
+							if (timeSinceStart >= ((240000 * bars) / Global.bpm)) {
 								timeSinceStart = 0;
 								timeAtStart = currentTime;
 								frontQueue.clear();
@@ -141,7 +144,7 @@ public class PatternActivity extends Activity {
 
 							mainHandler.post(new Runnable() {
 								public void run() {
-									progBar.setProgress((int) (timeSinceStart * 25 * bpm)
+									progBar.setProgress((int) (timeSinceStart * 25 * Global.bpm)
 											/ (60000 * bars));
 								}
 							});
@@ -229,9 +232,9 @@ public class PatternActivity extends Activity {
 															Global.soundIds[ii][jj],
 															ii,
 															jj,
-															SystemClock
+															(SystemClock
 																	.elapsedRealtime()
-																	- timeAtStart));
+																	- timeAtStart), patternId));
 												Global.arrSoundPool.get(patternId).play(
 														Global.soundIds[ii][jj],
 														volume, volume, 1, 0,

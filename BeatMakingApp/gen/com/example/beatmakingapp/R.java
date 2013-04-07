@@ -50,7 +50,6 @@ public final class R {
         public static final int yellow=0x7f020017;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0044;
         public static final int addPattern1Button=0x7f0a003f;
         public static final int addPattern2Button=0x7f0a0040;
         public static final int addPattern3Button=0x7f0a0041;
@@ -75,7 +74,9 @@ public final class R {
         public static final int horizontalScrollView1=0x7f0a0034;
         public static final int horizontal_scroll_part=0x7f0a0033;
         public static final int linear_layout_inside_hori_scroll=0x7f0a0035;
+        public static final int loadProject=0x7f0a0048;
         public static final int lt=0x7f0a0031;
+        public static final int newProject=0x7f0a0047;
         public static final int pad_00=0x7f0a0007;
         public static final int pad_01=0x7f0a0008;
         public static final int pad_02=0x7f0a0009;
@@ -95,8 +96,11 @@ public final class R {
         public static final int pattern1Button=0x7f0a003b;
         public static final int pattern1TrackRow=0x7f0a0043;
         public static final int pattern2Button=0x7f0a003c;
+        public static final int pattern2TrackRow=0x7f0a0044;
         public static final int pattern3Button=0x7f0a003d;
+        public static final int pattern3TrackRow=0x7f0a0045;
         public static final int pattern4Button=0x7f0a003e;
+        public static final int pattern4TrackRow=0x7f0a0046;
         public static final int pattern_done_editing_button=0x7f0a0006;
         public static final int pattern_info_button=0x7f0a0023;
         public static final int pattern_info_done_button=0x7f0a0020;
@@ -109,6 +113,7 @@ public final class R {
         public static final int preview4=0x7f0a0039;
         public static final int progBar=0x7f0a0028;
         public static final int record_button=0x7f0a0027;
+        public static final int saveProject=0x7f0a0049;
         public static final int snap_beat_group=0x7f0a001b;
         public static final int snap_sound_eighth=0x7f0a001f;
         public static final int snap_sound_fourth=0x7f0a001e;
@@ -149,6 +154,8 @@ public final class R {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int hello_world=0x7f060002;
+        public static final int loadProject=0x7f060014;
+        public static final int newProject=0x7f060013;
         public static final int p_00=0x7f060003;
         public static final int p_01=0x7f060004;
         public static final int p_02=0x7f060005;
@@ -165,6 +172,7 @@ public final class R {
         public static final int p_31=0x7f060010;
         public static final int p_32=0x7f060011;
         public static final int p_33=0x7f060012;
+        public static final int saveProject=0x7f060015;
     }
     public static final class style {
         /** 
