@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.beatmakingapp.R.raw;
 
@@ -116,7 +117,7 @@ public class PatternActivity extends Activity {
 									final Sound s = frontQueue.remove();
 									// mainHandler.post(new Runnable() {
 									// public void run() {
-									Global.arrSoundPool.get(0).play(
+									Global.arrSoundPool.get(patternId).play(
 											s.getSoundPoolId(), volume, volume,
 											1, 0, (float) 1.0);
 									// }

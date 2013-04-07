@@ -9,7 +9,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -18,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TrackActivity extends Activity {
 	
@@ -27,20 +32,89 @@ public class TrackActivity extends Activity {
 			addPattern3Button, addPattern4Button;
 	private Context context = this;
 	
-	private ArrayList<Integer> pattern1SegmentPositions = new ArrayList<Integer>();
-	private ArrayList<Integer> pattern2SegmentPositions = new ArrayList<Integer>();
-	private ArrayList<Integer> pattern3SegmentPositions = new ArrayList<Integer>();
-	private ArrayList<Integer> pattern4SegmentPositions = new ArrayList<Integer>();
+	/*private ArrayList<Integer> Global.pattern1SegmentPositions = new ArrayList<Integer>();
+	private ArrayList<Integer> Global.pattern2SegmentPositions = new ArrayList<Integer>();
+	private ArrayList<Integer> Global.pattern3SegmentPositions = new ArrayList<Integer>();
+	private ArrayList<Integer> Global.pattern4SegmentPositions = new ArrayList<Integer>();*/
 	private int num = 1;		// reusable number to update new pattern segment positions
 
+	boolean state_playing = false;
+	long timeAtStart = 0;
+	long timeSinceStart = 0;
+	private static Thread playbackThread1;
+	private static Looper l1;
+	private ImageButton playButton;
+	private ImageButton stopButton;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.track_layout2);
+		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+		final float volume = (float) am
+				.getStreamVolume(AudioManager.STREAM_MUSIC);
+		playbackThread1 = new Thread(new Runnable() {
+			public void run() {
+				Looper.prepare();
+				l1 = Looper.myLooper();
+				final Handler handler = new Handler(Looper.myLooper());
+				handler.post(new Runnable() {
+					public void run() {
+						if (state_playing == true) {
+							//Toast.makeText(context, Integer.toString(Global.patternSoundQueues.get(0).size()), Toast.LENGTH_SHORT).show();
+							long currentTime = SystemClock.elapsedRealtime();
+							timeSinceStart = currentTime - timeAtStart;
+							if (Global.trackSoundQueue.size() > 0) {
+								while (Global.trackSoundQueue.size() > 0
+										&& Global.trackSoundQueue.peek().getOffset() <= timeSinceStart) {
+									final Sound s = Global.trackSoundQueue.remove();
+									// mainHandler.post(new Runnable() {
+									// public void run() {
+									Toast.makeText(context, Long.toString(s.getOffset()) +  " " + Long.toString(timeSinceStart), Toast.LENGTH_SHORT).show();
+									Global.arrSoundPool.get(s.getPatternId()).play(
+											s.getSoundPoolId(), volume, volume,
+											1, 0, (float) 1.0);
+									// }
+									// });
+								}
+							}
+							else {
+								createTrackQueue();
+								state_playing = false;
+							}
+
+						}
+						handler.postDelayed(this, 1);
+						// handler.post(this);
+					}
+
+				});
+				Looper.loop();
+			}
+		}, "PlaybackThread");
+		playbackThread1.start();
 		addButtons();
 
 	}
 
 	public void addButtons() {
+		playButton = (ImageButton) findViewById(R.id.play_button_track);
+		playButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				state_playing = true;
+				playButton.setImageResource(R.drawable.play_button_pressed);
+				timeAtStart = SystemClock.elapsedRealtime();
+				timeSinceStart = 0;
+			}
+		});
+		stopButton = (ImageButton) findViewById(R.id.stop_button_track);
+		stopButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				state_playing = false;
+				timeAtStart = SystemClock.elapsedRealtime();
+				timeSinceStart = 0;
+				playButton.setImageResource(R.drawable.play_button_normal);
+			}
+		});
 		pattern1Button = (Button) findViewById(R.id.pattern1Button);
 		pattern1Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -139,14 +213,14 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						if(isValidPosition(1, pattern1SegmentPositions, num)) {
-							pattern1SegmentPositions.add(num);
-							Collections.sort(pattern1SegmentPositions);
+						if(isValidPosition(1, Global.pattern1SegmentPositions, num)) {
+							Global.pattern1SegmentPositions.add(num);
+							Collections.sort(Global.pattern1SegmentPositions);
 							LinearLayout p1TrackLayout = (LinearLayout) findViewById(R.id.pattern1TrackRow);
 							p1TrackLayout.removeAllViews();
 							// TODO: change 300 value to 300 + ...
 							int lastP = 0;
-							for(int p: pattern1SegmentPositions) {
+							for(int p: Global.pattern1SegmentPositions) {
 								if(p-(lastP + 1) > 0) {
 									View buffer = new View(context);
 									LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300*(p-(lastP+1)), LayoutParams.WRAP_CONTENT);
@@ -155,12 +229,14 @@ public class TrackActivity extends Activity {
 								}
 								Button p1B = new Button(context);
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-										300, LayoutParams.WRAP_CONTENT);
+										Global.pattern1Bars*150
+										, LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p1B.setLayoutParams(lp);
 								p1B.setBackgroundResource(R.drawable.rounded_button_red);
 								p1TrackLayout.addView(p1B);
 								lastP = p;
+								createTrackQueue();
 							}
 						}
 						else
@@ -223,14 +299,14 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						if(isValidPosition(1, pattern2SegmentPositions, num)) {
-							pattern2SegmentPositions.add(num);
-							Collections.sort(pattern2SegmentPositions);
+						if(isValidPosition(1, Global.pattern2SegmentPositions, num)) {
+							Global.pattern2SegmentPositions.add(num);
+							Collections.sort(Global.pattern2SegmentPositions);
 							LinearLayout p2TrackLayout = (LinearLayout) findViewById(R.id.pattern2TrackRow);
 							p2TrackLayout.removeAllViews();
 							// TODO: change 300 value to 300 + ...
 							int lastP = 0;
-							for(int p: pattern2SegmentPositions) {
+							for(int p: Global.pattern2SegmentPositions) {
 								if(p-(lastP + 1) > 0) {
 									View buffer = new View(context);
 									LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300*(p-(lastP+1)), LayoutParams.WRAP_CONTENT);
@@ -239,12 +315,13 @@ public class TrackActivity extends Activity {
 								}
 								Button p2B = new Button(context);
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-										300, LayoutParams.WRAP_CONTENT);
+										Global.pattern2Bars*150, LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p2B.setLayoutParams(lp);
 								p2B.setBackgroundResource(R.drawable.rounded_button_blue);
 								p2TrackLayout.addView(p2B);
 								lastP = p;
+								createTrackQueue();
 							}
 						}
 						else
@@ -305,14 +382,14 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						if(isValidPosition(1, pattern3SegmentPositions, num)) {
-							pattern3SegmentPositions.add(num);
-							Collections.sort(pattern3SegmentPositions);
+						if(isValidPosition(1, Global.pattern3SegmentPositions, num)) {
+							Global.pattern3SegmentPositions.add(num);
+							Collections.sort(Global.pattern3SegmentPositions);
 							LinearLayout p3TrackLayout = (LinearLayout) findViewById(R.id.pattern3TrackRow);
 							p3TrackLayout.removeAllViews();
 							// TODO: change 300 value to 300 + ...
 							int lastP = 0;
-							for(int p: pattern3SegmentPositions) {
+							for(int p: Global.pattern3SegmentPositions) {
 								if(p-(lastP + 1) > 0) {
 									View buffer = new View(context);
 									LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300*(p-(lastP+1)), LayoutParams.WRAP_CONTENT);
@@ -321,12 +398,13 @@ public class TrackActivity extends Activity {
 								}
 								Button p3B = new Button(context);
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-										300, LayoutParams.WRAP_CONTENT);
+										Global.pattern3Bars*150, LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p3B.setLayoutParams(lp);
 								p3B.setBackgroundResource(R.drawable.rounded_button_yellow);
 								p3TrackLayout.addView(p3B);
 								lastP = p;
+								createTrackQueue();
 							}
 						}
 						else
@@ -387,14 +465,14 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						if(isValidPosition(1, pattern4SegmentPositions, num)) {
-							pattern4SegmentPositions.add(num);
-							Collections.sort(pattern4SegmentPositions);
+						if(isValidPosition(1, Global.pattern4SegmentPositions, num)) {
+							Global.pattern4SegmentPositions.add(num);
+							Collections.sort(Global.pattern4SegmentPositions);
 							LinearLayout p4TrackLayout = (LinearLayout) findViewById(R.id.pattern4TrackRow);
 							p4TrackLayout.removeAllViews();
 							// TODO: change 300 value to 300 + ...
 							int lastP = 0;
-							for(int p: pattern4SegmentPositions) {
+							for(int p: Global.pattern4SegmentPositions) {
 								if(p-(lastP + 1) > 0) {
 									View buffer = new View(context);
 									LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300*(p-(lastP+1)), LayoutParams.WRAP_CONTENT);
@@ -403,12 +481,13 @@ public class TrackActivity extends Activity {
 								}
 								Button p1B = new Button(context);
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-										300, LayoutParams.WRAP_CONTENT);
+										Global.pattern4Bars*150, LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p1B.setLayoutParams(lp);
 								p1B.setBackgroundResource(R.drawable.rounded_button_green);
 								p4TrackLayout.addView(p1B);
 								lastP = p;
+								createTrackQueue();
 							}
 						}
 						else
@@ -437,20 +516,36 @@ public class TrackActivity extends Activity {
 		return true;
 	}
 	
-	public void addSoundsToQueue(int patternNum, int startBar) {
-		if(patternNum == 1) {
-			
-		}
-	}
-	
 	public void createTrackQueue() {
 		Global.trackSoundQueue.clear();
 		for(int n: Global.pattern1SegmentPositions) {
 			for(Sound s: Global.patternSoundQueues.get(0)) {
-				s.setOffset(s.getOffset() + (n*Global.bpm)/(240000));
+				s.setOffset(s.getOffset() + ((n-1)*Global.bpm)/(240000));
 				Global.trackSoundQueue.add(s);
 			}
 		}
+		for(int n: Global.pattern2SegmentPositions) {
+			for(Sound s: Global.patternSoundQueues.get(1)) {
+				s.setOffset(s.getOffset() + ((n-1)*Global.bpm)/(240000));
+				Global.trackSoundQueue.add(s);
+			}
+		}
+		for(int n: Global.pattern3SegmentPositions) {
+			for(Sound s: Global.patternSoundQueues.get(2)) {
+				s.setOffset(s.getOffset() + ((n-1)*Global.bpm)/(240000));
+				Global.trackSoundQueue.add(s);
+			}
+		}
+		for(int n: Global.pattern4SegmentPositions) {
+			for(Sound s: Global.patternSoundQueues.get(3)) {
+				s.setOffset(s.getOffset() + ((n-1)*Global.bpm)/(240000));
+				Global.trackSoundQueue.add(s);
+			}
+		}
+		//Toast.makeText(context, Integer.toString(Global.trackSoundQueue.size()), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, Integer.toString(Global.patternSoundQueues.get(0).size()), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, Integer.toString(Global.pattern1SegmentPositions.size()), Toast.LENGTH_SHORT).show();
+
 	}
 	
 	@Override
