@@ -171,7 +171,7 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/play_button"
+            android:id="@+id/play_button_track"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -179,7 +179,7 @@
             android:src="@drawable/play_button_normal" />
 
         <ImageButton
-            android:id="@+id/play_button"
+            android:id="@+id/stop_button_track"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
