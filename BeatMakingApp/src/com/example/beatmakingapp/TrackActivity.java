@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TrackActivity extends Activity {
 
@@ -51,6 +50,7 @@ public class TrackActivity extends Activity {
 	private static Looper l1;
 	private ImageButton playButton;
 	private ImageButton stopButton;
+	private static Handler mainHandler = new Handler();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,6 +94,11 @@ public class TrackActivity extends Activity {
 							} else {
 								createTrackQueue();
 								state_playing = false;
+								mainHandler.post(new Runnable() {
+									public void run() {
+										playButton.setImageResource(R.drawable.play_button_normal);
+									}
+								});
 							}
 
 						}
@@ -567,7 +572,7 @@ public class TrackActivity extends Activity {
 				maxBars = n + +Global.pattern2Bars;
 			}
 			for (Sound s : Global.patternSoundQueues.get(1)) {
-				s.setOffset(s.getOffset() + ((n - 1) * Global.bpm) / (240000));
+				s.setOffset(s.getOffset() + ((n - 1) * 24000)/Global.bpm);
 				Global.trackSoundQueue.add(s);
 			}
 		}
@@ -589,16 +594,22 @@ public class TrackActivity extends Activity {
 				Global.trackSoundQueue.add(s);
 			}
 		}
-		LinearLayout barNumbersLayout = (LinearLayout) findViewById(R.id.barNumbersLayout);
-		barNumbersLayout.removeAllViews();
-		for(int n= 1; n < maxBars; n ++) {
-			TextView view = new TextView(context);
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					300, LayoutParams.FILL_PARENT);
-			view.setLayoutParams(lp);
-			view.setText(Integer.toString(n));
-			barNumbersLayout.addView(view);
-		}
+		mainHandler.post(new Runnable() {
+			public void run() {
+				LinearLayout barNumbersLayout = (LinearLayout) findViewById(R.id.barNumbersLayout);
+				barNumbersLayout.removeAllViews();
+				for(int n= 1; n < maxBars; n ++) {
+					TextView view = new TextView(context);
+					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+							300, LayoutParams.FILL_PARENT);
+					view.setLayoutParams(lp);
+					view.setText(Integer.toString(n));
+					barNumbersLayout.addView(view);
+				}		
+				
+			}
+		});
+
 
 	}
 
