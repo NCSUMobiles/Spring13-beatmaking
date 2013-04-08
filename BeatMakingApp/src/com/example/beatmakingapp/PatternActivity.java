@@ -69,6 +69,19 @@ public class PatternActivity extends Activity {
 			Global.initialized = true;
 		}
 		
+		AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+		switch( audio.getRingerMode() ){
+		case AudioManager.RINGER_MODE_NORMAL:
+		   break;
+		case AudioManager.RINGER_MODE_SILENT:
+
+		case AudioManager.RINGER_MODE_VIBRATE:
+			new AlertDialog.Builder(this)
+			.setTitle("Phone in Silent Mode!")
+			.setPositiveButton(android.R.string.yes,null).create().show();
+		   break;
+		}
+		
 
 		
 		String message = "";

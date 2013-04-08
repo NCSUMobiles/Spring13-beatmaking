@@ -153,9 +153,12 @@ public final class R {
         public static final int halfopenhat=0x7f040002;
         public static final int hitom=0x7f040003;
         public static final int kick=0x7f040004;
-        public static final int lowtom=0x7f040005;
-        public static final int openhat=0x7f040006;
-        public static final int snare=0x7f040007;
+        public static final int laugh=0x7f040005;
+        public static final int lowtom=0x7f040006;
+        public static final int openhat=0x7f040007;
+        public static final int scream=0x7f040008;
+        public static final int snare=0x7f040009;
+        public static final int whistle=0x7f04000a;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;

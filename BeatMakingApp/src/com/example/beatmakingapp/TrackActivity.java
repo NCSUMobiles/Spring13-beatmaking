@@ -259,7 +259,7 @@ public class TrackActivity extends Activity {
 										LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p1B.setLayoutParams(lp);
-								p1B.setBackgroundResource(R.drawable.rounded_button_red);
+								p1B.setBackgroundResource(R.drawable.rounded_button_yellow);
 								p1TrackLayout.addView(p1B);
 								lastP = p + Global.pattern1Bars;
 								createTrackQueue();
@@ -349,7 +349,7 @@ public class TrackActivity extends Activity {
 										LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p2B.setLayoutParams(lp);
-								p2B.setBackgroundResource(R.drawable.rounded_button_blue);
+								p2B.setBackgroundResource(R.drawable.rounded_button_green);
 								p2TrackLayout.addView(p2B);
 								lastP = p + Global.pattern2Bars;
 								createTrackQueue();
@@ -437,7 +437,7 @@ public class TrackActivity extends Activity {
 										LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p3B.setLayoutParams(lp);
-								p3B.setBackgroundResource(R.drawable.rounded_button_yellow);
+								p3B.setBackgroundResource(R.drawable.rounded_button_blue);
 								p3TrackLayout.addView(p3B);
 								lastP = p + Global.pattern3Bars;
 								createTrackQueue();
@@ -525,7 +525,7 @@ public class TrackActivity extends Activity {
 										LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
 								p1B.setLayoutParams(lp);
-								p1B.setBackgroundResource(R.drawable.rounded_button_green);
+								p1B.setBackgroundResource(R.drawable.rounded_button_red);
 								p4TrackLayout.addView(p1B);
 								lastP = p + Global.pattern4Bars;
 								createTrackQueue();

@@ -56,9 +56,9 @@ public class Global {
 			Global.soundIds[2][2] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.halfopenhat, 1);
 			Global.soundIds[2][3] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.hitom, 1);
 			Global.soundIds[3][0] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.kick, 1);
-			Global.soundIds[3][1] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.lowtom, 1);
-			Global.soundIds[3][2] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.openhat, 1);
-			Global.soundIds[3][3] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.snare, 1);
+			Global.soundIds[3][1] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.whistle, 1);
+			Global.soundIds[3][2] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.laugh, 1);
+			Global.soundIds[3][3] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.scream, 1);
 		}
 		
 	}
