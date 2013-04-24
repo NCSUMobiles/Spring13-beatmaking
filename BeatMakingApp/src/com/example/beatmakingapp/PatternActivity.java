@@ -41,7 +41,7 @@ public class PatternActivity extends Activity {
 
 	private static Thread playbackThread1;
 	private static Looper l1;
-	
+
 	private int patternId = -1;
 
 	public int[][] padIds = {
@@ -49,7 +49,7 @@ public class PatternActivity extends Activity {
 			{ R.id.pad_10, R.id.pad_11, R.id.pad_12, R.id.pad_13 },
 			{ R.id.pad_20, R.id.pad_21, R.id.pad_22, R.id.pad_23 },
 			{ R.id.pad_30, R.id.pad_31, R.id.pad_32, R.id.pad_33 } };
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -132,6 +132,18 @@ public class PatternActivity extends Activity {
 							long currentTime = SystemClock.elapsedRealtime();
 							timeSinceStart = currentTime - timeAtStart;
 							timeSinceLastBeat = currentTime - timeAtLastBeat;
+							
+							// <metronome>
+							if (timeSinceLastBeat >= 60000 / bpm) {
+								//mainHandler.post(new Runnable() {
+								//public void run() {
+									//Thread.currentThread().setPriority(10);
+									Global.arrSoundPool.get(patternId).play(Global.soundIds[0][0], volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
+								//}
+								//}
+								//);
+								// </metronome>
+							}
 							if (frontQueue.size() > 0) {
 								while (frontQueue.size() > 0
 										&& frontQueue.peek().getOffset() <= timeSinceStart) {
@@ -294,34 +306,34 @@ public class PatternActivity extends Activity {
 		finish();
 	}
 
-	public void updateGradient(String name)
-	{
+	public void updateGradient(String name) {
 		Button btn;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				btn = (Button) findViewById(padIds[i][j]);
-				if (name.compareTo("yellow")==0)
+				if (name.compareTo("yellow") == 0)
 					btn.setBackgroundResource(R.drawable.gradient_yellow);
-				else if (name.compareTo("green")==0)
+				else if (name.compareTo("green") == 0)
 					btn.setBackgroundResource(R.drawable.gradient_green);
-				else if (name.compareTo("blue")==0)
+				else if (name.compareTo("blue") == 0)
 					btn.setBackgroundResource(R.drawable.gradient_blue);
-				else if (name.compareTo("purple")==0)
+				else if (name.compareTo("purple") == 0)
 					btn.setBackgroundResource(R.drawable.gradient_purple);
 			}
 		}
 	}
-	
+
 	public void onDestroy() {
 		super.onDestroy();
 		l1.quit();
-		//if (Global.arrSoundPool.get(patternId) != null)
-			//Global.arrSoundPool.get(patternId).release();
+		// if (Global.arrSoundPool.get(patternId) != null)
+		// Global.arrSoundPool.get(patternId).release();
 	}
+
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 }
