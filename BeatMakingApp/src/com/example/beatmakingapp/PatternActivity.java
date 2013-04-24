@@ -1,32 +1,25 @@
 package com.example.beatmakingapp;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import com.example.beatmakingapp.R.raw;
 
 public class PatternActivity extends Activity {
 	boolean state_playing = false;
@@ -143,6 +136,18 @@ public class PatternActivity extends Activity {
 								while (frontQueue.size() > 0
 										&& frontQueue.peek().getOffset() <= timeSinceStart) {
 									final Sound s = frontQueue.remove();
+									mainHandler.post(new Runnable() {
+										public void run() {
+											Button button = (Button) findViewById(padIds[s.getButtonId_i()][s.getButtonId_j()]);
+
+											Animation animation = new AlphaAnimation(1, 0);
+		                                    animation.setDuration(100); // duration - half a second
+		                                    animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
+		                                    animation.setRepeatMode(Animation.REVERSE);
+		                                    button.startAnimation(animation);
+										}
+										
+									});
 									// mainHandler.post(new Runnable() {
 									// public void run() {
 									Global.arrSoundPool.get(patternId).play(
