@@ -216,21 +216,25 @@ public class PatternActivity extends Activity {
 		// });
 
 		final ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
+		final ImageButton recordButton = (ImageButton) findViewById(R.id.record_button);
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				state_playing = true;
 				playButton.setImageResource(R.drawable.play_button_pressed);
 				timeAtStart = SystemClock.elapsedRealtime();
 				timeAtLastBeat = SystemClock.elapsedRealtime();
+				recordButton.setEnabled(false);
 			}
 		});
 
-		final ImageButton recordButton = (ImageButton) findViewById(R.id.record_button);
+		
 		recordButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				state_recording = true;
+				state_playing = true;
 				recordButton.setImageResource(R.drawable.record_button_pressed);
+				playButton.setEnabled(false);
 			}
 		});
 		final ImageButton stopButton = (ImageButton) findViewById(R.id.stop_button);
@@ -239,6 +243,8 @@ public class PatternActivity extends Activity {
 			public void onClick(View v) {
 				state_playing = false;
 				state_recording = false;
+				playButton.setEnabled(true);
+				recordButton.setEnabled(true);
 				playButton.setImageResource(R.drawable.play_button_normal);
 				recordButton.setImageResource(R.drawable.record_button_normal);
 
