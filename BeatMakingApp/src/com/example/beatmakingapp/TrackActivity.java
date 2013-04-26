@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TrackActivity extends Activity {
 
@@ -422,6 +423,7 @@ public class TrackActivity extends Activity {
 							LinearLayout p3TrackLayout = (LinearLayout) findViewById(R.id.pattern3TrackRow);
 							p3TrackLayout.removeAllViews();
 							int lastP = 1;
+							Global.buttonPositions3.clear();
 							for (int p : Global.pattern3SegmentPositions) {
 								if (p - (lastP) > 0) {
 									View buffer = new View(context);
@@ -432,6 +434,52 @@ public class TrackActivity extends Activity {
 									p3TrackLayout.addView(buffer);
 								}
 								Button p3B = new Button(context);
+								Global.buttonPositions3.put(p3B, p);
+								p3B.setOnLongClickListener(new View.OnLongClickListener(){
+
+									@Override
+									public boolean onLongClick(View v) {
+										// TODO Auto-generated method stub
+										LinearLayout p3TrackLayout = (LinearLayout) findViewById(R.id.pattern3TrackRow);
+										//Global.pattern3SegmentPositions.remove(0);
+										Button btn = (Button)v;
+										Integer position = Global.buttonPositions3.get(v);
+										Global.buttonPositions3.remove(v);
+										boolean result = Global.pattern3SegmentPositions.remove(position);
+										/*Collections.sort(Global.pattern3SegmentPositions);
+										p3TrackLayout.removeAllViews();
+										int lastP = 1;
+										for (int p : Global.pattern3SegmentPositions) {
+											if (p - (lastP) > 0) {
+												View buffer = new View(context);
+												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+														300 * (p - (lastP)),
+														LayoutParams.WRAP_CONTENT);
+												buffer.setLayoutParams(lp);
+												p3TrackLayout.addView(buffer);
+											}
+											//Button btn = 
+										}*/
+										//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
+										//int lastP = 1;
+										/*p3TrackLayout.removeAllViews();
+										for (int p : Global.pattern3SegmentPositions) {
+											if (p - (lastP) > 0) {
+												View buffer = new View(context);
+												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+														300 * (p - (lastP)),
+														LayoutParams.WRAP_CONTENT);
+												buffer.setLayoutParams(lp);
+												p3TrackLayout.addView(buffer);
+											}
+										}*/
+										btn.setVisibility(View.INVISIBLE);
+										createTrackQueue();
+										//remove from track queue
+										//p3TrackLayout.removeView(v);
+										
+										return true;
+									}});
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 										Global.pattern3Bars * 300,
 										LayoutParams.WRAP_CONTENT);
@@ -509,6 +557,7 @@ public class TrackActivity extends Activity {
 							Collections.sort(Global.pattern4SegmentPositions);
 							LinearLayout p4TrackLayout = (LinearLayout) findViewById(R.id.pattern4TrackRow);
 							p4TrackLayout.removeAllViews();
+							Global.buttonPositions4.clear();
 							int lastP = 1;
 							for (int p : Global.pattern4SegmentPositions) {
 								if (p - (lastP) > 0) {
@@ -520,6 +569,53 @@ public class TrackActivity extends Activity {
 									p4TrackLayout.addView(buffer);
 								}
 								Button p1B = new Button(context);
+								Global.buttonPositions4.put(p1B, p);
+								p1B.setOnLongClickListener(new View.OnLongClickListener(){
+
+									@Override
+									public boolean onLongClick(View v) {
+										// TODO Auto-generated method stub
+										LinearLayout p4TrackLayout = (LinearLayout) findViewById(R.id.pattern4TrackRow);
+										//Global.pattern3SegmentPositions.remove(0);
+										Button btn = (Button)v;
+										Integer position = Global.buttonPositions4.get(v);
+										Global.buttonPositions4.remove(v);
+										boolean result = Global.pattern4SegmentPositions.remove(position);
+										/*Collections.sort(Global.pattern3SegmentPositions);
+										p3TrackLayout.removeAllViews();
+										int lastP = 1;
+										for (int p : Global.pattern3SegmentPositions) {
+											if (p - (lastP) > 0) {
+												View buffer = new View(context);
+												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+														300 * (p - (lastP)),
+														LayoutParams.WRAP_CONTENT);
+												buffer.setLayoutParams(lp);
+												p3TrackLayout.addView(buffer);
+											}
+											//Button btn = 
+										}*/
+										//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
+										//int lastP = 1;
+										/*p3TrackLayout.removeAllViews();
+										for (int p : Global.pattern3SegmentPositions) {
+											if (p - (lastP) > 0) {
+												View buffer = new View(context);
+												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+														300 * (p - (lastP)),
+														LayoutParams.WRAP_CONTENT);
+												buffer.setLayoutParams(lp);
+												p3TrackLayout.addView(buffer);
+											}
+										}*/
+										btn.setVisibility(View.INVISIBLE);
+										createTrackQueue();
+										//remove from track queue
+										//p3TrackLayout.removeView(v);
+										
+										return true;
+									}});
+
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 										Global.pattern4Bars * 300,
 										LayoutParams.WRAP_CONTENT);

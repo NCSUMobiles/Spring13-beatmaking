@@ -2,11 +2,13 @@ package com.example.beatmakingapp;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.widget.Button;
 
 import com.example.beatmakingapp.R.raw;
 
@@ -26,6 +28,10 @@ public class Global {
 	public static int pattern2Bars = 4;
 	public static int pattern3Bars = 4;
 	public static int pattern4Bars = 4;
+	public static HashMap<Button, Integer> buttonPositions1 = new HashMap<Button,Integer>();
+	public static HashMap<Button, Integer> buttonPositions2 = new HashMap<Button,Integer>();
+	public static HashMap<Button, Integer> buttonPositions3 = new HashMap<Button,Integer>();
+	public static HashMap<Button, Integer> buttonPositions4 = new HashMap<Button,Integer>();
 	public static int bpm = 120;
 	public static int[][] soundIds = new int[4][4];
 	public static Context patternContext;
