@@ -129,6 +129,7 @@ public class PatternActivity extends Activity {
 				handler.post(new Runnable() {
 					public void run() {
 						if (state_playing == true) {
+							
 							long currentTime = SystemClock.elapsedRealtime();
 							timeSinceStart = currentTime - timeAtStart;
 							timeSinceLastBeat = currentTime - timeAtLastBeat;

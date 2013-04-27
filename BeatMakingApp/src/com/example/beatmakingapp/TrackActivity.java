@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TrackActivity extends Activity {
 
@@ -195,15 +194,6 @@ public class TrackActivity extends Activity {
 		addPattern1Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				num = 1;
-				/*
-				 * LinearLayout p1TrackLayout = (LinearLayout)
-				 * findViewById(R.id.pattern1TrackRow); Button p1B = new
-				 * Button(context); LinearLayout.LayoutParams lp = new
-				 * LinearLayout.LayoutParams( 300, LayoutParams.WRAP_CONTENT);
-				 * lp.gravity = 17; p1B.setLayoutParams(lp);
-				 * p1B.setBackgroundResource(R.drawable.rounded_button_red);
-				 * p1TrackLayout.addView(p1B);
-				 */
 
 				final Dialog addPattern1Dialog = new Dialog(context);
 				addPattern1Dialog.setContentView(R.layout.add_pattern_dialog);
@@ -238,12 +228,14 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						num = Integer.valueOf(pickerEdit.getText().toString());
 						if (isValidPosition(Global.pattern1Bars,
 								Global.pattern1SegmentPositions, num)) {
 							Global.pattern1SegmentPositions.add(num);
 							Collections.sort(Global.pattern1SegmentPositions);
 							LinearLayout p1TrackLayout = (LinearLayout) findViewById(R.id.pattern1TrackRow);
 							p1TrackLayout.removeAllViews();
+							Global.buttonPositions1.clear();
 							int lastP = 1;
 							for (int p : Global.pattern1SegmentPositions) {
 								if (p - (lastP) > 0) {
@@ -255,6 +247,41 @@ public class TrackActivity extends Activity {
 									p1TrackLayout.addView(buffer);
 								}
 								Button p1B = new Button(context);
+								Global.buttonPositions1.put(p1B, p);
+								p1B.setOnLongClickListener(new View.OnLongClickListener(){
+
+									@Override
+									public boolean onLongClick(View v) {
+										// TODO Auto-generated method stub
+
+										final Button btn = (Button)v;
+										AlertDialog.Builder builder = new AlertDialog.Builder(context);
+										builder.setTitle(R.string.removePattern);
+								        builder.setMessage(R.string.confirmation)
+								               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                	   
+								                	   Integer position = Global.buttonPositions1.get(btn);
+														Global.buttonPositions1.remove(btn);
+														boolean result = Global.pattern1SegmentPositions.remove(position);
+
+														btn.setVisibility(View.INVISIBLE);
+														createTrackQueue();
+
+								                   }
+								               })
+								               .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                       // User cancelled the dialog
+								                   }
+								               });
+								        // Create the AlertDialog object and return it
+								        builder.create().show();
+
+										return true;
+									}});
+
+
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 										Global.pattern1Bars * 300,
 										LayoutParams.WRAP_CONTENT);
@@ -265,8 +292,13 @@ public class TrackActivity extends Activity {
 								lastP = p + Global.pattern1Bars;
 								createTrackQueue();
 							}
-						} else
-							System.out.println("INVALID");
+						} 
+						else
+						{
+							new AlertDialog.Builder(context)
+							.setTitle("Pattern already exists at this bar!")
+							.setPositiveButton(android.R.string.yes,null).create().show();
+						}
 						addPattern1Dialog.dismiss();
 					}
 				});
@@ -280,20 +312,15 @@ public class TrackActivity extends Activity {
 				addPattern1Dialog.show();
 			}
 		});
+		
+		
+		
+		
 		addPattern2Button = (ImageButton) findViewById(R.id.addPattern2Button);
 
 		addPattern2Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				num = 1;
-				/*
-				 * LinearLayout p1TrackLayout = (LinearLayout)
-				 * findViewById(R.id.pattern1TrackRow); Button p1B = new
-				 * Button(context); LinearLayout.LayoutParams lp = new
-				 * LinearLayout.LayoutParams( 300, LayoutParams.WRAP_CONTENT);
-				 * lp.gravity = 17; p1B.setLayoutParams(lp);
-				 * p1B.setBackgroundResource(R.drawable.rounded_button_red);
-				 * p1TrackLayout.addView(p1B);
-				 */
 
 				final Dialog addPattern2Dialog = new Dialog(context);
 				addPattern2Dialog.setContentView(R.layout.add_pattern_dialog);
@@ -328,12 +355,15 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						num = Integer.valueOf(pickerEdit.getText().toString());
 						if (isValidPosition(Global.pattern2Bars,
 								Global.pattern2SegmentPositions, num)) {
 							Global.pattern2SegmentPositions.add(num);
 							Collections.sort(Global.pattern2SegmentPositions);
 							LinearLayout p2TrackLayout = (LinearLayout) findViewById(R.id.pattern2TrackRow);
 							p2TrackLayout.removeAllViews();
+							
+							Global.buttonPositions2.clear();
 							int lastP = 1;
 							for (int p : Global.pattern2SegmentPositions) {
 								if (p - (lastP) > 0) {
@@ -345,6 +375,42 @@ public class TrackActivity extends Activity {
 									p2TrackLayout.addView(buffer);
 								}
 								Button p2B = new Button(context);
+								Global.buttonPositions2.put(p2B, p);
+								p2B.setOnLongClickListener(new View.OnLongClickListener(){
+
+									@Override
+									public boolean onLongClick(View v) {
+										// TODO Auto-generated method stub
+
+										final Button btn = (Button)v;
+										AlertDialog.Builder builder = new AlertDialog.Builder(context);
+										builder.setTitle(R.string.removePattern);
+								        builder.setMessage(R.string.confirmation)
+								               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                	   
+								                	   Integer position = Global.buttonPositions2.get(btn);
+														Global.buttonPositions2.remove(btn);
+														boolean result = Global.pattern2SegmentPositions.remove(position);
+
+														btn.setVisibility(View.INVISIBLE);
+														createTrackQueue();
+
+								                   }
+								               })
+								               .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                       // User cancelled the dialog
+								                   }
+								               });
+								        // Create the AlertDialog object and return it
+								        builder.create().show();
+
+										return true;
+									}});
+
+
+
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 										Global.pattern2Bars * 300,
 										LayoutParams.WRAP_CONTENT);
@@ -356,7 +422,11 @@ public class TrackActivity extends Activity {
 								createTrackQueue();
 							}
 						} else
-							System.out.println("INVALID");
+						{
+							new AlertDialog.Builder(context)
+							.setTitle("Pattern already exists at this bar!")
+							.setPositiveButton(android.R.string.yes,null).create().show();
+						}
 						addPattern2Dialog.dismiss();
 					}
 				});
@@ -368,20 +438,15 @@ public class TrackActivity extends Activity {
 				addPattern2Dialog.show();
 			}
 		});
+		
+		
+		
+		
 		addPattern3Button = (ImageButton) findViewById(R.id.addPattern3Button);
 
 		addPattern3Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				num = 1;
-				/*
-				 * LinearLayout p1TrackLayout = (LinearLayout)
-				 * findViewById(R.id.pattern1TrackRow); Button p1B = new
-				 * Button(context); LinearLayout.LayoutParams lp = new
-				 * LinearLayout.LayoutParams( 300, LayoutParams.WRAP_CONTENT);
-				 * lp.gravity = 17; p1B.setLayoutParams(lp);
-				 * p1B.setBackgroundResource(R.drawable.rounded_button_red);
-				 * p1TrackLayout.addView(p1B);
-				 */
 
 				final Dialog addPattern3Dialog = new Dialog(context);
 				addPattern3Dialog.setContentView(R.layout.add_pattern_dialog);
@@ -416,6 +481,7 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						num = Integer.valueOf(pickerEdit.getText().toString());
 						if (isValidPosition(Global.pattern3Bars,
 								Global.pattern3SegmentPositions, num)) {
 							Global.pattern3SegmentPositions.add(num);
@@ -446,40 +512,12 @@ public class TrackActivity extends Activity {
 								        builder.setMessage(R.string.confirmation)
 								               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 								                   public void onClick(DialogInterface dialog, int id) {
-								                       
-								                	   //LinearLayout p3TrackLayout = (LinearLayout) findViewById(R.id.pattern3TrackRow);
-														//Global.pattern3SegmentPositions.remove(0);
+
 														
 														Integer position = Global.buttonPositions3.get(btn);
 														Global.buttonPositions3.remove(btn);
 														boolean result = Global.pattern3SegmentPositions.remove(position);
-														/*Collections.sort(Global.pattern3SegmentPositions);
-														p3TrackLayout.removeAllViews();
-														int lastP = 1;
-														for (int p : Global.pattern3SegmentPositions) {
-															if (p - (lastP) > 0) {
-																View buffer = new View(context);
-																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-																		300 * (p - (lastP)),
-																		LayoutParams.WRAP_CONTENT);
-																buffer.setLayoutParams(lp);
-																p3TrackLayout.addView(buffer);
-															}
-															//Button btn = 
-														}*/
-														//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
-														//int lastP = 1;
-														/*p3TrackLayout.removeAllViews();
-														for (int p : Global.pattern3SegmentPositions) {
-															if (p - (lastP) > 0) {
-																View buffer = new View(context);
-																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-																		300 * (p - (lastP)),
-																		LayoutParams.WRAP_CONTENT);
-																buffer.setLayoutParams(lp);
-																p3TrackLayout.addView(buffer);
-															}
-														}*/
+
 														btn.setVisibility(View.INVISIBLE);
 														createTrackQueue();
 														
@@ -493,10 +531,6 @@ public class TrackActivity extends Activity {
 								        // Create the AlertDialog object and return it
 								        builder.create().show();
 
-								        
-										//remove from track queue
-										//p3TrackLayout.removeView(v);
-										
 										return true;
 									}});
 								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -509,8 +543,13 @@ public class TrackActivity extends Activity {
 								lastP = p + Global.pattern3Bars;
 								createTrackQueue();
 							}
-						} else
-							System.out.println("INVALID");
+						} 
+						else
+						{
+							new AlertDialog.Builder(context)
+							.setTitle("Pattern already exists at this bar!")
+							.setPositiveButton(android.R.string.yes,null).create().show();
+						}
 						addPattern3Dialog.dismiss();
 					}
 				});
@@ -522,21 +561,19 @@ public class TrackActivity extends Activity {
 				addPattern3Dialog.show();
 			}
 		});
+		
+		
+		
+		
+		
+		
+		
 		addPattern4Button = (ImageButton) findViewById(R.id.addPattern4Button);
 
 		addPattern4Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				num = 1;
-				/*
-				 * LinearLayout p1TrackLayout = (LinearLayout)
-				 * findViewById(R.id.pattern1TrackRow); Button p1B = new
-				 * Button(context); LinearLayout.LayoutParams lp = new
-				 * LinearLayout.LayoutParams( 300, LayoutParams.WRAP_CONTENT);
-				 * lp.gravity = 17; p1B.setLayoutParams(lp);
-				 * p1B.setBackgroundResource(R.drawable.rounded_button_red);
-				 * p1TrackLayout.addView(p1B);
-				 */
-
+				
 				final Dialog addPattern4Dialog = new Dialog(context);
 				addPattern4Dialog.setContentView(R.layout.add_pattern_dialog);
 				addPattern4Dialog.setTitle("Add Pattern 4 at which bar?");
@@ -570,6 +607,7 @@ public class TrackActivity extends Activity {
 				});
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						num = Integer.valueOf(pickerEdit.getText().toString());
 						if (isValidPosition(Global.pattern4Bars,
 								Global.pattern4SegmentPositions, num)) {
 							Global.pattern4SegmentPositions.add(num);
@@ -587,15 +625,14 @@ public class TrackActivity extends Activity {
 									buffer.setLayoutParams(lp);
 									p4TrackLayout.addView(buffer);
 								}
-								Button p1B = new Button(context);
-								Global.buttonPositions4.put(p1B, p);
-								p1B.setOnLongClickListener(new View.OnLongClickListener(){
+								Button p4B = new Button(context);
+								Global.buttonPositions4.put(p4B, p);
+								p4B.setOnLongClickListener(new View.OnLongClickListener(){
 
 									@Override
 									public boolean onLongClick(View v) {
 										// TODO Auto-generated method stub
-										LinearLayout p4TrackLayout = (LinearLayout) findViewById(R.id.pattern4TrackRow);
-										
+
 										final Button btn = (Button)v;
 										AlertDialog.Builder builder = new AlertDialog.Builder(context);
 										builder.setTitle(R.string.removePattern);
@@ -606,37 +643,10 @@ public class TrackActivity extends Activity {
 								                	   Integer position = Global.buttonPositions4.get(btn);
 														Global.buttonPositions4.remove(btn);
 														boolean result = Global.pattern4SegmentPositions.remove(position);
-														/*Collections.sort(Global.pattern3SegmentPositions);
-														p3TrackLayout.removeAllViews();
-														int lastP = 1;
-														for (int p : Global.pattern3SegmentPositions) {
-															if (p - (lastP) > 0) {
-																View buffer = new View(context);
-																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-																		300 * (p - (lastP)),
-																		LayoutParams.WRAP_CONTENT);
-																buffer.setLayoutParams(lp);
-																p3TrackLayout.addView(buffer);
-															}
-															//Button btn = 
-														}*/
-														//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
-														//int lastP = 1;
-														/*p3TrackLayout.removeAllViews();
-														for (int p : Global.pattern3SegmentPositions) {
-															if (p - (lastP) > 0) {
-																View buffer = new View(context);
-																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-																		300 * (p - (lastP)),
-																		LayoutParams.WRAP_CONTENT);
-																buffer.setLayoutParams(lp);
-																p3TrackLayout.addView(buffer);
-															}
-														}*/
+
 														btn.setVisibility(View.INVISIBLE);
 														createTrackQueue();
 
-								                	   
 								                   }
 								               })
 								               .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -647,13 +657,6 @@ public class TrackActivity extends Activity {
 								        // Create the AlertDialog object and return it
 								        builder.create().show();
 
-								        
-										
-										//Global.pattern3SegmentPositions.remove(0);
-										
-																				//remove from track queue
-										//p3TrackLayout.removeView(v);
-										
 										return true;
 									}});
 
@@ -661,14 +664,19 @@ public class TrackActivity extends Activity {
 										Global.pattern4Bars * 300,
 										LayoutParams.WRAP_CONTENT);
 								lp.gravity = 17;
-								p1B.setLayoutParams(lp);
-								p1B.setBackgroundResource(R.drawable.rounded_button_red);
-								p4TrackLayout.addView(p1B);
+								p4B.setLayoutParams(lp);
+								p4B.setBackgroundResource(R.drawable.rounded_button_red);
+								p4TrackLayout.addView(p4B);
 								lastP = p + Global.pattern4Bars;
 								createTrackQueue();
 							}
 						} else
-							System.out.println("INVALID");
+						{
+							new AlertDialog.Builder(context)
+							.setTitle("Pattern already exists at this bar!")
+							.setPositiveButton(android.R.string.yes,null).create().show();
+						}
+							//System.out.println("INVALID");
 						addPattern4Dialog.dismiss();
 					}
 				});
