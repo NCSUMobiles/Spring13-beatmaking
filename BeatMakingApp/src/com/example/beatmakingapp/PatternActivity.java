@@ -332,8 +332,8 @@ public class PatternActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		l1.quit();
-		// if (Global.arrSoundPool.get(patternId) != null)
-		// Global.arrSoundPool.get(patternId).release();
+
+		frontQueue.clear();
 	}
 
 	@Override

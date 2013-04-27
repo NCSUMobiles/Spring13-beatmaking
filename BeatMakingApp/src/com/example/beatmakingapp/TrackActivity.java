@@ -719,6 +719,20 @@ public class TrackActivity extends Activity {
 						new DialogInterface.OnClickListener() {
 
 							public void onClick(DialogInterface arg0, int arg1) {
+								
+								
+								Global.trackSoundQueue.clear();
+								for (int i=0;i<4;i++)
+								{
+									if (Global.arrSoundPool.get(i) != null)
+									{
+										Global.patternSoundQueues.get(i).clear();	
+										//Global.arrSoundPool.get(i).release();
+										
+									}
+								}
+								TrackActivity.super.onDestroy();
+								finish();
 								TrackActivity.super.onBackPressed();
 							}
 						}).create().show();
