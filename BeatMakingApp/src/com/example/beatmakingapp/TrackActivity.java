@@ -440,41 +440,60 @@ public class TrackActivity extends Activity {
 									@Override
 									public boolean onLongClick(View v) {
 										// TODO Auto-generated method stub
-										LinearLayout p3TrackLayout = (LinearLayout) findViewById(R.id.pattern3TrackRow);
-										//Global.pattern3SegmentPositions.remove(0);
-										Button btn = (Button)v;
-										Integer position = Global.buttonPositions3.get(v);
-										Global.buttonPositions3.remove(v);
-										boolean result = Global.pattern3SegmentPositions.remove(position);
-										/*Collections.sort(Global.pattern3SegmentPositions);
-										p3TrackLayout.removeAllViews();
-										int lastP = 1;
-										for (int p : Global.pattern3SegmentPositions) {
-											if (p - (lastP) > 0) {
-												View buffer = new View(context);
-												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-														300 * (p - (lastP)),
-														LayoutParams.WRAP_CONTENT);
-												buffer.setLayoutParams(lp);
-												p3TrackLayout.addView(buffer);
-											}
-											//Button btn = 
-										}*/
-										//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
-										//int lastP = 1;
-										/*p3TrackLayout.removeAllViews();
-										for (int p : Global.pattern3SegmentPositions) {
-											if (p - (lastP) > 0) {
-												View buffer = new View(context);
-												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-														300 * (p - (lastP)),
-														LayoutParams.WRAP_CONTENT);
-												buffer.setLayoutParams(lp);
-												p3TrackLayout.addView(buffer);
-											}
-										}*/
-										btn.setVisibility(View.INVISIBLE);
-										createTrackQueue();
+										final Button btn = (Button)v;
+										AlertDialog.Builder builder = new AlertDialog.Builder(context);
+										builder.setTitle(R.string.removePattern);
+								        builder.setMessage(R.string.confirmation)
+								               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                       
+								                	   //LinearLayout p3TrackLayout = (LinearLayout) findViewById(R.id.pattern3TrackRow);
+														//Global.pattern3SegmentPositions.remove(0);
+														
+														Integer position = Global.buttonPositions3.get(btn);
+														Global.buttonPositions3.remove(btn);
+														boolean result = Global.pattern3SegmentPositions.remove(position);
+														/*Collections.sort(Global.pattern3SegmentPositions);
+														p3TrackLayout.removeAllViews();
+														int lastP = 1;
+														for (int p : Global.pattern3SegmentPositions) {
+															if (p - (lastP) > 0) {
+																View buffer = new View(context);
+																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+																		300 * (p - (lastP)),
+																		LayoutParams.WRAP_CONTENT);
+																buffer.setLayoutParams(lp);
+																p3TrackLayout.addView(buffer);
+															}
+															//Button btn = 
+														}*/
+														//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
+														//int lastP = 1;
+														/*p3TrackLayout.removeAllViews();
+														for (int p : Global.pattern3SegmentPositions) {
+															if (p - (lastP) > 0) {
+																View buffer = new View(context);
+																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+																		300 * (p - (lastP)),
+																		LayoutParams.WRAP_CONTENT);
+																buffer.setLayoutParams(lp);
+																p3TrackLayout.addView(buffer);
+															}
+														}*/
+														btn.setVisibility(View.INVISIBLE);
+														createTrackQueue();
+														
+								                   }
+								               })
+								               .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                       // User cancelled the dialog
+								                   }
+								               });
+								        // Create the AlertDialog object and return it
+								        builder.create().show();
+
+								        
 										//remove from track queue
 										//p3TrackLayout.removeView(v);
 										
@@ -576,41 +595,63 @@ public class TrackActivity extends Activity {
 									public boolean onLongClick(View v) {
 										// TODO Auto-generated method stub
 										LinearLayout p4TrackLayout = (LinearLayout) findViewById(R.id.pattern4TrackRow);
+										
+										final Button btn = (Button)v;
+										AlertDialog.Builder builder = new AlertDialog.Builder(context);
+										builder.setTitle(R.string.removePattern);
+								        builder.setMessage(R.string.confirmation)
+								               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                	   
+								                	   Integer position = Global.buttonPositions4.get(btn);
+														Global.buttonPositions4.remove(btn);
+														boolean result = Global.pattern4SegmentPositions.remove(position);
+														/*Collections.sort(Global.pattern3SegmentPositions);
+														p3TrackLayout.removeAllViews();
+														int lastP = 1;
+														for (int p : Global.pattern3SegmentPositions) {
+															if (p - (lastP) > 0) {
+																View buffer = new View(context);
+																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+																		300 * (p - (lastP)),
+																		LayoutParams.WRAP_CONTENT);
+																buffer.setLayoutParams(lp);
+																p3TrackLayout.addView(buffer);
+															}
+															//Button btn = 
+														}*/
+														//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
+														//int lastP = 1;
+														/*p3TrackLayout.removeAllViews();
+														for (int p : Global.pattern3SegmentPositions) {
+															if (p - (lastP) > 0) {
+																View buffer = new View(context);
+																LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+																		300 * (p - (lastP)),
+																		LayoutParams.WRAP_CONTENT);
+																buffer.setLayoutParams(lp);
+																p3TrackLayout.addView(buffer);
+															}
+														}*/
+														btn.setVisibility(View.INVISIBLE);
+														createTrackQueue();
+
+								                	   
+								                   }
+								               })
+								               .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+								                   public void onClick(DialogInterface dialog, int id) {
+								                       // User cancelled the dialog
+								                   }
+								               });
+								        // Create the AlertDialog object and return it
+								        builder.create().show();
+
+								        
+										
 										//Global.pattern3SegmentPositions.remove(0);
-										Button btn = (Button)v;
-										Integer position = Global.buttonPositions4.get(v);
-										Global.buttonPositions4.remove(v);
-										boolean result = Global.pattern4SegmentPositions.remove(position);
-										/*Collections.sort(Global.pattern3SegmentPositions);
-										p3TrackLayout.removeAllViews();
-										int lastP = 1;
-										for (int p : Global.pattern3SegmentPositions) {
-											if (p - (lastP) > 0) {
-												View buffer = new View(context);
-												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-														300 * (p - (lastP)),
-														LayoutParams.WRAP_CONTENT);
-												buffer.setLayoutParams(lp);
-												p3TrackLayout.addView(buffer);
-											}
-											//Button btn = 
-										}*/
-										//Toast.makeText(this, new Boolean(result).toString(), Toast.LENGTH_SHORT).show();
-										//int lastP = 1;
-										/*p3TrackLayout.removeAllViews();
-										for (int p : Global.pattern3SegmentPositions) {
-											if (p - (lastP) > 0) {
-												View buffer = new View(context);
-												LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-														300 * (p - (lastP)),
-														LayoutParams.WRAP_CONTENT);
-												buffer.setLayoutParams(lp);
-												p3TrackLayout.addView(buffer);
-											}
-										}*/
-										btn.setVisibility(View.INVISIBLE);
-										createTrackQueue();
-										//remove from track queue
+										
+																				//remove from track queue
 										//p3TrackLayout.removeView(v);
 										
 										return true;
@@ -645,8 +686,10 @@ public class TrackActivity extends Activity {
 			ArrayList<Integer> patternSegmentPositions, int startBar) {
 		// int patSize = p.numBars;
 		int patSize = p;
+		int endBar = startBar+patSize;
 		for (int n : patternSegmentPositions) {
-			if (startBar >= n && startBar < n + patSize)
+			//if (startBar >= n && startBar < n + patSize)
+			if ((startBar >= n && startBar < n + patSize) || (endBar <= n + patSize))
 				return false;
 		}
 		return true;

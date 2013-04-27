@@ -31,4 +31,8 @@
     <string name="newProject">New Project</string>
     <string name="loadProject">Load Project</string>
     <string name="saveProject">Save Project</string>
+    <string name="ok">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="removePattern">Remove Pattern</string>
+    <string name="confirmation">Are you sure?</string>
 </resources>
