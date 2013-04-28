@@ -120,7 +120,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 			c.close();
 			final String temppath = path;
 			sid = sp.load(path, 1);
-			soundId[x][y] = sid;
+			Global.soundIds[x][y] = sid;
 			pad.get(x).get(y).setText(""+sid);
 			final int temp = sid;
 			sp.setOnLoadCompleteListener(new OnLoadCompleteListener() {
@@ -141,7 +141,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 	public void onDialogPositiveClick(DialogFragment dialog) {
 		// TODO Auto-generated method stub
 		((Button)findViewById(longPressedButton)).setText(rdf.rename);
-		editor.putString(""+callingPattern+"p_"+rdf.bidx+rdf.bidy, rdf.rename);
+		editor.putString("p_"+rdf.bidx+rdf.bidy, rdf.rename);
 		
 	}
 

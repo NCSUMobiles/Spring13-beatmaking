@@ -334,7 +334,7 @@ public class PatternActivity extends Activity {
 			{
 				
 				btn = (Button)(findViewById(padIds[i][j]));
-				btn.setText(buttonNames.getString(""+patternId+"p_"+i+j, "p_"+i+j));
+				btn.setText(buttonNames.getString("p_"+i+j, "p_"+i+j));
 
 			}
 		}
