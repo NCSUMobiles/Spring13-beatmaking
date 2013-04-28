@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.widget.Button;
@@ -20,26 +21,33 @@ public class Global {
 	public static Comparator<Sound> comp = new LongComparator();
 	public static ArrayList<PriorityQueue<Sound>> patternSoundQueues = new ArrayList<PriorityQueue<Sound>>();
 	public static PriorityQueue<Sound> trackSoundQueue = new PriorityQueue<Sound>(10, Global.comp);
+
 	public static ArrayList<Integer> pattern1SegmentPositions = new ArrayList<Integer>();
 	public static ArrayList<Integer> pattern2SegmentPositions = new ArrayList<Integer>();
 	public static ArrayList<Integer> pattern3SegmentPositions = new ArrayList<Integer>();
 	public static ArrayList<Integer> pattern4SegmentPositions = new ArrayList<Integer>();
+	
 	public static int pattern1Bars = 4;
 	public static int pattern2Bars = 4;
 	public static int pattern3Bars = 4;
 	public static int pattern4Bars = 4;
+	
 	public static HashMap<Button, Integer> buttonPositions1 = new HashMap<Button,Integer>();
 	public static HashMap<Button, Integer> buttonPositions2 = new HashMap<Button,Integer>();
 	public static HashMap<Button, Integer> buttonPositions3 = new HashMap<Button,Integer>();
 	public static HashMap<Button, Integer> buttonPositions4 = new HashMap<Button,Integer>();
+	
 	public static int bpm = 120;
 	public static int[][] soundIds = new int[4][4];
 	public static Context patternContext;
 	public static boolean metronome;
 	
+	
 	public static void initialize()
 	{
 		metronome = false;
+		
+		
 		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));

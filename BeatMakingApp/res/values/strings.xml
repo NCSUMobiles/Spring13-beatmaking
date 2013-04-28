@@ -28,6 +28,9 @@
     <string name="p_31">P_31</string>
     <string name="p_32">P_32</string>
     <string name="p_33">P_33</string>
+    <string name="rename_dialog_hint">7 Letters</string>
+    <string name="cancel">Cancel</string>
+    <string name="rename">Rename</string>
     <string name="newProject">New Project</string>
     <string name="loadProject">Load Project</string>
     <string name="saveProject">Save Project</string>

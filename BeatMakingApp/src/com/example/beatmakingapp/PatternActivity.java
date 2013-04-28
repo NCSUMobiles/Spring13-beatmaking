@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,13 +56,20 @@ public class PatternActivity extends Activity {
 			{ R.id.pad_20, R.id.pad_21, R.id.pad_22, R.id.pad_23 },
 			{ R.id.pad_30, R.id.pad_31, R.id.pad_32, R.id.pad_33 } };
 
+	public static final String BUTTON_NAMES = "ButtonNames";
+	public static SharedPreferences buttonNames;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.pattern_layout);
 		final Context context = this;
 		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		Global.patternContext = this;
+		
+		 // Restore preferences
+	       buttonNames = getSharedPreferences(BUTTON_NAMES, 0);
+		
+	       Global.patternContext = this;
 		if(Global.initialized == false) {
 			Global.initialize();
 			Global.initialized = true;
@@ -112,6 +120,7 @@ public class PatternActivity extends Activity {
 			button.setText("Pat-4");
 			updateGradient("purple");
 		}
+		
 
 //		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 //				context);
@@ -219,6 +228,18 @@ public class PatternActivity extends Activity {
 		final ImageButton recordButton = (ImageButton) findViewById(R.id.record_button);
 		final ImageButton stopButton = (ImageButton) findViewById(R.id.stop_button);
 		
+		final Button editDrumMachine = (Button) findViewById(R.id.edit_drum_machine_button);
+		editDrumMachine.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent editDrumMachineIntent = new Intent().setClass(context,EditSoundsActivity.class)
+						.putExtra("PatternNo", patternId);
+				startActivity(editDrumMachineIntent);
+			}
+		});
+		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				state_playing = true;
@@ -303,10 +324,21 @@ public class PatternActivity extends Activity {
 	}
 
 	@Override
-	public void onResume() {
-		// Always call the superclass so it can restore the view hierarchy
+	protected void onResume() {
+		// TODO Auto-generated method stub
 		super.onResume();
+		Button btn;
+		for(int i=0;i<4;i++)
+		{
+			for(int j=0;j<4;j++)
+			{
+				
+				btn = (Button)(findViewById(padIds[i][j]));
+				btn.setText(buttonNames.getString(""+patternId+"p_"+i+j, "p_"+i+j));
 
+			}
+		}
+		
 	}
 
 	public void callTrackActivity(View v) {
@@ -357,6 +389,7 @@ public class PatternActivity extends Activity {
 		}
 	}
 
+	
 	public void onDestroy() {
 		super.onDestroy();
 
