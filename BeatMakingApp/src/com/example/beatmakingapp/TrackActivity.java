@@ -782,9 +782,10 @@ public class TrackActivity extends Activity {
 										
 									}
 								}
+
+								TrackActivity.super.onBackPressed();
 								TrackActivity.super.onDestroy();
 								finish();
-								TrackActivity.super.onBackPressed();
 							}
 						}).create().show();
 	}

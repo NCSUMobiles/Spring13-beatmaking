@@ -54,7 +54,9 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Pattern Options" />
+                android:text="Pattern Options" 
+                android:onClick="callPatternOptions"
+                />
 
             <Button
                 android:id="@+id/edit_drum_machine_button"

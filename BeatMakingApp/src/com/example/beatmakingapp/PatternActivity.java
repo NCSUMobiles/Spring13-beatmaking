@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -13,13 +14,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class PatternActivity extends Activity {
 	boolean state_playing = false;
@@ -134,16 +139,10 @@ public class PatternActivity extends Activity {
 							timeSinceStart = currentTime - timeAtStart;
 							timeSinceLastBeat = currentTime - timeAtLastBeat;
 							
-							// <metronome>
-							if (timeSinceLastBeat >= 60000 / bpm) {
-								//mainHandler.post(new Runnable() {
-								//public void run() {
-									//Thread.currentThread().setPriority(10);
+					
+							if (timeSinceLastBeat >= 60000 / bpm && Global.metronome==true) {
 									Global.arrSoundPool.get(patternId).play(Global.soundIds[0][0], volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
-								//}
-								//}
-								//);
-								// </metronome>
+
 							}
 							if (frontQueue.size() > 0) {
 								while (frontQueue.size() > 0
@@ -218,6 +217,8 @@ public class PatternActivity extends Activity {
 
 		final ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
 		final ImageButton recordButton = (ImageButton) findViewById(R.id.record_button);
+		final ImageButton stopButton = (ImageButton) findViewById(R.id.stop_button);
+		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				state_playing = true;
@@ -230,15 +231,17 @@ public class PatternActivity extends Activity {
 
 		
 		recordButton.setOnClickListener(new View.OnClickListener() {
-
 			public void onClick(View v) {
 				state_recording = true;
 				state_playing = true;
+				timeAtStart = SystemClock.elapsedRealtime();
+				timeAtLastBeat = SystemClock.elapsedRealtime();
 				recordButton.setImageResource(R.drawable.record_button_pressed);
 				playButton.setEnabled(false);
 			}
 		});
-		final ImageButton stopButton = (ImageButton) findViewById(R.id.stop_button);
+		
+		
 		stopButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -313,6 +316,30 @@ public class PatternActivity extends Activity {
 		finish();
 	}
 
+	public void callPatternOptions(View v) {
+		final Dialog addPattern1Dialog = new Dialog(this);
+		addPattern1Dialog.setContentView(R.layout.pattern_info_dialog);
+		addPattern1Dialog.setTitle("Pattern Options");
+		
+		final Button done = (Button) addPattern1Dialog.findViewById(R.id.pattern_info_done_button);
+		done.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				addPattern1Dialog.dismiss();
+			}
+		});
+		
+		final Button clearPattern = (Button) addPattern1Dialog.findViewById(R.id.clear_pattern_button2);
+		clearPattern.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				frontQueue.clear();
+				Global.patternSoundQueues.get(patternId).clear();
+			}
+		});
+		addPattern1Dialog.show();
+     	
+	}
+	
+
 	public void updateGradient(String name) {
 		Button btn;
 		for (int i = 0; i < 4; i++) {
@@ -332,8 +359,9 @@ public class PatternActivity extends Activity {
 
 	public void onDestroy() {
 		super.onDestroy();
-		l1.quit();
 
+		l1.quit();
+		
 		frontQueue.clear();
 	}
 
@@ -343,4 +371,27 @@ public class PatternActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.metronome:
+	            if (Global.metronome==true)
+	            {
+	            	Global.metronome=false;
+	            	item.setTitle(R.string.metronomeOff);
+	       
+	            }
+	            else
+	            {
+	            	Global.metronome=true;
+	            	item.setTitle(R.string.metronomeOn);
+	            }
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
 }

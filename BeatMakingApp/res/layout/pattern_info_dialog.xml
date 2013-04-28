@@ -13,31 +13,6 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical" >
 
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:text="Pattern: " />
-
-                <Spinner
-                    android:id="@+id/pattern_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:entries="@array/pattern_array" />
-
-                <Button
-                    android:id="@+id/clear_pattern_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:text="Clear Pattern" />
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
@@ -53,6 +28,7 @@
                     android:id="@+id/edit_tempo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="120"
                     android:inputType="number" />
 
                 <TextView
@@ -76,6 +52,7 @@
                     android:id="@+id/edit_bars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="4"
                     android:inputType="number" />
             </LinearLayout>
 
@@ -141,9 +118,15 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/clear_pattern_button2"
+            android:layout_width="153dp"
+            android:layout_height="wrap_content"
+            android:text="Clear Pattern" />
+
+        <Button
             android:id="@+id/pattern_info_done_button"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Done" />
     </LinearLayout>
 

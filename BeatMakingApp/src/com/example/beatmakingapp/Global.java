@@ -35,9 +35,11 @@ public class Global {
 	public static int bpm = 120;
 	public static int[][] soundIds = new int[4][4];
 	public static Context patternContext;
+	public static boolean metronome;
 	
 	public static void initialize()
 	{
+		metronome = false;
 		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
 		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));

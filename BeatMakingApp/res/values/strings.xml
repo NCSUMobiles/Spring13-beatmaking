@@ -35,4 +35,6 @@
     <string name="Cancel">Cancel</string>
     <string name="removePattern">Remove Pattern</string>
     <string name="confirmation">Are you sure?</string>
+    <string name="metronomeOn">Metronome is ON</string>
+    <string name="metronomeOff">Metronome is OFF</string>
 </resources>
