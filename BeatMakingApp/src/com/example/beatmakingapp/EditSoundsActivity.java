@@ -27,8 +27,8 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 	private ArrayList<ArrayList<Button>> pad = new ArrayList<ArrayList<Button>>();
 	private int[][] padIds = {{R.id.pad_00,R.id.pad_01,R.id.pad_02,R.id.pad_03},{R.id.pad_10,R.id.pad_11,R.id.pad_12,R.id.pad_13},{R.id.pad_20,R.id.pad_21,R.id.pad_22,R.id.pad_23},{R.id.pad_30,R.id.pad_31,R.id.pad_32,R.id.pad_33}};
 	private RenameDialogFragment rdf;
-	private SharedPreferences buttonNames;
-	private SharedPreferences.Editor editor;
+	private SharedPreferences buttonNames, buttonSounds;
+	private SharedPreferences.Editor nameEditor, soundEditor;
 	public int soundId[][] = new int[4][4];
 	private SoundPool sp ;
 	private Bundle b;
@@ -44,7 +44,10 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		rdf = new RenameDialogFragment();
 
 		buttonNames = PatternActivity.buttonNames;
-		editor = buttonNames.edit();
+		buttonSounds = PatternActivity.buttonSounds;
+		nameEditor = buttonNames.edit();
+		soundEditor = buttonSounds.edit();
+		
 		b = getIntent().getExtras();
 		callingPattern = b.getInt("PatternNo");
 		sp = Global.soundPool;
@@ -120,6 +123,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 			c.close();
 			final String temppath = path;
 			sid = sp.load(path, 1);
+			soundEditor.putString("p_"+x+y, path);
 			Global.soundIds[x][y] = sid;
 			pad.get(x).get(y).setText(""+sid);
 			final int temp = sid;
@@ -141,7 +145,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 	public void onDialogPositiveClick(DialogFragment dialog) {
 		// TODO Auto-generated method stub
 		((Button)findViewById(longPressedButton)).setText(rdf.rename);
-		editor.putString("p_"+rdf.bidx+rdf.bidy, rdf.rename);
+		nameEditor.putString("p_"+rdf.bidx+rdf.bidy, rdf.rename);
 		
 	}
 
@@ -164,14 +168,14 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		editor.commit();
+		nameEditor.commit();
 	}
 	
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		editor.commit();
+		nameEditor.commit();
 	}
 	
 

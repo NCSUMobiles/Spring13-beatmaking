@@ -58,6 +58,9 @@ public class PatternActivity extends Activity {
 
 	public static final String BUTTON_NAMES = "ButtonNames";
 	public static SharedPreferences buttonNames;
+	
+	public static final String BUTTON_SOUNDS = "ButtonSounds";
+	public static SharedPreferences buttonSounds;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,12 +71,15 @@ public class PatternActivity extends Activity {
 		
 		 // Restore preferences
 	       buttonNames = getSharedPreferences(BUTTON_NAMES, 0);
+	       buttonSounds = getSharedPreferences(BUTTON_SOUNDS,0);
 		
-	       Global.patternContext = this;
+	    Global.patternContext = this;
 		if(Global.initialized == false) {
 			Global.initialize();
 			Global.initialized = true;
 		}
+		
+		
 		
 		AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 		switch( audio.getRingerMode() ){
@@ -347,7 +353,6 @@ public class PatternActivity extends Activity {
 				
 				btn = (Button)(findViewById(padIds[i][j]));
 				btn.setText(buttonNames.getString("p_"+i+j, "p_"+i+j));
-
 			}
 		}
 		
