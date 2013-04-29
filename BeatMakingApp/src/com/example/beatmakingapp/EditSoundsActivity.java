@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import com.example.beatmakingapp.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
@@ -36,12 +41,14 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 	private Bundle b;
 	private Button editDrumMachine, track, patternOpt;
 	private ImageButton play, rec;
-		
+	private Context context = this;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pattern_layout);
-		
 	
+		
+		
 		for(int i = 0; i < 4; i++)
 			pad.add(new ArrayList<Button>());
 		
@@ -54,10 +61,11 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		
 		b = getIntent().getExtras();
 		callingPattern = b.getInt("PatternNo");
+
 		sp = Global.soundPool;
 		
 		editDrumMachine = (Button)findViewById(R.id.edit_drum_machine_button);
-		editDrumMachine.setText("Finish Editting");
+		editDrumMachine.setText("Finish Editing");
 		editDrumMachine.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -66,6 +74,59 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 				finish();
 			}
 		});
+		
+		
+		Button tempButton = (Button) findViewById(R.id.pattern_number_button);
+		tempButton.setClickable(true);
+		tempButton.setTextSize(15);
+		tempButton.setTextColor(Color.BLACK);
+		tempButton.setBackgroundResource(android.R.drawable.btn_default);
+		tempButton.setText("Reset");
+		tempButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new AlertDialog.Builder(context)
+				.setTitle("Reset All Names")
+				.setMessage("Are you sure to reset all names?")
+				.setNegativeButton(android.R.string.no, null)
+				.setPositiveButton(android.R.string.yes,
+						new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface arg0, int arg1) {
+								
+	
+				
+				//Button btn;
+				for(int i=0;i<4;i++)
+				{
+					for(int j=0;j<4;j++)
+					{
+						//btn = (Button) findViewById(padIds[i][j]);
+						//String s = (String) btn.getText();
+						String s = Global.filenames[i][j];
+						if (s.length()>8)
+						{
+							String s1;
+							String s2;
+							s1 = s.substring(0,1);
+							s2 = s.substring(s.length()-10,s.length()-4);
+							s = s1 + ".." + s2;
+						}
+						nameEditor.putString("p_"+i+j, s);
+						
+					}
+				}
+				nameEditor.commit();
+				Toast.makeText(context, "Reset Done!", Toast.LENGTH_SHORT).show();
+				
+				finish();
+				
+							}
+				}).create().show();
+				
+			}
+		});
+		
 		
 		track = (Button)findViewById(R.id.track_button);
 		//track.setClickable(false);
@@ -93,7 +154,8 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 				final int jj = j;
 					
 				btn = (Button) findViewById(padIds[i][j]);
-				btn.setText(buttonNames.getString("p_"+i+j, "p_"+i+j));
+				btn.setBackgroundResource(R.drawable.gradient_gray);
+				btn.setText(buttonNames.getString("p_"+i+j, Global.filenames[i][j]));
 				pad.get(i).add(btn);
 				
 				pad.get(i).get(j).setOnClickListener(new View.OnClickListener() {
@@ -103,6 +165,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 						y=jj;
 						Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				        intent.setType("audio/*");
+				        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				        startActivityForResult(Intent.createChooser(intent,"Select Audio "), 1);
 					}
 				});
@@ -123,6 +186,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 				});
 			}
 		}
+
 		
 	}
 	
@@ -166,7 +230,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		// TODO Auto-generated method stub
 		((Button)findViewById(longPressedButton)).setText(rdf.rename);
 		nameEditor.putString("p_"+rdf.bidx+rdf.bidy, rdf.rename);
-		
+		nameEditor.commit();
 	}
 
 	@Override
@@ -181,6 +245,13 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 	public void finish() {
 		// TODO Auto-generated method stub
 		super.finish();
+		
+		Button tempButton = (Button) findViewById(R.id.pattern_number_button);
+		tempButton.setClickable(false);
+		tempButton.setTextColor(Color.WHITE);
+		tempButton.setBackgroundColor(Color.BLACK);
+		tempButton.setTextSize(25);
+		
 		//editor.commit();
 	}
 
@@ -198,5 +269,15 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		nameEditor.commit();
 	}
 	
+	@Override
+	public void onBackPressed() {
+		Button tempButton = (Button) findViewById(R.id.pattern_number_button);
+		tempButton.setClickable(false);
+		tempButton.setTextColor(Color.WHITE);
+		tempButton.setBackgroundColor(Color.BLACK);
+		tempButton.setTextSize(25);
+		super.onBackPressed();
+
+	}
 
 }

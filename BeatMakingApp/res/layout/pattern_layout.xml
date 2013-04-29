@@ -38,12 +38,12 @@
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:clickable="false"
                     
+                    android:clickable="false"
                     android:textSize="25dp"
                     android:textColor="#FFFFFF"
                     android:background="#000000"
-                    android:text="Pattern1" />
+                    android:text="Reset" />
 
             </LinearLayout>
 

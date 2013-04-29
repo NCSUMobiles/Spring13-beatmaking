@@ -18,6 +18,7 @@ public class Global {
 	
 	public static boolean initialized = false;
 	public static SoundPool soundPool = new SoundPool(16, AudioManager.STREAM_MUSIC, 0);
+	public static SoundPool metroPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 	public static Comparator<Sound> comp = new LongComparator();
 	public static ArrayList<PriorityQueue<Sound>> patternSoundQueues = new ArrayList<PriorityQueue<Sound>>();
 	public static PriorityQueue<Sound> trackSoundQueue = new PriorityQueue<Sound>(10, Global.comp);
@@ -39,6 +40,7 @@ public class Global {
 	
 	public static int bpm = 120;
 	public static int[][] soundIds = new int[4][4];
+	public static int metroId;
 	public static String[][] filenames = new String[4][4];
 	public static Context patternContext;
 	public static boolean metronome;
@@ -52,6 +54,8 @@ public class Global {
 		Global.patternSoundQueues.add(new PriorityQueue<Sound>(10, Global.comp));
 		Global.patternSoundQueues.add(new PriorityQueue<Sound>(10, Global.comp));
 		Global.patternSoundQueues.add(new PriorityQueue<Sound>(10, Global.comp));
+		
+		Global.metroId = Global.metroPool.load(Global.patternContext, raw.closedhat, 1);
 		
 		Global.soundIds[0][0] = Global.soundPool.load(Global.patternContext, raw.sabar_kick, 1);
 		Global.soundIds[0][1] = Global.soundPool.load(Global.patternContext, raw.sabar_kick_2, 1);

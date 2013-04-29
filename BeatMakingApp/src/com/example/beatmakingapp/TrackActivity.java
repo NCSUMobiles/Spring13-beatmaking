@@ -212,6 +212,7 @@ public class TrackActivity extends Activity {
 						.findViewById(R.id.add_pattern_ok);
 				Button cancelButton = (Button) addPattern1Dialog
 						.findViewById(R.id.add_pattern_cancel);
+				
 				pickerUp.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						num += 1;
@@ -219,6 +220,7 @@ public class TrackActivity extends Activity {
 								TextView.BufferType.EDITABLE);
 					}
 				});
+				
 				pickerDown.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						if (num > 1) {
@@ -228,9 +230,20 @@ public class TrackActivity extends Activity {
 						}
 					}
 				});
+				
 				okButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						num = Integer.valueOf(pickerEdit.getText().toString());
+						
+						if (num>50)
+						{
+							addPattern1Dialog.dismiss();
+							new AlertDialog.Builder(context)
+							.setTitle("Limit Exceeded!\nValue cannot be greater than 50!")
+							.setPositiveButton(android.R.string.yes,null).create().show();
+						}
+						else
+						{
 						if (isValidPosition(Global.pattern1Bars,
 								Global.pattern1SegmentPositions, num)) {
 							Global.pattern1SegmentPositions.add(num);
@@ -301,9 +314,12 @@ public class TrackActivity extends Activity {
 							.setTitle("Pattern already exists at this bar!")
 							.setPositiveButton(android.R.string.yes,null).create().show();
 						}
+						
 						addPattern1Dialog.dismiss();
+						}
 					}
 				});
+				
 				cancelButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						LinearLayout p1TrackLayout = (LinearLayout) findViewById(R.id.pattern1TrackRow);

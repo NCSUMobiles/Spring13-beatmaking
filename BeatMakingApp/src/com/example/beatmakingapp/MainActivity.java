@@ -17,7 +17,8 @@ public class MainActivity extends Activity {
 		Intent intent2 = new Intent().setClass(context, TrackActivity.class);
 	    intent2.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 	    startActivity(intent2);
-	    
+	   
+		
 		Intent intent = new Intent().setClass(context, PatternActivity.class);
 	    String message = "default : first";
 	    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

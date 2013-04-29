@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="250dp"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="7"
-        android:orientation = "vertical" >
+        android:orientation="vertical" >
+
         <LinearLayout                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical" >
@@ -22,19 +23,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="Tempo: " />
+                    android:layout_weight="0.10"
+                    android:text="        Tempo\n        (bpm): " />
 
                 <EditText
                     android:id="@+id/edit_tempo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="120"
-                    android:inputType="number" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:text="bpm" />
+                    android:layout_weight="0.49"
+                    android:inputType="number"
+                    android:text="120" />
             </LinearLayout>
 
             <LinearLayout
@@ -46,14 +44,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:text="Bars: " />
+                    android:layout_weight="0.20"
+                    android:text="        Bars: " />
 
                 <EditText
                     android:id="@+id/edit_bars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4"
-                    android:inputType="number" />
+                    android:layout_weight="0.80"
+                    android:inputType="number"
+                    android:text="4" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,54 +62,14 @@
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:text="Snap Sound to Nearest Beat: " />
+               
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <RadioGroup
-                    android:id="@+id/snap_beat_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <RadioButton
-                        android:id="@+id/snap_sound_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1" />
-
-                    <RadioButton
-                        android:id="@+id/snap_sound_half"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1/2" />
-
-                    <RadioButton
-                        android:id="@+id/snap_sound_fourth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1/4" />
-
-                    <RadioButton
-                        android:id="@+id/snap_sound_eighth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="1/8" />
-                </RadioGroup>
-            </LinearLayout>
+  
 
 
 </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -119,7 +79,7 @@
 
         <Button
             android:id="@+id/clear_pattern_button2"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear Pattern" />
 
@@ -128,6 +88,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Done" />
+
     </LinearLayout>
 
 </LinearLayout>

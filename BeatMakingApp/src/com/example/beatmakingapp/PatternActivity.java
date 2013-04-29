@@ -58,10 +58,10 @@ public class PatternActivity extends Activity {
 			{ R.id.pad_20, R.id.pad_21, R.id.pad_22, R.id.pad_23 },
 			{ R.id.pad_30, R.id.pad_31, R.id.pad_32, R.id.pad_33 } };
 
-	public static final String BUTTON_NAMES = "ButtonNames";
+	public static final String BUTTON_NAMES = "ButtonNamess";
 	public static SharedPreferences buttonNames;
 	
-	public static final String BUTTON_SOUNDS = "ButtonSounds";
+	public static final String BUTTON_SOUNDS = "ButtonSoundss";
 	public static SharedPreferences buttonSounds;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class PatternActivity extends Activity {
 		String defValue = "loadDefault";
 		String path;
 		
-		path = buttonSounds.getString("p_00", defValue);
+		path = buttonSounds.getString("p_00", defValue);;
 		if(!path.equals(defValue))
 			Global.soundIds[0][0] = Global.soundPool.load(path, 1);
 		
@@ -224,7 +224,8 @@ public class PatternActivity extends Activity {
 							
 					
 							if (timeSinceLastBeat >= 60000 / bpm && Global.metronome==true) {
-									Global.soundPool.play(Global.soundIds[0][0], volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
+								Global.metroPool.play( Global.metroId,volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
+						
 
 							}
 							if (frontQueue.size() > 0) {
@@ -302,7 +303,6 @@ public class PatternActivity extends Activity {
 
 		final ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
 		final ImageButton recordButton = (ImageButton) findViewById(R.id.record_button);
-		final ImageButton stopButton = (ImageButton) findViewById(R.id.stop_button);
 		
 		final Button editDrumMachine = (Button) findViewById(R.id.edit_drum_machine_button);
 		editDrumMachine.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +312,7 @@ public class PatternActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent editDrumMachineIntent = new Intent().setClass(context,EditSoundsActivity.class)
 						.putExtra("PatternNo", patternId);
+				editDrumMachineIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(editDrumMachineIntent);
 			}
 		});
@@ -451,7 +452,7 @@ public class PatternActivity extends Activity {
 			{
 				
 				btn = (Button)(findViewById(padIds[i][j]));
-				btn.setText(buttonNames.getString("p_"+i+j, "p_"+i+j));
+				btn.setText(buttonNames.getString("p_"+i+j, Global.filenames[i][j]));
 			}
 		}
 		
@@ -465,6 +466,7 @@ public class PatternActivity extends Activity {
 	}
 
 	public void callPatternOptions(View v) {
+		final Context context = this;
 		final Dialog addPattern1Dialog = new Dialog(this);
 		addPattern1Dialog.setContentView(R.layout.pattern_info_dialog);
 		addPattern1Dialog.setTitle("Pattern Options");
@@ -482,6 +484,7 @@ public class PatternActivity extends Activity {
 				frontQueue.clear();
 				Global.patternSoundQueues.get(patternId).clear();
 				addPattern1Dialog.dismiss();
+				Toast.makeText(context, "Pattern Cleared!", Toast.LENGTH_SHORT).show();
 			}
 		});
 		addPattern1Dialog.show();

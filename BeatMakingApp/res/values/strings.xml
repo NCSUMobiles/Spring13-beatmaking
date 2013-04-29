@@ -12,22 +12,22 @@
         <item>4</item>
     </string-array>
     
-    <string name="p_00">P_00</string>
-    <string name="p_01">P_01</string>
-    <string name="p_02">P_02</string>
-    <string name="p_03">P_03</string>
-    <string name="p_10">P_10</string>
-    <string name="p_11">P_11</string>
-    <string name="p_12">P_12</string>
-    <string name="p_13">P_13</string>
-    <string name="p_20">P_20</string>
-    <string name="p_21">P_21</string>
-    <string name="p_22">P_22</string>
-    <string name="p_23">P_23</string>
-    <string name="p_30">P_30</string>
-    <string name="p_31">P_31</string>
-    <string name="p_32">P_32</string>
-    <string name="p_33">P_33</string>
+    <string name="p_00">sabar_kick</string>
+    <string name="p_01">sabar_kick_2</string>
+    <string name="p_02">sabar_kick_cool</string>
+    <string name="p_03">sabar_snare</string>
+    <string name="p_10">sabar_snare_2</string>
+    <string name="p_11">sabar_snare_3</string>
+    <string name="p_12">sabar_snare_cool_2</string>
+    <string name="p_13">sabar_snare_flam</string>
+    <string name="p_20">sabar_snare_reverb</string>
+    <string name="p_21">sabar_snare_reverb_3</string>
+    <string name="p_22">sabar_snare_roll</string>
+    <string name="p_23">sabar_tom</string>
+    <string name="p_30">z_africanhat</string>
+    <string name="p_31">z_doughat</string>
+    <string name="p_32">z_gavgoodclosed</string>
+    <string name="p_33">z_gavgoodopen</string>
     <string name="rename_dialog_hint">7 Letters</string>
     <string name="cancel">Cancel</string>
     <string name="rename">Rename</string>
