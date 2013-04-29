@@ -47,7 +47,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		editor = buttonNames.edit();
 		b = getIntent().getExtras();
 		callingPattern = b.getInt("PatternNo");
-		sp = Global.arrSoundPool.get(callingPattern);
+		sp = Global.soundPool;
 		
 		editDrumMachine = (Button)findViewById(R.id.edit_drum_machine_button);
 		editDrumMachine.setText("Finish Editting");

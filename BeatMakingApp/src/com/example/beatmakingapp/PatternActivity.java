@@ -150,7 +150,7 @@ public class PatternActivity extends Activity {
 							
 					
 							if (timeSinceLastBeat >= 60000 / bpm && Global.metronome==true) {
-									Global.arrSoundPool.get(patternId).play(Global.soundIds[0][0], volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
+									Global.soundPool.play(Global.soundIds[0][0], volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
 
 							}
 							if (frontQueue.size() > 0) {
@@ -171,7 +171,7 @@ public class PatternActivity extends Activity {
 									});
 									// mainHandler.post(new Runnable() {
 									// public void run() {
-									Global.arrSoundPool.get(patternId).play(
+									Global.soundPool.play(
 											s.getSoundPoolId(), volume, volume,
 											1, 0, (float) 1.0);
 									// }
@@ -181,7 +181,7 @@ public class PatternActivity extends Activity {
 							if (timeSinceLastBeat >= 60000 / Global.bpm) {
 								mainHandler.post(new Runnable() {
 									public void run() {
-										// arrSoundPool.get(0).play(id00,
+										// soundPool.get(0).play(id00,
 										// volume, volume, 1, 0,
 										// (float) 1.0);
 									}
@@ -248,7 +248,7 @@ public class PatternActivity extends Activity {
 				playButton.setImageResource(R.drawable.play_button_pressed);
 				timeAtStart = SystemClock.elapsedRealtime();
 				timeAtLastBeat = SystemClock.elapsedRealtime();
-				frontQueue.clear();
+				frontQueue.clear();//Change here
 				frontQueue.addAll(Global.patternSoundQueues.get(patternId));
 				
 				recordButton.setEnabled(false);
@@ -320,7 +320,7 @@ public class PatternActivity extends Activity {
 															(SystemClock
 																	.elapsedRealtime()
 																	- timeAtStart), patternId));
-												Global.arrSoundPool.get(patternId).play(
+												Global.soundPool.play(
 														Global.soundIds[ii][jj],
 														volume, volume, 1, 0,
 														(float) 1.0);

@@ -85,8 +85,7 @@ public class TrackActivity extends Activity {
 									// + " "
 									// + Long.toString(timeSinceStart),
 									// Toast.LENGTH_SHORT).show();
-									Global.arrSoundPool.get(s.getPatternId())
-											.play(s.getSoundPoolId(), volume,
+									Global.soundPool.play(s.getSoundPoolId(), volume,
 													volume, 1, 0, (float) 1.0);
 									// }
 									// });
@@ -775,7 +774,7 @@ public class TrackActivity extends Activity {
 
 							public void onClick(DialogInterface arg0, int arg1) {
 								
-								
+								//change this
 								Global.trackSoundQueue.clear();
 								
 								Global.buttonPositions1.clear();
@@ -786,13 +785,14 @@ public class TrackActivity extends Activity {
 								Global.pattern2SegmentPositions.clear();
 								Global.pattern3SegmentPositions.clear();
 								Global.pattern4SegmentPositions.clear();
+								//till this
 								
 								for (int i=0;i<4;i++)
 								{
-									if (Global.arrSoundPool.get(i) != null)
+									if (Global.soundPool != null)
 									{
 										Global.patternSoundQueues.get(i).clear();	
-										//Global.arrSoundPool.get(i).release();
+										//Global.soundPool.get(i).release();
 										
 									}
 								}

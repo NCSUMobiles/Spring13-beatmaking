@@ -17,7 +17,7 @@ public class Global {
 
 	
 	public static boolean initialized = false;
-	public static ArrayList<SoundPool> arrSoundPool = new ArrayList<SoundPool>();
+	public static SoundPool soundPool = new SoundPool(16, AudioManager.STREAM_MUSIC, 0);
 	public static Comparator<Sound> comp = new LongComparator();
 	public static ArrayList<PriorityQueue<Sound>> patternSoundQueues = new ArrayList<PriorityQueue<Sound>>();
 	public static PriorityQueue<Sound> trackSoundQueue = new PriorityQueue<Sound>(10, Global.comp);
@@ -47,35 +47,27 @@ public class Global {
 	{
 		metronome = false;
 		
-		
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-		Global.arrSoundPool.add(new SoundPool(16, AudioManager.STREAM_MUSIC, 0));
-		
 		Global.patternSoundQueues.add(new PriorityQueue<Sound>(10, Global.comp));
 		Global.patternSoundQueues.add(new PriorityQueue<Sound>(10, Global.comp));
 		Global.patternSoundQueues.add(new PriorityQueue<Sound>(10, Global.comp));
 		Global.patternSoundQueues.add(new PriorityQueue<Sound>(10, Global.comp));
 		
-		for (int i = 0; i < 4; i++) {
-			Global.soundIds[0][0] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.closedhat, 1);
-			Global.soundIds[0][1] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.cymbal, 1);
-			Global.soundIds[0][2] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.halfopenhat, 1);
-			Global.soundIds[0][3] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.hitom, 1);
-			Global.soundIds[1][0] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.kick, 1);
-			Global.soundIds[1][1] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.lowtom, 1);
-			Global.soundIds[1][2] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.openhat, 1);
-			Global.soundIds[1][3] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.snare, 1);
-			Global.soundIds[2][0] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.closedhat, 1);
-			Global.soundIds[2][1] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.cymbal, 1);
-			Global.soundIds[2][2] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.halfopenhat, 1);
-			Global.soundIds[2][3] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.hitom, 1);
-			Global.soundIds[3][0] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.kick, 1);
-			Global.soundIds[3][1] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.whistle, 1);
-			Global.soundIds[3][2] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.laugh, 1);
-			Global.soundIds[3][3] = Global.arrSoundPool.get(i).load(Global.patternContext, raw.scream, 1);
-		}
+		Global.soundIds[0][0] = Global.soundPool.load(Global.patternContext, raw.closedhat, 1);
+		Global.soundIds[0][1] = Global.soundPool.load(Global.patternContext, raw.cymbal, 1);
+		Global.soundIds[0][2] = Global.soundPool.load(Global.patternContext, raw.halfopenhat, 1);
+		Global.soundIds[0][3] = Global.soundPool.load(Global.patternContext, raw.hitom, 1);
+		Global.soundIds[1][0] = Global.soundPool.load(Global.patternContext, raw.kick, 1);
+		Global.soundIds[1][1] = Global.soundPool.load(Global.patternContext, raw.lowtom, 1);
+		Global.soundIds[1][2] = Global.soundPool.load(Global.patternContext, raw.openhat, 1);
+		Global.soundIds[1][3] = Global.soundPool.load(Global.patternContext, raw.snare, 1);
+		Global.soundIds[2][0] = Global.soundPool.load(Global.patternContext, raw.closedhat, 1);
+		Global.soundIds[2][1] = Global.soundPool.load(Global.patternContext, raw.cymbal, 1);
+		Global.soundIds[2][2] = Global.soundPool.load(Global.patternContext, raw.halfopenhat, 1);
+		Global.soundIds[2][3] = Global.soundPool.load(Global.patternContext, raw.hitom, 1);
+		Global.soundIds[3][0] = Global.soundPool.load(Global.patternContext, raw.kick, 1);
+		Global.soundIds[3][1] = Global.soundPool.load(Global.patternContext, raw.whistle, 1);
+		Global.soundIds[3][2] = Global.soundPool.load(Global.patternContext, raw.laugh, 1);
+		Global.soundIds[3][3] = Global.soundPool.load(Global.patternContext, raw.scream, 1);
 		
 	}
 	
