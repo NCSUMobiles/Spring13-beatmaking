@@ -51,7 +51,8 @@ public class PatternActivity extends Activity {
 	private static Looper l1;
 
 	private int patternId = -1;
-
+	double snapValue = 0.5;;
+	
 	public int[][] padIds = {
 			{ R.id.pad_00, R.id.pad_01, R.id.pad_02, R.id.pad_03 },
 			{ R.id.pad_10, R.id.pad_11, R.id.pad_12, R.id.pad_13 },
@@ -174,23 +175,27 @@ public class PatternActivity extends Activity {
 		if(message.equals("first") || message.equals("default") ||  message.equals("default : first")) {
 			patternId = 0;
 			bars = Global.pattern1Bars;
+			snapValue = Global.p1SnapValue;
 			button.setText("Pat-1");
 			updateGradient("yellow");
 		}
 		else if(message.equals("second")) {
 			patternId = 1;
 			bars = Global.pattern1Bars;
+			snapValue = Global.p2SnapValue;
 			button.setText("Pat-2");
 			updateGradient("green");
 		}
 		else if(message.equals("third")) {
 			patternId = 2;
 			bars = Global.pattern1Bars;
+			snapValue = Global.p3SnapValue;
 			button.setText("Pat-3");
 			updateGradient("blue");
 		}
 		else if(message.equals("fourth")) {
 			patternId = 3;
+			snapValue = Global.p4SnapValue;
 			button.setText("Pat-4");
 			updateGradient("purple");
 		}
@@ -230,8 +235,10 @@ public class PatternActivity extends Activity {
 							}
 							if (frontQueue.size() > 0) {
 								while (frontQueue.size() > 0
-										&& frontQueue.peek().getOffset() <= (timeSinceStart*Global.bpm/60000 + 1)) {
+										&& frontQueue.peek().getOffset() <= (timeSinceStart*(double)(Global.bpm)/60000 + 1)) {
 									final Sound s = frontQueue.remove();
+									//System.out.println("*****" + s.getOffset());
+									//System.out.println("^^^^^" + (timeSinceStart*Global.bpm/60000 + 1));
 									mainHandler.post(new Runnable() {
 										public void run() {
 											Button button = (Button) findViewById(padIds[s.getButtonId_i()][s.getButtonId_j()]);
@@ -419,21 +426,21 @@ public class PatternActivity extends Activity {
 										.elapsedRealtime()
 										- timeAtStart))*((double)(Global.bpm)/60000) + 1;
 								//TODO: set snap value
-								double a = exactBeatOffset/.5;
+								double a = exactBeatOffset/snapValue;
 								double b = (int) a;
 								double c = (a-b);
 
 								if(c <= 0.5)
-									offset = exactBeatOffset-.5*c;
+									offset = exactBeatOffset-snapValue*c;
 								else
-									offset = exactBeatOffset+.5*(1-c);
-								System.out.println("*****************");
-								System.out.println(exactBeatOffset);
-								System.out.println(a);
-								System.out.println(b);
-								System.out.println(c);	
-								System.out.println(offset);
-								System.out.println("*****************");
+									offset = exactBeatOffset+snapValue*(1-c);
+//								System.out.println("*****************");
+//								System.out.println(exactBeatOffset);
+//								System.out.println(a);
+//								System.out.println(b);
+//								System.out.println(c);	
+//								System.out.println(offset);
+//								System.out.println("*****************");
 								new Thread(new Runnable() {
 									public void run() {
 										mainHandler.post(new Runnable() {

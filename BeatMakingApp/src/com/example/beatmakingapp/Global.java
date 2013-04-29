@@ -45,6 +45,10 @@ public class Global {
 	public static Context patternContext;
 	public static boolean metronome;
 	
+	public static double p1SnapValue = 0.5;
+	public static double p2SnapValue = 0.5;
+	public static double p3SnapValue = 0.5;
+	public static double p4SnapValue = 0.5;
 	
 	public static void initialize()
 	{
