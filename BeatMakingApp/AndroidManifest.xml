@@ -33,6 +33,8 @@
                       android:screenOrientation="landscape" 
                       android:clearTaskOnLaunch="true" />
         <activity android:name="com.example.beatmakingapp.EditSoundsActivity" 
+             android:screenOrientation="landscape" 
+                    
             android:clearTaskOnLaunch="true" />
     </application>
 

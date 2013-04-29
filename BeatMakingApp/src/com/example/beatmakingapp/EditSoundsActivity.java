@@ -7,6 +7,7 @@ import com.example.beatmakingapp.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -38,6 +39,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pattern_layout);
 
+	
 		for(int i = 0; i < 4; i++)
 			pad.add(new ArrayList<Button>());
 		

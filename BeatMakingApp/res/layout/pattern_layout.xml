@@ -74,16 +74,9 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:src="@drawable/play_button_normal" />
+                android:src="@drawable/play_button_pressed" />
 
-            <ImageButton
-                android:id="@+id/stop_button"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:src="@drawable/stop_button_normal" />
+            
 
             <ImageButton
                 android:id="@+id/record_button"
@@ -92,7 +85,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:src="@drawable/record_button_normal" />
+                android:src="@drawable/record_button_pressed" />
         </LinearLayout>
 
         <LinearLayout

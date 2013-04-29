@@ -9,6 +9,7 @@
         android:startColor="#FFFFFF"
         android:endColor="#FF9F00"
      />
+      <corners android:radius="5dp" />
 </shape>
 </item>
     <item>
@@ -19,6 +20,7 @@
         android:startColor="#FFD700"
         android:endColor="#FF9F00"
      />
+      <corners android:radius="5dp" />
 </shape>
 </item>
 </selector>

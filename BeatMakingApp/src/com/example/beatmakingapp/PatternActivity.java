@@ -318,49 +318,80 @@ public class PatternActivity extends Activity {
 		
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				state_playing = true;
-				playButton.setImageResource(R.drawable.play_button_pressed);
-				timeAtStart = SystemClock.elapsedRealtime();
-				timeAtLastBeat = SystemClock.elapsedRealtime();
-				frontQueue.clear();//Change here
-				frontQueue.addAll(Global.patternSoundQueues.get(patternId));
 				
-				recordButton.setEnabled(false);
+				if (state_playing==false)
+				{
+					state_playing = true;
+					playButton.setImageResource(R.drawable.play_button_pressed);
+					timeAtStart = SystemClock.elapsedRealtime();
+					timeAtLastBeat = SystemClock.elapsedRealtime();
+					frontQueue.clear();
+					frontQueue.addAll(Global.patternSoundQueues.get(patternId));
+					
+					recordButton.setEnabled(false);
+
+					
+					playButton.setImageResource(R.drawable.stop_button_normal);
+					recordButton.setImageResource(R.drawable.record_button_normal);
+					playButton.setBackgroundResource(R.drawable.stop_border_play);
+					
+					
+				}
+				else
+				{
+					state_playing = false;
+					state_recording = false;
+					
+					
+					playButton.setEnabled(true);
+					recordButton.setEnabled(true);
+					timeSinceStart = 0;
+					progBar.setProgress(0);
+					playButton.setImageResource(R.drawable.play_button_pressed);
+					recordButton.setImageResource(R.drawable.record_button_pressed);
+					playButton.setBackgroundResource(android.R.drawable.btn_default);
+					
+				}
 			}
 		});
 
 		
 		recordButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				state_recording = true;
-				state_playing = true;
-				timeAtStart = SystemClock.elapsedRealtime();
-				timeAtLastBeat = SystemClock.elapsedRealtime();
-				recordButton.setImageResource(R.drawable.record_button_pressed);
-				frontQueue.clear();
-				frontQueue.addAll(Global.patternSoundQueues.get(patternId));
+				if (state_recording==false)
+				{
+					state_recording = true;
+					state_playing = true;
+					timeAtStart = SystemClock.elapsedRealtime();
+					timeAtLastBeat = SystemClock.elapsedRealtime();
+					recordButton.setImageResource(R.drawable.record_button_pressed);
+					frontQueue.clear();
+					frontQueue.addAll(Global.patternSoundQueues.get(patternId));
+					
+					playButton.setEnabled(false);
+					recordButton.setImageResource(R.drawable.stop_button_normal);
+					playButton.setImageResource(R.drawable.play_button_normal);
+					recordButton.setBackgroundResource(R.drawable.stop_border_record);;
 				
-				playButton.setEnabled(false);
+					
+				}
+				else
+				{
+					state_playing = false;
+					state_recording = false;
+					
+					playButton.setEnabled(true);
+					recordButton.setEnabled(true);
+					timeSinceStart = 0;
+					progBar.setProgress(0);
+					playButton.setImageResource(R.drawable.play_button_pressed);
+					recordButton.setImageResource(R.drawable.record_button_pressed);
+					recordButton.setBackgroundResource(android.R.drawable.btn_default);
+				}
 			}
 		});
 		
 		
-		stopButton.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				state_playing = false;
-				state_recording = false;
-				
-				playButton.setEnabled(true);
-				recordButton.setEnabled(true);
-				timeSinceStart = 0;
-				progBar.setProgress(0);
-				playButton.setImageResource(R.drawable.play_button_normal);
-				recordButton.setImageResource(R.drawable.record_button_normal);
-				
-
-			}
-		});
 
 		ArrayList<ArrayList<Button>> pad = new ArrayList<ArrayList<Button>>();
 		for (int i = 0; i < 4; i++)
