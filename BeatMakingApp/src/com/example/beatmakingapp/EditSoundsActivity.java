@@ -19,6 +19,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class EditSoundsActivity extends FragmentActivity implements RenameDialogFragment.RenameDialogListener {
@@ -33,12 +34,13 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 	public int soundId[][] = new int[4][4];
 	private SoundPool sp ;
 	private Bundle b;
-	private Button editDrumMachine;
+	private Button editDrumMachine, track, patternOpt;
+	private ImageButton play, rec;
 		
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pattern_layout);
-
+		
 	
 		for(int i = 0; i < 4; i++)
 			pad.add(new ArrayList<Button>());
@@ -64,6 +66,22 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 				finish();
 			}
 		});
+		
+		track = (Button)findViewById(R.id.track_button);
+		//track.setClickable(false);
+		track.setEnabled(false);
+		
+		patternOpt = (Button)findViewById(R.id.pattern_info_button);
+		//patternOpt.setClickable(false);
+		patternOpt.setEnabled(false);
+		
+		play = (ImageButton)findViewById(R.id.play_button);
+		//play.setClickable(false);
+		play.setEnabled(false);
+		
+		rec = (ImageButton)findViewById(R.id.record_button);
+		//rec.setClickable(false);
+		rec.setEnabled(false);
 		
 		Button btn;
 		

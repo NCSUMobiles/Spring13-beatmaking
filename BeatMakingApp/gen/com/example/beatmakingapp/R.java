@@ -9,7 +9,7 @@ package com.example.beatmakingapp;
 
 public final class R {
     public static final class array {
-        public static final int pattern_array=0x7f070000;
+        public static final int pattern_array=0x7f080000;
     }
     public static final class attr {
     }
@@ -50,87 +50,94 @@ public final class R {
         public static final int rounded_button_green=0x7f020017;
         public static final int rounded_button_red=0x7f020018;
         public static final int rounded_button_yellow=0x7f020019;
-        public static final int stop_button_normal=0x7f02001a;
-        public static final int yellow=0x7f02001b;
+        public static final int stop_border_play=0x7f02001a;
+        public static final int stop_border_record=0x7f02001b;
+        public static final int stop_button_normal=0x7f02001c;
+        public static final int yellow=0x7f02001d;
     }
     public static final class id {
-        public static final int addPattern1Button=0x7f0a003f;
-        public static final int addPattern2Button=0x7f0a0040;
-        public static final int addPattern3Button=0x7f0a0041;
-        public static final int addPattern4Button=0x7f0a0042;
-        public static final int add_pattern_cancel=0x7f0a0005;
-        public static final int add_pattern_down=0x7f0a0002;
-        public static final int add_pattern_edit=0x7f0a0001;
-        public static final int add_pattern_ok=0x7f0a0004;
-        public static final int add_pattern_up=0x7f0a0000;
-        public static final int b_00=0x7f0a002b;
-        public static final int b_01=0x7f0a002f;
-        public static final int b_10=0x7f0a002c;
-        public static final int b_11=0x7f0a0030;
-        public static final int barNumbersLayout=0x7f0a0043;
-        public static final int clear_pattern_button=0x7f0a0018;
-        public static final int column=0x7f0a0032;
-        public static final int edit_bars=0x7f0a001a;
-        public static final int edit_drum_machine_button=0x7f0a0024;
-        public static final int edit_tempo=0x7f0a0019;
-        public static final int empty_view=0x7f0a0003;
-        public static final int helperVer1=0x7f0a002a;
-        public static final int helperVer2=0x7f0a002e;
-        public static final int horizontalScrollView1=0x7f0a0034;
-        public static final int horizontal_scroll_part=0x7f0a0033;
-        public static final int linear_layout_inside_hori_scroll=0x7f0a0035;
-        public static final int loadProject=0x7f0a004b;
-        public static final int lt=0x7f0a0031;
-        public static final int newProject=0x7f0a004a;
-        public static final int pad_00=0x7f0a0007;
-        public static final int pad_01=0x7f0a0008;
-        public static final int pad_02=0x7f0a0009;
-        public static final int pad_03=0x7f0a000a;
-        public static final int pad_10=0x7f0a000b;
-        public static final int pad_11=0x7f0a000c;
-        public static final int pad_12=0x7f0a000d;
-        public static final int pad_13=0x7f0a000e;
-        public static final int pad_20=0x7f0a000f;
-        public static final int pad_21=0x7f0a0010;
-        public static final int pad_22=0x7f0a0011;
-        public static final int pad_23=0x7f0a0012;
-        public static final int pad_30=0x7f0a0013;
-        public static final int pad_31=0x7f0a0014;
-        public static final int pad_32=0x7f0a0015;
-        public static final int pad_33=0x7f0a0016;
-        public static final int pattern1Button=0x7f0a003b;
-        public static final int pattern1TrackRow=0x7f0a0044;
-        public static final int pattern2Button=0x7f0a003c;
-        public static final int pattern2TrackRow=0x7f0a0045;
-        public static final int pattern3Button=0x7f0a003d;
-        public static final int pattern3TrackRow=0x7f0a0046;
-        public static final int pattern4Button=0x7f0a003e;
-        public static final int pattern4TrackRow=0x7f0a0047;
-        public static final int pattern_done_editing_button=0x7f0a0006;
-        public static final int pattern_info_button=0x7f0a0023;
-        public static final int pattern_info_done_button=0x7f0a0020;
-        public static final int pattern_number_button=0x7f0a0022;
-        public static final int pattern_spinner=0x7f0a0017;
-        public static final int play_button=0x7f0a0025;
-        public static final int play_button_track=0x7f0a0048;
-        public static final int preview1=0x7f0a0036;
-        public static final int preview2=0x7f0a0037;
-        public static final int preview3=0x7f0a0038;
-        public static final int preview4=0x7f0a0039;
-        public static final int progBar=0x7f0a0028;
-        public static final int record_button=0x7f0a0027;
-        public static final int saveProject=0x7f0a004c;
-        public static final int snap_beat_group=0x7f0a001b;
-        public static final int snap_sound_eighth=0x7f0a001f;
-        public static final int snap_sound_fourth=0x7f0a001e;
-        public static final int snap_sound_half=0x7f0a001d;
-        public static final int snap_sound_one=0x7f0a001c;
-        public static final int stop_button=0x7f0a0026;
-        public static final int stop_button_track=0x7f0a0049;
-        public static final int td=0x7f0a002d;
-        public static final int tl=0x7f0a0029;
-        public static final int track_button=0x7f0a0021;
-        public static final int voice=0x7f0a003a;
+        public static final int addPattern1Button=0x7f0b003f;
+        public static final int addPattern2Button=0x7f0b0040;
+        public static final int addPattern3Button=0x7f0b0041;
+        public static final int addPattern4Button=0x7f0b0042;
+        public static final int add_pattern_cancel=0x7f0b0005;
+        public static final int add_pattern_down=0x7f0b0002;
+        public static final int add_pattern_edit=0x7f0b0001;
+        public static final int add_pattern_ok=0x7f0b0004;
+        public static final int add_pattern_up=0x7f0b0000;
+        public static final int b_00=0x7f0b0029;
+        public static final int b_01=0x7f0b002d;
+        public static final int b_10=0x7f0b002a;
+        public static final int b_11=0x7f0b002e;
+        public static final int barNumbersLayout=0x7f0b0044;
+        public static final int clear_pattern_button2=0x7f0b001e;
+        public static final int column=0x7f0b0032;
+        public static final int edit_bars=0x7f0b0018;
+        public static final int edit_drum_machine_button=0x7f0b0023;
+        public static final int edit_tempo=0x7f0b0017;
+        public static final int empty_view=0x7f0b0003;
+        public static final int helperVer1=0x7f0b0028;
+        public static final int helperVer2=0x7f0b002c;
+        public static final int horizontalScrollView1=0x7f0b0034;
+        public static final int horizontal_scroll_part=0x7f0b0033;
+        public static final int linear_layout_inside_hori_scroll=0x7f0b0035;
+        public static final int loadProject=0x7f0b004c;
+        public static final int lt=0x7f0b0030;
+        public static final int metronome=0x7f0b004e;
+        public static final int newProject=0x7f0b004b;
+        public static final int pad_00=0x7f0b0007;
+        public static final int pad_01=0x7f0b0008;
+        public static final int pad_02=0x7f0b0009;
+        public static final int pad_03=0x7f0b000a;
+        public static final int pad_10=0x7f0b000b;
+        public static final int pad_11=0x7f0b000c;
+        public static final int pad_12=0x7f0b000d;
+        public static final int pad_13=0x7f0b000e;
+        public static final int pad_20=0x7f0b000f;
+        public static final int pad_21=0x7f0b0010;
+        public static final int pad_22=0x7f0b0011;
+        public static final int pad_23=0x7f0b0012;
+        public static final int pad_30=0x7f0b0013;
+        public static final int pad_31=0x7f0b0014;
+        public static final int pad_32=0x7f0b0015;
+        public static final int pad_33=0x7f0b0016;
+        public static final int pattern1Button=0x7f0b003b;
+        public static final int pattern1TrackRow=0x7f0b0045;
+        public static final int pattern2Button=0x7f0b003c;
+        public static final int pattern2TrackRow=0x7f0b0046;
+        public static final int pattern3Button=0x7f0b003d;
+        public static final int pattern3TrackRow=0x7f0b0047;
+        public static final int pattern4Button=0x7f0b003e;
+        public static final int pattern4TrackRow=0x7f0b0048;
+        public static final int pattern_done_editing_button=0x7f0b0006;
+        public static final int pattern_info_button=0x7f0b0022;
+        public static final int pattern_info_done_button=0x7f0b001f;
+        public static final int pattern_number_button=0x7f0b0021;
+        public static final int play_button=0x7f0b0024;
+        public static final int play_button_track=0x7f0b0049;
+        public static final int preview1=0x7f0b0036;
+        public static final int preview2=0x7f0b0037;
+        public static final int preview3=0x7f0b0038;
+        public static final int preview4=0x7f0b0039;
+        public static final int progBar=0x7f0b0026;
+        public static final int record_button=0x7f0b0025;
+        public static final int rename_dialog_text=0x7f0b002f;
+        public static final int saveProject=0x7f0b004d;
+        public static final int scrollView=0x7f0b0043;
+        public static final int snap_beat_group=0x7f0b0019;
+        public static final int snap_sound_eighth=0x7f0b001d;
+        public static final int snap_sound_fourth=0x7f0b001c;
+        public static final int snap_sound_half=0x7f0b001b;
+        public static final int snap_sound_one=0x7f0b001a;
+        public static final int stop_button=0x7f0b0031;
+        public static final int stop_button_track=0x7f0b004a;
+        public static final int td=0x7f0b002b;
+        public static final int tl=0x7f0b0027;
+        public static final int track_button=0x7f0b0020;
+        public static final int voice=0x7f0b003a;
+    }
+    public static final class integer {
+        public static final int sound_name_limit=0x7f060000;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -141,48 +148,63 @@ public final class R {
         public static final int pattern_relative_layout=0x7f030005;
         public static final int play_button=0x7f030006;
         public static final int record_button=0x7f030007;
-        public static final int track_layout=0x7f030008;
-        public static final int track_layout2=0x7f030009;
+        public static final int rename_dialog=0x7f030008;
+        public static final int track_layout=0x7f030009;
+        public static final int track_layout2=0x7f03000a;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0a0000;
     }
     public static final class raw {
-        public static final int closedhat=0x7f040000;
-        public static final int cymbal=0x7f040001;
-        public static final int halfopenhat=0x7f040002;
-        public static final int hitom=0x7f040003;
-        public static final int kick=0x7f040004;
-        public static final int laugh=0x7f040005;
-        public static final int lowtom=0x7f040006;
-        public static final int openhat=0x7f040007;
-        public static final int scream=0x7f040008;
-        public static final int snare=0x7f040009;
-        public static final int whistle=0x7f04000a;
+        public static final int sabar_kick=0x7f040000;
+        public static final int sabar_kick_2=0x7f040001;
+        public static final int sabar_kick_cool=0x7f040002;
+        public static final int sabar_snare=0x7f040003;
+        public static final int sabar_snare_2=0x7f040004;
+        public static final int sabar_snare_3=0x7f040005;
+        public static final int sabar_snare_cool_2=0x7f040006;
+        public static final int sabar_snare_flam=0x7f040007;
+        public static final int sabar_snare_reverb=0x7f040008;
+        public static final int sabar_snare_reverb_3=0x7f040009;
+        public static final int sabar_snare_roll=0x7f04000a;
+        public static final int sabar_tom=0x7f04000b;
+        public static final int z_africanhat=0x7f04000c;
+        public static final int z_doughat=0x7f04000d;
+        public static final int z_gavgoodclosed=0x7f04000e;
+        public static final int z_gavgoodopen=0x7f04000f;
     }
     public static final class string {
-        public static final int action_settings=0x7f060001;
-        public static final int app_name=0x7f060000;
-        public static final int hello_world=0x7f060002;
-        public static final int loadProject=0x7f060014;
-        public static final int newProject=0x7f060013;
-        public static final int p_00=0x7f060003;
-        public static final int p_01=0x7f060004;
-        public static final int p_02=0x7f060005;
-        public static final int p_03=0x7f060006;
-        public static final int p_10=0x7f060007;
-        public static final int p_11=0x7f060008;
-        public static final int p_12=0x7f060009;
-        public static final int p_13=0x7f06000a;
-        public static final int p_20=0x7f06000b;
-        public static final int p_21=0x7f06000c;
-        public static final int p_22=0x7f06000d;
-        public static final int p_23=0x7f06000e;
-        public static final int p_30=0x7f06000f;
-        public static final int p_31=0x7f060010;
-        public static final int p_32=0x7f060011;
-        public static final int p_33=0x7f060012;
-        public static final int saveProject=0x7f060015;
+        public static final int Cancel=0x7f07001a;
+        public static final int action_settings=0x7f070001;
+        public static final int app_name=0x7f070000;
+        public static final int cancel=0x7f070014;
+        public static final int confirmation=0x7f07001c;
+        public static final int hello_world=0x7f070002;
+        public static final int loadProject=0x7f070017;
+        public static final int metronomeOff=0x7f07001e;
+        public static final int metronomeOn=0x7f07001d;
+        public static final int newProject=0x7f070016;
+        public static final int ok=0x7f070019;
+        public static final int p_00=0x7f070003;
+        public static final int p_01=0x7f070004;
+        public static final int p_02=0x7f070005;
+        public static final int p_03=0x7f070006;
+        public static final int p_10=0x7f070007;
+        public static final int p_11=0x7f070008;
+        public static final int p_12=0x7f070009;
+        public static final int p_13=0x7f07000a;
+        public static final int p_20=0x7f07000b;
+        public static final int p_21=0x7f07000c;
+        public static final int p_22=0x7f07000d;
+        public static final int p_23=0x7f07000e;
+        public static final int p_30=0x7f07000f;
+        public static final int p_31=0x7f070010;
+        public static final int p_32=0x7f070011;
+        public static final int p_33=0x7f070012;
+        public static final int removePattern=0x7f07001b;
+        public static final int rename=0x7f070015;
+        public static final int rename_dialog_hint=0x7f070013;
+        public static final int saveProject=0x7f070018;
     }
     public static final class style {
         /** 
@@ -195,10 +217,10 @@ public final class R {
             backward-compatibility can go here.
         
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f090000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f080001;
+        public static final int AppTheme=0x7f090001;
     }
 }
