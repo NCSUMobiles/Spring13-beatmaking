@@ -222,15 +222,15 @@ public class PatternActivity extends Activity {
 							timeSinceStart = currentTime - timeAtStart;
 							timeSinceLastBeat = currentTime - timeAtLastBeat;
 							
-					
-							if (timeSinceLastBeat >= 60000 / bpm && Global.metronome==true) {
+							//System.out.println(timeSinceStart*((double)Global.bpm)/60000);
+							if ((timeSinceLastBeat >= 60000 / bpm  || timeSinceLastBeat == 0) && Global.metronome==true) {
 								Global.metroPool.play( Global.metroId,volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
 						
 
 							}
 							if (frontQueue.size() > 0) {
 								while (frontQueue.size() > 0
-										&& frontQueue.peek().getOffset() <= timeSinceStart) {
+										&& frontQueue.peek().getOffset() <= (timeSinceStart*Global.bpm/60000 + 1)) {
 									final Sound s = frontQueue.remove();
 									mainHandler.post(new Runnable() {
 										public void run() {
@@ -414,6 +414,26 @@ public class PatternActivity extends Activity {
 						.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								final double offset;
+								double exactBeatOffset = ((SystemClock
+										.elapsedRealtime()
+										- timeAtStart))*((double)(Global.bpm)/60000) + 1;
+								//TODO: set snap value
+								double a = exactBeatOffset/.5;
+								double b = (int) a;
+								double c = (a-b);
+
+								if(c <= 0.5)
+									offset = exactBeatOffset-.5*c;
+								else
+									offset = exactBeatOffset+.5*(1-c);
+								System.out.println("*****************");
+								System.out.println(exactBeatOffset);
+								System.out.println(a);
+								System.out.println(b);
+								System.out.println(c);	
+								System.out.println(offset);
+								System.out.println("*****************");
 								new Thread(new Runnable() {
 									public void run() {
 										mainHandler.post(new Runnable() {
@@ -423,9 +443,8 @@ public class PatternActivity extends Activity {
 															Global.soundIds[ii][jj],
 															ii,
 															jj,
-															(SystemClock
-																	.elapsedRealtime()
-																	- timeAtStart), patternId));
+															offset, patternId));
+
 												Global.soundPool.play(
 														Global.soundIds[ii][jj],
 														volume, volume, 1, 0,

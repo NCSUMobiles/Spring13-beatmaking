@@ -4,17 +4,17 @@ public class Sound {
 	private int soundPoolId;
 	private int buttonId_i;
 	private int buttonId_j;
-	private long offset;
+	private double offset;
 	private int patternId;
 	
-	public Sound(int id, int buttonId_i, int buttonId_j, long l, int patternId) {
+	public Sound(int id, int buttonId_i, int buttonId_j, double l, int patternId) {
 		this.soundPoolId = id;
 		this.buttonId_i = buttonId_i;
 		this.buttonId_j = buttonId_j;
 		this.offset = l;
 		this.patternId = patternId;
 	}
-	public void setOffset(long offset) {
+	public void setOffset(double offset) {
 		this.offset = offset;
 	}
 	public void setSoundPoolId(int id) {
@@ -32,7 +32,7 @@ public class Sound {
 	public int getSoundPoolId() {
 		return soundPoolId;
 	}
-	public long getOffset() {
+	public double getOffset() {
 		return offset;
 	}
 }
