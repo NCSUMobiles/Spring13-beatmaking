@@ -3,6 +3,8 @@ package com.example.beatmakingapp;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import com.example.beatmakingapp.R.raw;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -79,6 +81,72 @@ public class PatternActivity extends Activity {
 			Global.initialized = true;
 		}
 		
+		String defValue = "loadDefault";
+		String path;
+		
+		path = buttonSounds.getString("p_00", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[0][0] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_01", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[0][1] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_02", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[0][2] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_03", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[0][3] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_10", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[1][0] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_11", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[1][1] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_12", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[1][2] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_13", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[1][3] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_20", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[2][0] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_21", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[2][1] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_22", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[2][2] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_23", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[2][3] = Global.soundPool.load(path, 1);
+	
+		path = buttonSounds.getString("p_30", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[3][0] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_31", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[3][1] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_32", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[3][2] = Global.soundPool.load(path, 1);
+		
+		path = buttonSounds.getString("p_33", defValue);
+		if(!path.equals(defValue))
+			Global.soundIds[3][3] = Global.soundPool.load(path, 1);
 		
 		
 		AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
