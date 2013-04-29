@@ -201,6 +201,8 @@ public class PatternActivity extends Activity {
 								public void run() {
 									progBar.setProgress((int) (timeSinceStart * 25 * Global.bpm)
 											/ (60000 * bars));
+									if(state_playing == false)
+										progBar.setProgress(0);
 								}
 							});
 
@@ -246,6 +248,9 @@ public class PatternActivity extends Activity {
 				playButton.setImageResource(R.drawable.play_button_pressed);
 				timeAtStart = SystemClock.elapsedRealtime();
 				timeAtLastBeat = SystemClock.elapsedRealtime();
+				frontQueue.clear();
+				frontQueue.addAll(Global.patternSoundQueues.get(patternId));
+				
 				recordButton.setEnabled(false);
 			}
 		});
@@ -258,6 +263,9 @@ public class PatternActivity extends Activity {
 				timeAtStart = SystemClock.elapsedRealtime();
 				timeAtLastBeat = SystemClock.elapsedRealtime();
 				recordButton.setImageResource(R.drawable.record_button_pressed);
+				frontQueue.clear();
+				frontQueue.addAll(Global.patternSoundQueues.get(patternId));
+				
 				playButton.setEnabled(false);
 			}
 		});
@@ -268,10 +276,14 @@ public class PatternActivity extends Activity {
 			public void onClick(View v) {
 				state_playing = false;
 				state_recording = false;
+				
 				playButton.setEnabled(true);
 				recordButton.setEnabled(true);
+				timeSinceStart = 0;
+				progBar.setProgress(0);
 				playButton.setImageResource(R.drawable.play_button_normal);
 				recordButton.setImageResource(R.drawable.record_button_normal);
+				
 
 			}
 		});
@@ -365,6 +377,7 @@ public class PatternActivity extends Activity {
 			public void onClick(View v) {
 				frontQueue.clear();
 				Global.patternSoundQueues.get(patternId).clear();
+				addPattern1Dialog.dismiss();
 			}
 		});
 		addPattern1Dialog.show();

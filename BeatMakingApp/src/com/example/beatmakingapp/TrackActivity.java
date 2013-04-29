@@ -129,8 +129,11 @@ public class TrackActivity extends Activity {
 		stopButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				state_playing = false;
-				timeAtStart = SystemClock.elapsedRealtime();
-				timeSinceStart = 0;
+				//timeAtStart = SystemClock.elapsedRealtime();
+				Global.trackSoundQueue.clear();
+				createTrackQueue();
+				timeAtStart = 0;
+				timeSinceStart = 0;				
 				playButton.setImageResource(R.drawable.play_button_normal);
 			}
 		});
@@ -711,6 +714,7 @@ public class TrackActivity extends Activity {
 			}
 			for (Sound s : Global.patternSoundQueues.get(0)) {
 				s.setOffset(s.getOffset() + ((n - 1) * Global.bpm) / (240000));
+				/*s.setOffset(s.getOffset() + ((n - 1) * Global.bpm) / 1);*/
 				Global.trackSoundQueue.add(s);
 			}
 		}
@@ -719,7 +723,7 @@ public class TrackActivity extends Activity {
 				maxBars = n + +Global.pattern2Bars;
 			}
 			for (Sound s : Global.patternSoundQueues.get(1)) {
-				s.setOffset(s.getOffset() + ((n - 1) * 24000)/Global.bpm);
+				s.setOffset(s.getOffset() + ((n - 1) * Global.bpm)/(240000));
 				Global.trackSoundQueue.add(s);
 			}
 		}
@@ -773,6 +777,16 @@ public class TrackActivity extends Activity {
 								
 								
 								Global.trackSoundQueue.clear();
+								
+								Global.buttonPositions1.clear();
+								Global.buttonPositions2.clear();
+								Global.buttonPositions3.clear();
+								Global.buttonPositions4.clear();
+								Global.pattern1SegmentPositions.clear();
+								Global.pattern2SegmentPositions.clear();
+								Global.pattern3SegmentPositions.clear();
+								Global.pattern4SegmentPositions.clear();
+								
 								for (int i=0;i<4;i++)
 								{
 									if (Global.arrSoundPool.get(i) != null)
