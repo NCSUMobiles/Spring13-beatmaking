@@ -3,8 +3,6 @@ package com.example.beatmakingapp;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-import com.example.beatmakingapp.R.raw;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -228,10 +226,10 @@ public class PatternActivity extends Activity {
 							timeSinceLastBeat = currentTime - timeAtLastBeat;
 							
 							//System.out.println(timeSinceStart*((double)Global.bpm)/60000);
-							if ((timeSinceLastBeat >= 60000 / bpm  || timeSinceLastBeat == 0) && Global.metronome==true) {
+							if ((timeSinceLastBeat >= 60000 / (double)(Global.bpm)  || timeSinceLastBeat == 0) && Global.metronome==true) {
 								Global.metroPool.play( Global.metroId,volume*(float)0.02, volume*(float)0.02, 1, 0, (float) 1.0);
 						
-
+								timeAtLastBeat = currentTime;
 							}
 							if (frontQueue.size() > 0) {
 								while (frontQueue.size() > 0
@@ -269,7 +267,7 @@ public class PatternActivity extends Activity {
 									}
 								});
 
-								timeAtLastBeat = currentTime;
+								//timeAtLastBeat = currentTime;
 								//
 							}
 							if (timeSinceStart >= ((240000 * bars) / Global.bpm)) {
@@ -493,27 +491,48 @@ public class PatternActivity extends Activity {
 
 	public void callPatternOptions(View v) {
 		final Context context = this;
-		final Dialog addPattern1Dialog = new Dialog(this);
-		addPattern1Dialog.setContentView(R.layout.pattern_info_dialog);
-		addPattern1Dialog.setTitle("Pattern Options");
+		final Dialog patternInfoDialog = new Dialog(this);
+		patternInfoDialog.setContentView(R.layout.pattern_info_dialog);
+		patternInfoDialog.setTitle("Pattern Options");
+		final EditText tempoEdit = (EditText) patternInfoDialog.findViewById(R.id.edit_tempo);
+		tempoEdit.setText(String.valueOf(Global.bpm), TextView.BufferType.EDITABLE);
+		final EditText barsEdit = (EditText) patternInfoDialog.findViewById(R.id.edit_bars);
+		if(patternId == 0) 
+			barsEdit.setText(String.valueOf(Global.pattern1Bars), TextView.BufferType.EDITABLE);
+		else if(patternId == 1) 
+			barsEdit.setText(String.valueOf(Global.pattern2Bars), TextView.BufferType.EDITABLE);
+		else if(patternId == 2) 
+			barsEdit.setText(String.valueOf(Global.pattern3Bars), TextView.BufferType.EDITABLE);
+		else if(patternId == 3) 
+			barsEdit.setText(String.valueOf(Global.pattern4Bars), TextView.BufferType.EDITABLE);	
 		
-		final Button done = (Button) addPattern1Dialog.findViewById(R.id.pattern_info_done_button);
+		final Button done = (Button) patternInfoDialog.findViewById(R.id.pattern_info_done_button);
 		done.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				addPattern1Dialog.dismiss();
+				Global.bpm = Integer.valueOf(tempoEdit.getText().toString());
+				if(patternId == 0) 
+					Global.pattern1Bars = Integer.valueOf(barsEdit.getText().toString());
+				else if(patternId == 1) 
+					Global.pattern2Bars = Integer.valueOf(barsEdit.getText().toString());
+				else if(patternId == 2) 
+					Global.pattern3Bars = Integer.valueOf(barsEdit.getText().toString());
+				else if(patternId == 3) 
+					Global.pattern4Bars = Integer.valueOf(barsEdit.getText().toString());
+				bars = Integer.valueOf(barsEdit.getText().toString());
+				patternInfoDialog.dismiss();
 			}
 		});
 		
-		final Button clearPattern = (Button) addPattern1Dialog.findViewById(R.id.clear_pattern_button2);
+		final Button clearPattern = (Button) patternInfoDialog.findViewById(R.id.clear_pattern_button2);
 		clearPattern.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				frontQueue.clear();
 				Global.patternSoundQueues.get(patternId).clear();
-				addPattern1Dialog.dismiss();
+				patternInfoDialog.dismiss();
 				Toast.makeText(context, "Pattern Cleared!", Toast.LENGTH_SHORT).show();
 			}
 		});
-		addPattern1Dialog.show();
+		patternInfoDialog.show();
      	
 	}
 	
