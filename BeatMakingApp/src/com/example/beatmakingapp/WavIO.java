@@ -162,12 +162,7 @@ public class WavIO {
 			currentTime = sound.getOffset();
 
 		}
-		byte[] myMusicData = read(ctxt, fileName);
-		for (int x = 0; x < myMusicData.length; x++) {
-			dataBuffer.add(myMusicData[x]);
-
-		}
-
+		
 		byte[] dataArray = new byte[dataBuffer.size()];
 		for (int x = 0; x < dataBuffer.size(); x++) {
 			dataArray[x] = dataBuffer.get(x);
