@@ -763,6 +763,10 @@ public class TrackActivity extends Activity {
 				Global.trackSoundQueue.add(new Sound(s.getSoundPoolId(), s.getButtonId_i(), s.getButtonId_j(), offset, s.getPatternId()));
 			}
 		}
+		for(Sound s: Global.trackSoundQueue) {
+			double offset = s.getOffset()*60000/((double)(Global.bpm)) - 1;
+			Global.trackSoundQueueMS.add(new Sound(s.getSoundPoolId(), s.getButtonId_i(), s.getButtonId_j(), offset, s.getPatternId()));
+		}
 		mainHandler.post(new Runnable() {
 			public void run() {
 				LinearLayout barNumbersLayout = (LinearLayout) findViewById(R.id.barNumbersLayout);

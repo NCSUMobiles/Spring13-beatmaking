@@ -22,7 +22,7 @@ public class Global {
 	public static Comparator<Sound> comp = new DoubleComparator();
 	public static ArrayList<PriorityQueue<Sound>> patternSoundQueues = new ArrayList<PriorityQueue<Sound>>();
 	public static PriorityQueue<Sound> trackSoundQueue = new PriorityQueue<Sound>(10, Global.comp);
-
+	public static PriorityQueue<Sound> trackSoundQueueMS = new PriorityQueue<Sound>(10, Global.comp);
 	public static ArrayList<Integer> pattern1SegmentPositions = new ArrayList<Integer>();
 	public static ArrayList<Integer> pattern2SegmentPositions = new ArrayList<Integer>();
 	public static ArrayList<Integer> pattern3SegmentPositions = new ArrayList<Integer>();
