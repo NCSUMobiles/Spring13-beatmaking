@@ -19,7 +19,7 @@ public class Global {
 	public static boolean initialized = false;
 	public static SoundPool soundPool = new SoundPool(16, AudioManager.STREAM_MUSIC, 0);
 	public static SoundPool metroPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-	public static Comparator<Sound> comp = new LongComparator();
+	public static Comparator<Sound> comp = new DoubleComparator();
 	public static ArrayList<PriorityQueue<Sound>> patternSoundQueues = new ArrayList<PriorityQueue<Sound>>();
 	public static PriorityQueue<Sound> trackSoundQueue = new PriorityQueue<Sound>(10, Global.comp);
 

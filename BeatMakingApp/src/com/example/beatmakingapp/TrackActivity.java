@@ -74,7 +74,8 @@ public class TrackActivity extends Activity {
 							if (Global.trackSoundQueue.size() > 0) {
 								while (Global.trackSoundQueue.size() > 0
 										&& Global.trackSoundQueue.peek()
-												.getOffset() <= timeSinceStart) {
+												.getOffset() <= (timeSinceStart
+														* (double) (Global.bpm) / 60000 + 1)) {
 									final Sound s = Global.trackSoundQueue
 											.remove();
 									// mainHandler.post(new Runnable() {
@@ -85,6 +86,9 @@ public class TrackActivity extends Activity {
 									// + " "
 									// + Long.toString(timeSinceStart),
 									// Toast.LENGTH_SHORT).show();
+									System.out.println((timeSinceStart
+											* (double) (Global.bpm) / 60000 + 1));
+									System.out.println(s.getOffset());
 									Global.soundPool.play(s.getSoundPoolId(), volume,
 													volume, 1, 0, (float) 1.0);
 									// }
@@ -131,7 +135,7 @@ public class TrackActivity extends Activity {
 				//timeAtStart = SystemClock.elapsedRealtime();
 				Global.trackSoundQueue.clear();
 				createTrackQueue();
-				timeAtStart = 0;
+				timeAtStart = SystemClock.elapsedRealtime();
 				timeSinceStart = 0;				
 				playButton.setImageResource(R.drawable.play_button_normal);
 			}
@@ -725,12 +729,11 @@ public class TrackActivity extends Activity {
 		Global.trackSoundQueue.clear();
 		for (int n : Global.pattern1SegmentPositions) {
 			if (n + Global.pattern1Bars > maxBars) {
-				maxBars = n + +Global.pattern1Bars;
+				maxBars = n + Global.pattern1Bars;
 			}
 			for (Sound s : Global.patternSoundQueues.get(0)) {
-				s.setOffset(s.getOffset() + ((n - 1) * Global.bpm) / (240000));
-				/*s.setOffset(s.getOffset() + ((n - 1) * Global.bpm) / 1);*/
-				Global.trackSoundQueue.add(s);
+				double offset = s.getOffset() + (double)((n-1)*4);
+				Global.trackSoundQueue.add(new Sound(s.getSoundPoolId(), s.getButtonId_i(), s.getButtonId_j(), offset, s.getPatternId()));
 			}
 		}
 		for (int n : Global.pattern2SegmentPositions) {
@@ -738,8 +741,8 @@ public class TrackActivity extends Activity {
 				maxBars = n + +Global.pattern2Bars;
 			}
 			for (Sound s : Global.patternSoundQueues.get(1)) {
-				s.setOffset(s.getOffset() + ((n - 1) * Global.bpm)/(240000));
-				Global.trackSoundQueue.add(s);
+				double offset = s.getOffset() + (double)((n-1)*4);
+				Global.trackSoundQueue.add(new Sound(s.getSoundPoolId(), s.getButtonId_i(), s.getButtonId_j(), offset, s.getPatternId()));
 			}
 		}
 		for (int n : Global.pattern3SegmentPositions) {
@@ -747,8 +750,8 @@ public class TrackActivity extends Activity {
 				maxBars = n + +Global.pattern3Bars;
 			}
 			for (Sound s : Global.patternSoundQueues.get(2)) {
-				s.setOffset(s.getOffset() + ((n - 1) * Global.bpm) / (240000));
-				Global.trackSoundQueue.add(s);
+				double offset = s.getOffset() + (double)((n-1)*4);
+				Global.trackSoundQueue.add(new Sound(s.getSoundPoolId(), s.getButtonId_i(), s.getButtonId_j(), offset, s.getPatternId()));
 			}
 		}
 		for (int n : Global.pattern4SegmentPositions) {
@@ -756,8 +759,8 @@ public class TrackActivity extends Activity {
 				maxBars = n + +Global.pattern4Bars;
 			}
 			for (Sound s : Global.patternSoundQueues.get(3)) {
-				s.setOffset(s.getOffset() + ((n - 1) * Global.bpm) / (240000));
-				Global.trackSoundQueue.add(s);
+				double offset = s.getOffset() + (double)((n-1)*4);
+				Global.trackSoundQueue.add(new Sound(s.getSoundPoolId(), s.getButtonId_i(), s.getButtonId_j(), offset, s.getPatternId()));
 			}
 		}
 		mainHandler.post(new Runnable() {

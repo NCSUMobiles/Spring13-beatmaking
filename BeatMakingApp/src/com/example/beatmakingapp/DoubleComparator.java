@@ -2,7 +2,7 @@ package com.example.beatmakingapp;
 
 import java.util.Comparator;
 
-public class LongComparator  implements Comparator<Sound> {
+public class DoubleComparator  implements Comparator<Sound> {
 
 	@Override
 	public int compare(Sound a, Sound b) {
