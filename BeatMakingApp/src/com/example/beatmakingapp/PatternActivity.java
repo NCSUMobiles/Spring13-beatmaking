@@ -1,5 +1,6 @@
 package com.example.beatmakingapp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -588,6 +590,19 @@ public class PatternActivity extends Activity {
 	            }
 	            return true;
 	        default:
+	        	WavIO io = new WavIO();
+	    		File sdcard = Environment.getExternalStorageDirectory();
+	    		String exportFileName = "testOutput.wav";
+	    		Toast.makeText(this, "Exporting To : "+sdcard.getAbsolutePath()+"/"+exportFileName, Toast.LENGTH_LONG).show();
+	    		byte[] data = io.createDataBuffer(Global.patternSoundQueues.get(0), this);
+	    		if(io.save(this,exportFileName,data)){
+	    			Toast.makeText(this, "Done!!", Toast.LENGTH_LONG).show();
+	    					
+	    		}
+	    		else{
+	    			
+	    			Toast.makeText(this, "Not Done!!", Toast.LENGTH_LONG).show();
+	    		}
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
