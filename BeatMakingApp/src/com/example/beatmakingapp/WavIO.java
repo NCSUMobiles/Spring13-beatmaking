@@ -300,7 +300,11 @@ public class WavIO {
 			pm.createProject(ctxt);
 			// write the wav file per the wav file format
 			outFile.writeBytes("RIFF"); // 00 - RIFF
-			outFile.write(intToByteArray((int) myChunkSize), 0, 4); // 04 - how
+			// work around ---------------
+			myChunkSize = 36 + myData.length;
+			outFile.write(intToByteArray((int) myChunkSize), 0, 4);
+			//----------------------------
+			//outFile.write(intToByteArray((int) myChunkSize), 0, 4); // 04 - how
 																	// big is
 																	// the rest
 																	// of this
