@@ -180,18 +180,19 @@ public class PatternActivity extends Activity {
 			updateGradient("yellow");
 		} else if (message.equals("second")) {
 			patternId = 1;
-			bars = Global.pattern1Bars;
+			bars = Global.pattern2Bars;
 			snapValue = Global.p2SnapValue;
 			button.setText("Pat-2");
 			updateGradient("green");
 		} else if (message.equals("third")) {
 			patternId = 2;
-			bars = Global.pattern1Bars;
+			bars = Global.pattern3Bars;
 			snapValue = Global.p3SnapValue;
 			button.setText("Pat-3");
 			updateGradient("blue");
 		} else if (message.equals("fourth")) {
 			patternId = 3;
+			bars = Global.pattern4Bars;
 			snapValue = Global.p4SnapValue;
 			button.setText("Pat-4");
 			updateGradient("purple");
@@ -535,18 +536,22 @@ public class PatternActivity extends Activity {
 		done.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Global.bpm = Integer.valueOf(tempoEdit.getText().toString());
-				if (patternId == 0)
+				if (patternId == 0) {
 					Global.pattern1Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
-				else if (patternId == 1)
+				}
+				else if (patternId == 1) {
 					Global.pattern2Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
-				else if (patternId == 2)
+				}
+				else if (patternId == 2) {
 					Global.pattern3Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
-				else if (patternId == 3)
+				}
+				else if (patternId == 3) {
 					Global.pattern4Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
+				}
 				bars = Integer.valueOf(barsEdit.getText().toString());
 				patternInfoDialog.dismiss();
 			}
