@@ -727,6 +727,7 @@ public class TrackActivity extends Activity {
 
 	public void createTrackQueue() {
 		Global.trackSoundQueue.clear();
+		Global.trackSoundQueueMS.clear();
 		for (int n : Global.pattern1SegmentPositions) {
 			if (n + Global.pattern1Bars > maxBars) {
 				maxBars = n + Global.pattern1Bars;

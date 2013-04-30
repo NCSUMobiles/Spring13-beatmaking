@@ -626,10 +626,12 @@ public class PatternActivity extends Activity {
 					this,
 					"Exporting To : " + sdcard.getAbsolutePath() + "/"
 							+ exportFileName, Toast.LENGTH_LONG).show();
-			synchronized (Global.patternSoundQueues) {
-
+			//synchronized (Global.patternSoundQueues) {
+			//TODO: What is messing up?
+			synchronized (Global.trackSoundQueueMS) {
 				byte[] data = io.createDataBuffer(
-						Global.patternSoundQueues.get(patternId), this);
+						//Global.patternSoundQueues.get(patternId), this);
+						Global.trackSoundQueueMS, this);
 				if (io.save(this, exportFileName, data)) {
 					Toast.makeText(this, "Done!!", Toast.LENGTH_LONG).show();
 
