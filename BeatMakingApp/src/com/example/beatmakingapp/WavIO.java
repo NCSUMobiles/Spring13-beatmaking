@@ -112,14 +112,14 @@ public class WavIO {
 	 * calling save.
 	 */
 
-	public byte[] createDataBuffer(PriorityQueue<Sound> trackSoundQueue,
-			Context ctxt) {
+	public boolean createDataBuffer(String exportAsFileName,PriorityQueue<Sound> trackSoundQueue,Context ctxt) {
 		// myByteRate =
 		ArrayList<Byte> dataBuffer = new ArrayList<Byte>();
 		PriorityQueue<Sound> tempPQ = new PriorityQueue<Sound>(trackSoundQueue);
 		Sound sound;
 		String fileName = null;
 		double differenceInMillisecs = 0;
+		double differenceInBeats = 0;
 		// for each sound in the track
 		// get the starting position of the sound.
 		// calculate the silence required.
@@ -128,23 +128,25 @@ public class WavIO {
 		// add the sound bytes to the databuffer
 		double offset = 0;
 		// int startTime = 0;
-		double currentTime = 0; // shows the amount of track (in millisecs)
+		double currentBeat = 0; // shows the amount of track (in millisecs)
 								// already processed.
 		// traverse through each element of the track and calculate the track
 		// length.
 		while (tempPQ.size() > 0) {
+			dataBuffer.clear();
 			sound = tempPQ.poll();
 			offset = sound.getOffset();
-			if (offset > currentTime) {
-				differenceInMillisecs = sound.getOffset() - currentTime;
+			if (offset > currentBeat) {
+				differenceInBeats = sound.getOffset() - currentBeat;
+				differenceInMillisecs = (double) (differenceInBeats * 60 * 1000)
+						/ ((double) Global.bpm);
+				// differenceInMillisecs = sound.getOffset() - currentTime;
 				ArrayList<Byte> silenceBytes = new ArrayList<Byte>();
 				Byte silence = 0;
 				int numberofsilencebytes = (int) Math
 						.ceil(((float) (myByteRate) / 1000.00)
-								* differenceInMillisecs); // myByteRate = 28
-															// bytes /sec = 28
-															// /1000 bytes per
-															// millisecs.
+								* differenceInMillisecs);
+				// myByteRate = 28 bytes/sec = 28/1000 bytes per millisecs.
 				for (int i = 0; i < numberofsilencebytes; i++) {
 					silenceBytes.add(silence);
 				}
@@ -159,20 +161,86 @@ public class WavIO {
 				dataBuffer.add(myMusicData[x]);
 
 			}
-			currentTime = sound.getOffset();
+			// Append to file....
+			byte[] dataArray = new byte[dataBuffer.size()];
+			for (int x = 0; x < dataBuffer.size(); x++) {
+				dataArray[x] = dataBuffer.get(x);
+
+			}
+			save(ctxt, exportAsFileName, dataArray);
+			currentBeat = sound.getOffset();
 
 		}
-		
+		/*
 		byte[] dataArray = new byte[dataBuffer.size()];
 		for (int x = 0; x < dataBuffer.size(); x++) {
 			dataArray[x] = dataBuffer.get(x);
 
 		}
+		*/
+		return true;
+	}
 
-		return dataArray;
+	private long calculateTotalFileSize(PriorityQueue<Sound> pQ, Context ctxt) {
+		long totalFileSize = 0;
+		// --------------------------------------
+
+		// ArrayList<Byte> dataBuffer = new ArrayList<Byte>();
+		PriorityQueue<Sound> tempPQ = new PriorityQueue<Sound>(pQ);
+		Sound sound;
+		String fileName = null;
+		double differenceInMillisecs = 0;
+		double differenceInBeats = 0;
+		// for each sound in the track
+		// get the starting position of the sound.
+		// calculate the silence required.
+		// add the silence bytes to the buffer
+		// get the corresponding sound resource file
+		// add the sound bytes to the databuffer
+		double offset = 0;
+		// int startTime = 0;
+		double currentBeat = 0; // shows the amount of track (in millisecs)
+								// already processed.
+		// traverse through each element of the track and calculate the track
+		// length.
+		while (tempPQ.size() > 0) {
+			sound = tempPQ.poll();
+			offset = sound.getOffset();
+			if (offset > currentBeat) {
+				differenceInBeats = sound.getOffset() - currentBeat;
+				differenceInMillisecs = (double) (differenceInBeats * 60 * 1000)
+						/ ((double) Global.bpm);
+				// differenceInMillisecs = sound.getOffset() - currentTime;
+				// ArrayList<Byte> silenceBytes = new ArrayList<Byte>();
+				// Byte silence = 0;
+				int numberofsilencebytes = (int) Math
+						.ceil(((float) (myByteRate) / 1000.00)
+								* differenceInMillisecs);
+				totalFileSize += numberofsilencebytes;
+			
+
+			}
+
+			fileName = getFileNameFromSound(sound);
+			long myMusicDataSize = getSizeFromFileName(fileName, ctxt);
+
+			totalFileSize += myMusicDataSize;
+			currentBeat = sound.getOffset();
+
+		}
+		return totalFileSize;
+
 	}
 
 	// read a wav file into this class
+
+	private long getSizeFromFileName(String fileName, Context ctxt) {
+		// TODO Auto-generated method stub
+
+		byte[] data = read(ctxt, fileName);
+		return (long) data.length;
+
+	}
 
 	private String getFileNameFromSound(Sound s) {
 
@@ -275,35 +343,32 @@ public class WavIO {
 		return myData;
 	}
 
-	// write out the wav file
-	public boolean save(Context ctxt, String fileName, byte[] myData) {
+	boolean writeWaveFileHeaders(Context ctxt, String fileName,
+			long totalChunkSize) {
+
 		try {
 			File sdcard = Environment.getExternalStorageDirectory();
-
-			File projectDir = new File(sdcard.getAbsolutePath()
-					+ "/Beats/exported/");
+			File projectDir = new File(sdcard.getPath()+ "/Music/Beats/exported/");
 			projectDir.mkdirs();
-			// File projectDir = ctxt.getDir("/sdcard/",Context.MODE_APPEND);
-
-			// File myFile = new File(projectDir, fileName);
-
+			
 			File myFile = new File(projectDir, fileName);
-			// byte[] myData = read(ctxt,"test.wav");
+			
 			DataOutputStream outFile = new DataOutputStream(
 					new FileOutputStream(myFile));
-			ProjectManager pm = new ProjectManager();
-			pm.createProject(ctxt);
+			//ProjectManager pm = new ProjectManager();
+			//pm.createProject(ctxt);
 			// write the wav file per the wav file format
 			outFile.writeBytes("RIFF"); // 00 - RIFF
 			// work around ---------------
-			myChunkSize = 36 + myData.length;
+			myChunkSize = 36 + totalChunkSize;
 			outFile.write(intToByteArray((int) myChunkSize), 0, 4);
-			//----------------------------
-			//outFile.write(intToByteArray((int) myChunkSize), 0, 4); // 04 - how
-																	// big is
-																	// the rest
-																	// of this
-																	// file?
+			// ----------------------------
+			// outFile.write(intToByteArray((int) myChunkSize), 0, 4); // 04 -
+			// how
+			// big is
+			// the rest
+			// of this
+			// file?
 			outFile.writeBytes("WAVE"); // 08 - WAVE
 			outFile.writeBytes("fmt "); // 12 - fmt
 			outFile.write(intToByteArray((int) mySubChunk1Size), 0, 4); // 16 -
@@ -364,10 +429,28 @@ public class WavIO {
 																			// or
 																			// 24
 
-			long numberOfBytes = myData.length;
+			long numberOfBytes = totalChunkSize;
 			outFile.writeBytes("data"); // 36 - data
 
 			outFile.write(intToByteArray((int) numberOfBytes), 0, 4);
+			outFile.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		return true;
+
+	}
+
+	// write out the wav file
+	public boolean save(Context ctxt, String fileName, byte[] myData) {
+		try {
+			File sdcard = Environment.getExternalStorageDirectory();
+			File projectDir = new File(sdcard.getPath()+ "/Music/Beats/exported/");
+			projectDir.mkdirs();
+			File myFile = new File(projectDir, fileName);
+			DataOutputStream outFile = new DataOutputStream(new FileOutputStream(myFile,true));			
+			
 			outFile.write(myData); // 44 - the actual data itself - just a long
 									// string of numbers
 			outFile.close();
@@ -441,6 +524,26 @@ public class WavIO {
 	// convert a short to a byte array
 	public static byte[] shortToByteArray(short data) {
 		return new byte[] { (byte) (data & 0xff), (byte) ((data >>> 8) & 0xff) };
+	}
+
+	public boolean exportSound(String fileName , PriorityQueue<Sound> priorityQueue, Context ctxt) {
+		// TODO Auto-generated method stub
+
+		long fileSize = calculateTotalFileSize(priorityQueue, ctxt);
+		
+		if (fileSize > 1) {
+			boolean result = writeWaveFileHeaders(ctxt, fileName, fileSize);
+			if(result){
+				createDataBuffer(fileName, priorityQueue, ctxt);
+				
+			}
+			return true;
+
+		} else {
+			return false;
+
+		}
+
 	}
 
 }

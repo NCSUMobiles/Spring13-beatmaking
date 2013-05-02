@@ -619,27 +619,65 @@ public class PatternActivity extends Activity {
 			}
 			return true;
 		default:
+			boolean mExternalStorageAvailable = false;
+			boolean mExternalStorageWriteable = false;
 			WavIO io = new WavIO();
 			File sdcard = Environment.getExternalStorageDirectory();
-			String exportFileName = "testOutput.wav";
-			Toast.makeText(
-					this,
-					"Exporting To : " + sdcard.getAbsolutePath() + "/"
-							+ exportFileName, Toast.LENGTH_LONG).show();
-			//synchronized (Global.patternSoundQueues) {
-			//TODO: What is messing up?
-			synchronized (Global.trackSoundQueueMS) {
-				byte[] data = io.createDataBuffer(
-						//Global.patternSoundQueues.get(patternId), this);
-						Global.trackSoundQueueMS, this);
-				if (io.save(this, exportFileName, data)) {
-					Toast.makeText(this, "Done!!", Toast.LENGTH_LONG).show();
+			String state = Environment.getExternalStorageState();
 
+			// adding to check if external storage available for writing
+
+			if (Environment.MEDIA_MOUNTED.equals(state)) {
+				// We can read and write the media
+				mExternalStorageAvailable = mExternalStorageWriteable = true;
+			} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+				// We can only read the media
+				mExternalStorageAvailable = true;
+				mExternalStorageWriteable = false;
+			} else {
+				// Something else is wrong. It may be one of many other states,
+				// but all we need
+				// to know is we can neither read nor write
+				mExternalStorageAvailable = mExternalStorageWriteable = false;
+			}
+			// -----------------------------------------------------------------
+			if (mExternalStorageAvailable) {
+				if (mExternalStorageWriteable) {
+					String exportFileName = "testOutput.wav";
+					Toast.makeText(
+							this,
+							"Exporting To : "+ sdcard.getPath()+"/Music/Beats/exported/"+ exportFileName, Toast.LENGTH_LONG).show();
+					synchronized (Global.patternSoundQueues) {
+
+						boolean result = io.exportSound(exportFileName,Global.patternSoundQueues.get(patternId),this);
+						/*byte[] data = io.createDataBuffer(
+								Global.patternSoundQueues.get(patternId), this);
+						
+						boolean result = io.save(this, exportFileName, data)
+						*/
+						if (result) {
+							Toast.makeText(this, "Done!!", Toast.LENGTH_LONG)
+									.show();
+
+						} else {
+
+							Toast.makeText(this, "Not Done!!",
+									Toast.LENGTH_LONG).show();
+						}
+					}
 				} else {
+					Toast.makeText(
+							this,
+							"ERROR : External Storage is available but not writable. Please check Permissions.",
+							Toast.LENGTH_LONG).show();
 
-					Toast.makeText(this, "Not Done!!", Toast.LENGTH_LONG)
-							.show();
 				}
+
+			} else {
+				Toast.makeText(this,
+						"ERROR : External Storage is not available.",
+						Toast.LENGTH_LONG).show();
+
 			}
 			return super.onOptionsItemSelected(item);
 		}
