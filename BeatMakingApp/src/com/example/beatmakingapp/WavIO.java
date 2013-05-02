@@ -355,10 +355,14 @@ public class WavIO {
 			long totalChunkSize) {
 
 		try {
-			File sdcard = Environment.getExternalStorageDirectory();
-			File projectDir = new File(sdcard.getPath()+ "/Music/Beats/exported/");
-			boolean ret = projectDir.mkdirs();
-			
+			//File sdcard = Environment.getExternalStorageDirectory();
+			//File projectDir = new File(sdcard.getPath()+"/Music/Beats/exported/");
+			//File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+			File projectDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),"/Beats/exported/") ;
+
+			if(!projectDir.exists()) {
+				boolean ret = projectDir.mkdirs();
+			}
 			
 			File myFile = new File(projectDir, fileName);
 			
@@ -454,9 +458,15 @@ public class WavIO {
 	// write out the wav file
 	public boolean save(Context ctxt, String fileName, byte[] myData) {
 		try {
-			File sdcard = Environment.getExternalStorageDirectory();
+			/*File sdcard = Environment.getExternalStorageDirectory();
 			File projectDir = new File(sdcard.getPath()+ "/Music/Beats/exported/");
-			projectDir.mkdirs();
+			projectDir.mkdirs();*/
+			File projectDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),"/Beats/exported/") ;
+			System.out.println(projectDir.getPath());
+
+			if(!projectDir.exists()) {
+				boolean ret = projectDir.mkdirs();
+			}
 			File myFile = new File(projectDir, fileName);
 			DataOutputStream outFile = new DataOutputStream(new FileOutputStream(myFile,true));			
 			
