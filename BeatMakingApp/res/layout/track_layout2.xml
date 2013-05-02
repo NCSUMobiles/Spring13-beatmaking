@@ -168,5 +168,10 @@
             android:gravity="center"
             android:src="@drawable/stop_button_normal" />
     </LinearLayout>
-
+ <ProgressBar
+        android:id="@+id/progBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25" />
 </LinearLayout>

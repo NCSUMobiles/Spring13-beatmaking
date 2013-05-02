@@ -2,6 +2,7 @@ package com.example.beatmakingapp;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,7 +22,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TrackActivity extends Activity {
 
@@ -30,7 +33,7 @@ public class TrackActivity extends Activity {
 	private ImageButton addPattern1Button, addPattern2Button,
 			addPattern3Button, addPattern4Button;
 	private Context context = this;
-
+	private ProgressBar progBar;
 	/*
 	 * private ArrayList<Integer> Global.pattern1SegmentPositions = new
 	 * ArrayList<Integer>(); private ArrayList<Integer>
@@ -51,26 +54,35 @@ public class TrackActivity extends Activity {
 	private ImageButton playButton;
 	private ImageButton stopButton;
 	private static Handler mainHandler = new Handler();
+	private double timeOfLastBeat;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.track_layout2);
+		progBar = (ProgressBar)findViewById(R.id.progBar);
+		progBar.setProgress(0);
 		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
 		final float volume = (float) am
 				.getStreamVolume(AudioManager.STREAM_MUSIC);
+		
+		
 		playbackThread1 = new Thread(new Runnable() {
 			public void run() {
 				Looper.prepare();
 				l1 = Looper.myLooper();
 				final Handler handler = new Handler(Looper.myLooper());
+				
+				
 				handler.post(new Runnable() {
 					public void run() {
 						if (state_playing == true) {
 							// Toast.makeText(context,
 							// Integer.toString(Global.patternSoundQueues.get(0).size()),
 							// Toast.LENGTH_SHORT).show();
+							
 							long currentTime = SystemClock.elapsedRealtime();
 							timeSinceStart = currentTime - timeAtStart;
+							
 							if (Global.trackSoundQueue.size() > 0) {
 								while (Global.trackSoundQueue.size() > 0
 										&& Global.trackSoundQueue.peek()
@@ -99,10 +111,28 @@ public class TrackActivity extends Activity {
 								state_playing = false;
 								mainHandler.post(new Runnable() {
 									public void run() {
+										
+										/*Toast.makeText(context, (int)((4*timeSinceStart*25*Global.bpm)
+												/ (timeOfLastBeat*60000))+"Yauw",Toast.LENGTH_SHORT ).show();*/
+										
+										//progBar.setProgress(0);
+										enableAllButtons();
 										playButton.setImageResource(R.drawable.play_button_normal);
 									}
 								});
 							}
+							/*mainHandler.post(new Runnable() {
+								public void run() {
+									progBar.setProgress((int) (timeSinceStart*25*Global.bpm)
+									/ ((int)timeOfLastBeat*60000));
+								}
+							});*/
+							mainHandler.post(new Runnable() {
+								public void run() {
+									progBar.setProgress((int)((4*timeSinceStart*25*Global.bpm)
+											/ ((timeOfLastBeat -1)*60000)));
+								}
+							});
 
 						}
 						handler.postDelayed(this, 1);
@@ -122,6 +152,15 @@ public class TrackActivity extends Activity {
 		playButton = (ImageButton) findViewById(R.id.play_button_track);
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				createTrackQueue();
+				Iterator it = Global.trackSoundQueue.iterator();
+				while(it.hasNext())
+				{
+					Sound s = (Sound)it.next();
+					timeOfLastBeat = s.getOffset();
+				}
+				disableAllButtons();
+				//Toast.makeText(context, timeOfLastBeat+"", Toast.LENGTH_SHORT).show();
 				state_playing = true;
 				playButton.setImageResource(R.drawable.play_button_pressed);
 				timeAtStart = SystemClock.elapsedRealtime();
@@ -133,6 +172,7 @@ public class TrackActivity extends Activity {
 			public void onClick(View v) {
 				state_playing = false;
 				//timeAtStart = SystemClock.elapsedRealtime();
+				enableAllButtons();
 				Global.trackSoundQueue.clear();
 				createTrackQueue();
 				timeAtStart = SystemClock.elapsedRealtime();
@@ -326,8 +366,8 @@ public class TrackActivity extends Activity {
 				
 				cancelButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						LinearLayout p1TrackLayout = (LinearLayout) findViewById(R.id.pattern1TrackRow);
-						p1TrackLayout.removeAllViews();
+						//LinearLayout p1TrackLayout = (LinearLayout) findViewById(R.id.pattern1TrackRow);
+						//p1TrackLayout.removeAllViews();
 						addPattern1Dialog.dismiss();
 					}
 				});
@@ -710,6 +750,55 @@ public class TrackActivity extends Activity {
 				addPattern4Dialog.show();
 			}
 		});
+	}
+
+	protected void disableAllButtons() {
+		// TODO Auto-generated method stub
+		ImageButton btn1 = (ImageButton)findViewById(R.id.addPattern1Button);
+		ImageButton btn2 = (ImageButton)findViewById(R.id.addPattern2Button);
+		ImageButton btn3 = (ImageButton)findViewById(R.id.addPattern3Button);
+		ImageButton btn4 = (ImageButton)findViewById(R.id.addPattern4Button);
+		
+		Button patBtn1 = (Button)findViewById(R.id.pattern1Button);
+		Button patBtn2 = (Button)findViewById(R.id.pattern2Button);
+		Button patBtn3 = (Button)findViewById(R.id.pattern3Button);
+		Button patBtn4 = (Button)findViewById(R.id.pattern4Button);
+		
+		btn1.setEnabled(false);
+		btn2.setEnabled(false);
+		btn3.setEnabled(false);
+		btn4.setEnabled(false);
+		
+		patBtn1.setEnabled(false);
+		patBtn2.setEnabled(false);
+		patBtn3.setEnabled(false);
+		patBtn4.setEnabled(false);
+		
+		
+	}
+	
+	protected void enableAllButtons() {
+		// TODO Auto-generated method stub
+		ImageButton btn1 = (ImageButton)findViewById(R.id.addPattern1Button);
+		ImageButton btn2 = (ImageButton)findViewById(R.id.addPattern2Button);
+		ImageButton btn3 = (ImageButton)findViewById(R.id.addPattern3Button);
+		ImageButton btn4 = (ImageButton)findViewById(R.id.addPattern4Button);
+		
+		Button patBtn1 = (Button)findViewById(R.id.pattern1Button);
+		Button patBtn2 = (Button)findViewById(R.id.pattern2Button);
+		Button patBtn3 = (Button)findViewById(R.id.pattern3Button);
+		Button patBtn4 = (Button)findViewById(R.id.pattern4Button);
+		
+		btn1.setEnabled(true);
+		btn2.setEnabled(true);
+		btn3.setEnabled(true);
+		btn4.setEnabled(true);
+		
+		patBtn1.setEnabled(true);
+		patBtn2.setEnabled(true);
+		patBtn3.setEnabled(true);
+		patBtn4.setEnabled(true);
+		
 	}
 
 	public boolean isValidPosition(int p,
