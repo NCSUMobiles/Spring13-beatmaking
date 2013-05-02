@@ -33,11 +33,11 @@
     <string name="rename">Rename</string>
     <string name="newProject">New Project</string>
     <string name="loadProject">Load Project</string>
-    <string name="saveProject">Save Project</string>
+    <string name="saveProject">Export as Audio File</string>
     <string name="ok">OK</string>
     <string name="Cancel">Cancel</string>
     <string name="removePattern">Remove Pattern</string>
     <string name="confirmation">Are you sure?</string>
-    <string name="metronomeOn">Metronome is ON</string>
-    <string name="metronomeOff">Metronome is OFF</string>
+    <string name="metronomeOn">Metronome\u2714 </string>
+    <string name="metronomeOff">Metronome</string>
 </resources>

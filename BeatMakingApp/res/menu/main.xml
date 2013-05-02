@@ -1,9 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/newProject" android:title="@string/newProject" android:orderInCategory="100"></item>
-    <item android:id="@+id/loadProject" android:title="@string/loadProject" android:orderInCategory="100"></item>
     <item android:id="@+id/saveProject" android:title="@string/saveProject" android:orderInCategory="100"></item>
     
-    <item android:id="@+id/metronome" android:title="@string/metronomeOff"  ></item>
+    <item android:id="@+id/metronome" android:title="@string/metronomeOff"  android:checkable="true"></item>
 
 	
 </menu>

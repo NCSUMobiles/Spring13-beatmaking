@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 public class WavIO {
 	/*
@@ -118,17 +119,17 @@ public class WavIO {
 		PriorityQueue<Sound> tempPQ = new PriorityQueue<Sound>(trackSoundQueue);
 		Sound sound;
 		String fileName = null;
-		double differenceInMillisecs = 0;
-		double differenceInBeats = 0;
+		double differenceInMillisecs = 0.0;
+		double differenceInBeats = 0.0;
 		// for each sound in the track
 		// get the starting position of the sound.
 		// calculate the silence required.
 		// add the silence bytes to the buffer
 		// get the corresponding sound resource file
 		// add the sound bytes to the databuffer
-		double offset = 0;
+		double offset = 0.0;
 		// int startTime = 0;
-		double currentBeat = 0; // shows the amount of track (in millisecs)
+		double currentBeat = 0.0; // shows the amount of track (in millisecs)
 								// already processed.
 		// traverse through each element of the track and calculate the track
 		// length.
@@ -136,6 +137,7 @@ public class WavIO {
 			dataBuffer.clear();
 			sound = tempPQ.poll();
 			offset = sound.getOffset();
+			
 			if (offset > currentBeat) {
 				differenceInBeats = sound.getOffset() - currentBeat;
 				differenceInMillisecs = (double) (differenceInBeats * 60 * 1000)
@@ -143,9 +145,11 @@ public class WavIO {
 				// differenceInMillisecs = sound.getOffset() - currentTime;
 				ArrayList<Byte> silenceBytes = new ArrayList<Byte>();
 				Byte silence = 0;
+				/*Toast.makeText(ctxt, myByteRate+"", Toast.LENGTH_SHORT).show();*/
 				int numberofsilencebytes = (int) Math
 						.ceil(((float) (myByteRate) / 1000.00)
 								* differenceInMillisecs);
+				
 				// myByteRate = 28 bytes/sec = 28/1000 bytes per millisecs.
 				for (int i = 0; i < numberofsilencebytes; i++) {
 					silenceBytes.add(silence);
@@ -213,6 +217,7 @@ public class WavIO {
 				// differenceInMillisecs = sound.getOffset() - currentTime;
 				// ArrayList<Byte> silenceBytes = new ArrayList<Byte>();
 				// Byte silence = 0;
+				
 				int numberofsilencebytes = (int) Math
 						.ceil(((float) (myByteRate) / 1000.00)
 								* differenceInMillisecs);
@@ -306,6 +311,9 @@ public class WavIO {
 			inFile.read(tmpLong); // read the byterate
 			if (myByteRate == 0) {
 				myByteRate = byteArrayToLong(tmpLong);
+				//myByteRate = 28;
+				/*Toast.makeText(ctxt, myByteRate+" 2", Toast.LENGTH_SHORT).show();*/
+				
 			}
 			inFile.read(tmpInt); // read the blockalign
 			if (myBlockAlign == 0) {
@@ -349,7 +357,8 @@ public class WavIO {
 		try {
 			File sdcard = Environment.getExternalStorageDirectory();
 			File projectDir = new File(sdcard.getPath()+ "/Music/Beats/exported/");
-			projectDir.mkdirs();
+			boolean ret = projectDir.mkdirs();
+			
 			
 			File myFile = new File(projectDir, fileName);
 			
@@ -535,9 +544,9 @@ public class WavIO {
 			boolean result = writeWaveFileHeaders(ctxt, fileName, fileSize);
 			if(result){
 				createDataBuffer(fileName, priorityQueue, ctxt);
-				
+				return true;
 			}
-			return true;
+			return false;
 
 		} else {
 			return false;
