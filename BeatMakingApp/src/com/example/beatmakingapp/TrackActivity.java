@@ -1,5 +1,6 @@
 package com.example.beatmakingapp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -12,11 +13,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
@@ -157,6 +162,7 @@ public class TrackActivity extends Activity {
 				while(it.hasNext())
 				{
 					Sound s = (Sound)it.next();
+					if(timeOfLastBeat < s.getOffset())
 					timeOfLastBeat = s.getOffset();
 				}
 				disableAllButtons();
@@ -923,4 +929,115 @@ public class TrackActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.metronome:
+			if (Global.metronome == true) {
+				Global.metronome = false;
+				item.setCheckable(true);
+				item.setTitle(R.string.metronomeOff);
+				
+				item.setChecked(false);
+
+			} else {
+				Global.metronome = true;
+				item.setCheckable(true);
+				item.setChecked(true);
+				item.setTitle(R.string.metronomeOn);
+			}
+			return true;
+		case R.id.saveProject:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			final Context context = this;
+			
+			LayoutInflater inflater = getLayoutInflater();
+			View dialoglayout = inflater.inflate(R.layout.custom_dialog, (ViewGroup) getCurrentFocus());
+			final EditText text = (EditText)dialoglayout.findViewById(R.id.file);
+			builder.setView(dialoglayout);
+			builder.setTitle("Save File");
+	        builder.setMessage("Exporting to SD card")
+	               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                	   
+	                	   boolean mExternalStorageAvailable = false;
+	           			boolean mExternalStorageWriteable = false;
+	           			WavIO io = new WavIO();
+	           			File sdcard = Environment.getExternalStorageDirectory();
+	           			String state = Environment.getExternalStorageState();
+
+	           			// adding to check if external storage available for writing
+
+	           			if (Environment.MEDIA_MOUNTED.equals(state)) {
+	           				// We can read and write the media
+	           				mExternalStorageAvailable = mExternalStorageWriteable = true;
+	           			} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+	           				// We can only read the media
+	           				mExternalStorageAvailable = true;
+	           				mExternalStorageWriteable = false;
+	           			} else {
+	           				// Something else is wrong. It may be one of many other states,
+	           				// but all we need
+	           				// to know is we can neither read nor write
+	           				mExternalStorageAvailable = mExternalStorageWriteable = false;
+	           			}
+	           			// -----------------------------------------------------------------
+	           			if (mExternalStorageAvailable) {
+	           				if (mExternalStorageWriteable) {
+	           					String exportFileName = text.getText().toString()+".wav";
+	           					Toast.makeText(
+	           							context,
+	           							"Exporting To : "+ sdcard.getPath()+"/Music/Beats/exported/"+ exportFileName, Toast.LENGTH_LONG).show();
+	           					synchronized (Global.patternSoundQueues) {
+
+	           						boolean result = io.exportSound(exportFileName,Global.trackSoundQueue,context);
+	           						/*byte[] data = io.createDataBuffer(
+	           								Global.patternSoundQueues.get(patternId), this);
+	           						
+	           						boolean result = io.save(this, exportFileName, data)
+	           						*/
+	           						if (result) {
+	           							Toast.makeText(context, "Done!!", Toast.LENGTH_LONG)
+	           									.show();
+
+	           						} else {
+
+	           							Toast.makeText(context, "Not Done!!",
+	           									Toast.LENGTH_LONG).show();
+	           						}
+	           					}
+	           				} else {
+	           					Toast.makeText(
+	           							context,
+	           							"ERROR : External Storage is available but not writable. Please check Permissions.",
+	           							Toast.LENGTH_LONG).show();
+
+	           				}
+
+	           			} else {
+	           				Toast.makeText(context,
+	           						"ERROR : External Storage is not available.",
+	           						Toast.LENGTH_LONG).show();
+
+	           			}
+	                	 
+	                   }
+	               })
+	               .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                       // User cancelled the dialog
+	                   }
+	               });
+	        // Create the AlertDialog object and return it
+	        builder.create().show();
+			
+			
+			return true;
+			default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 }
