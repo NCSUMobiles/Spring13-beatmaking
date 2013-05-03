@@ -39,17 +39,9 @@ public class TrackActivity extends Activity {
 			addPattern3Button, addPattern4Button;
 	private Context context = this;
 	private ProgressBar progBar;
-	/*
-	 * private ArrayList<Integer> Global.pattern1SegmentPositions = new
-	 * ArrayList<Integer>(); private ArrayList<Integer>
-	 * Global.pattern2SegmentPositions = new ArrayList<Integer>(); private
-	 * ArrayList<Integer> Global.pattern3SegmentPositions = new
-	 * ArrayList<Integer>(); private ArrayList<Integer>
-	 * Global.pattern4SegmentPositions = new ArrayList<Integer>();
-	 */
+
 	private int maxBars = 0;
-	private int num = 1; // reusable number to update new pattern segment
-							// positions
+	private int num = 1; 
 
 	boolean state_playing = false;
 	long timeAtStart = 0;
@@ -61,6 +53,7 @@ public class TrackActivity extends Activity {
 	private static Handler mainHandler = new Handler();
 	private double timeOfLastBeat;
 
+	// Called when activity is created
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.track_layout2);
@@ -70,6 +63,7 @@ public class TrackActivity extends Activity {
 		final float volume = (float) am
 				.getStreamVolume(AudioManager.STREAM_MUSIC);
 
+		//used to play the sounds in track queue
 		playbackThread1 = new Thread(new Runnable() {
 			public void run() {
 				Looper.prepare();
@@ -79,9 +73,6 @@ public class TrackActivity extends Activity {
 				handler.post(new Runnable() {
 					public void run() {
 						if (state_playing == true) {
-							// Toast.makeText(context,
-							// Integer.toString(Global.patternSoundQueues.get(0).size()),
-							// Toast.LENGTH_SHORT).show();
 
 							long currentTime = SystemClock.elapsedRealtime();
 							timeSinceStart = currentTime - timeAtStart;
@@ -93,14 +84,7 @@ public class TrackActivity extends Activity {
 												* (double) (Global.bpm) / 60000 + 1)) {
 									final Sound s = Global.trackSoundQueue
 											.remove();
-									// mainHandler.post(new Runnable() {
-									// public void run() {
-									// Toast.makeText(
-									// context,
-									// Long.toString(s.getOffset())
-									// + " "
-									// + Long.toString(timeSinceStart),
-									// Toast.LENGTH_SHORT).show();
+
 									System.out
 											.println((timeSinceStart
 													* (double) (Global.bpm)
@@ -108,8 +92,7 @@ public class TrackActivity extends Activity {
 									System.out.println(s.getOffset());
 									Global.soundPool.play(s.getSoundPoolId(),
 											volume, volume, 1, 0, (float) 1.0);
-									// }
-									// });
+
 								}
 							} else {
 								createTrackQueue();
@@ -117,16 +100,6 @@ public class TrackActivity extends Activity {
 								mainHandler.post(new Runnable() {
 									public void run() {
 
-										/*
-										 * Toast.makeText(context,
-										 * (int)((4*timeSinceStart
-										 * *25*Global.bpm) /
-										 * (timeOfLastBeat*60000
-										 * ))+"Yauw",Toast.LENGTH_SHORT
-										 * ).show();
-										 */
-
-										// progBar.setProgress(0);
 										enableAllButtons();
 										playButton
 												.setImageResource(R.drawable.play_button_pressed);
@@ -135,12 +108,7 @@ public class TrackActivity extends Activity {
 									}
 								});
 							}
-							/*
-							 * mainHandler.post(new Runnable() { public void
-							 * run() { progBar.setProgress((int)
-							 * (timeSinceStart*25*Global.bpm) /
-							 * ((int)timeOfLastBeat*60000)); } });
-							 */
+
 							mainHandler.post(new Runnable() {
 								public void run() {
 									progBar.setProgress((int) ((4 * timeSinceStart * 25 * Global.bpm) / ((timeOfLastBeat - 1) * 60000)));
@@ -149,7 +117,6 @@ public class TrackActivity extends Activity {
 
 						}
 						handler.postDelayed(this, 1);
-						// handler.post(this);
 					}
 
 				});
@@ -161,7 +128,11 @@ public class TrackActivity extends Activity {
 
 	}
 
+	
+	//describe the functionality of play button and export button
 	public void addButtons() {
+		
+		//play button functionality 
 		playButton = (ImageButton) findViewById(R.id.play_button_track);
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -174,29 +145,33 @@ public class TrackActivity extends Activity {
 							timeOfLastBeat = s.getOffset();
 					}
 					disableAllButtons();
-					// Toast.makeText(context, timeOfLastBeat+"",
-					// Toast.LENGTH_SHORT).show();
-					state_playing = true;
-					// playButton.setImageResource(R.drawable.play_button_pressed);
+
+					
+
 					playButton.setImageResource(R.drawable.stop_button_normal);
 					playButton
 							.setBackgroundResource(R.drawable.stop_border_play);
 					timeAtStart = SystemClock.elapsedRealtime();
 					timeSinceStart = 0;
+					state_playing = true;
 				} else {
-					state_playing = false;
-					// timeAtStart = SystemClock.elapsedRealtime();
+					
+
 					enableAllButtons();
 					Global.trackSoundQueue.clear();
 					createTrackQueue();
 					timeAtStart = SystemClock.elapsedRealtime();
 					timeSinceStart = 0;
+					state_playing = false;
 					playButton.setImageResource(R.drawable.play_button_pressed);
 					playButton
 							.setBackgroundResource(android.R.drawable.btn_default);
+					
 				}
 			}
 		});
+		
+		//export button functionality 
 		exportButton = (Button) findViewById(R.id.export_button_track);
 		exportButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -223,8 +198,6 @@ public class TrackActivity extends Activity {
 										String state = Environment
 												.getExternalStorageState();
 
-										// adding to check if external storage
-										// available for writing
 
 										if (Environment.MEDIA_MOUNTED
 												.equals(state)) {
@@ -236,14 +209,10 @@ public class TrackActivity extends Activity {
 											mExternalStorageAvailable = true;
 											mExternalStorageWriteable = false;
 										} else {
-											// Something else is wrong. It may
-											// be one of many other states,
-											// but all we need
-											// to know is we can neither read
-											// nor write
+
 											mExternalStorageAvailable = mExternalStorageWriteable = false;
 										}
-										// -----------------------------------------------------------------
+
 										if (mExternalStorageAvailable) {
 											if (mExternalStorageWriteable) {
 												String exportFileName = text
@@ -264,17 +233,7 @@ public class TrackActivity extends Activity {
 																	exportFileName,
 																	Global.trackSoundQueue,
 																	context);
-													/*
-													 * byte[] data =
-													 * io.createDataBuffer(
-													 * Global
-													 * .patternSoundQueues.
-													 * get(patternId), this);
-													 * 
-													 * boolean result =
-													 * io.save(this,
-													 * exportFileName, data)
-													 */
+
 													if (result) {
 														Toast.makeText(
 																context,
@@ -321,6 +280,9 @@ public class TrackActivity extends Activity {
 				builder.create().show();
 			}
 		});
+		
+		//buttons to navigate the pattern
+		//eg pattern1Button navigates to Pattern-1
 		pattern1Button = (Button) findViewById(R.id.pattern1Button);
 		pattern1Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -376,6 +338,8 @@ public class TrackActivity extends Activity {
 
 			}
 		});
+		
+		//add instances of Pattern-1
 		addPattern1Button = (ImageButton) findViewById(R.id.addPattern1Button);
 
 		addPattern1Button.setOnClickListener(new View.OnClickListener() {
@@ -525,9 +489,7 @@ public class TrackActivity extends Activity {
 
 				cancelButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						// LinearLayout p1TrackLayout = (LinearLayout)
-						// findViewById(R.id.pattern1TrackRow);
-						// p1TrackLayout.removeAllViews();
+
 						addPattern1Dialog.dismiss();
 					}
 				});
@@ -535,6 +497,7 @@ public class TrackActivity extends Activity {
 			}
 		});
 
+		//add instances of Pattern-2
 		addPattern2Button = (ImageButton) findViewById(R.id.addPattern2Button);
 
 		addPattern2Button.setOnClickListener(new View.OnClickListener() {
@@ -674,6 +637,7 @@ public class TrackActivity extends Activity {
 			}
 		});
 
+		//add instances of Pattern-3
 		addPattern3Button = (ImageButton) findViewById(R.id.addPattern3Button);
 
 		addPattern3Button.setOnClickListener(new View.OnClickListener() {
@@ -810,6 +774,7 @@ public class TrackActivity extends Activity {
 			}
 		});
 
+		//add instances of Pattern-4
 		addPattern4Button = (ImageButton) findViewById(R.id.addPattern4Button);
 
 		addPattern4Button.setOnClickListener(new View.OnClickListener() {
@@ -936,7 +901,7 @@ public class TrackActivity extends Activity {
 									.setPositiveButton(android.R.string.yes,
 											null).create().show();
 						}
-						// System.out.println("INVALID");
+
 						addPattern4Dialog.dismiss();
 					}
 				});
@@ -950,6 +915,7 @@ public class TrackActivity extends Activity {
 		});
 	}
 
+	//disables the buttons while playback
 	protected void disableAllButtons() {
 		// TODO Auto-generated method stub
 		ImageButton btn1 = (ImageButton) findViewById(R.id.addPattern1Button);
@@ -974,6 +940,7 @@ public class TrackActivity extends Activity {
 
 	}
 
+	//enables the buttons after playback
 	protected void enableAllButtons() {
 		// TODO Auto-generated method stub
 		ImageButton btn1 = (ImageButton) findViewById(R.id.addPattern1Button);
@@ -998,13 +965,14 @@ public class TrackActivity extends Activity {
 
 	}
 
+	//checks if there is already instance of patterns added at that position
 	public boolean isValidPosition(int p,
 			ArrayList<Integer> patternSegmentPositions, int startBar) {
-		// int patSize = p.numBars;
+
 		int patSize = p;
 		int endBar = startBar + patSize;
 		for (int n : patternSegmentPositions) {
-			// if (startBar >= n && startBar < n + patSize)
+
 			if ((startBar >= n && startBar < n + patSize)
 					|| (endBar <= n + patSize))
 				return false;
@@ -1012,6 +980,7 @@ public class TrackActivity extends Activity {
 		return true;
 	}
 
+	//creates track queue from pattern instances (all 4) and forms a new queue which can be played by pressing play
 	public void createTrackQueue() {
 		Global.trackSoundQueue.clear();
 		Global.trackSoundQueueMS.clear();
@@ -1083,6 +1052,7 @@ public class TrackActivity extends Activity {
 
 	}
 
+	//asks the user if it wants to exit from the app
 	@Override
 	public void onBackPressed() {
 		new AlertDialog.Builder(this)
@@ -1094,7 +1064,6 @@ public class TrackActivity extends Activity {
 
 							public void onClick(DialogInterface arg0, int arg1) {
 
-								// change this
 								Global.trackSoundQueue.clear();
 
 								Global.buttonPositions1.clear();
@@ -1105,13 +1074,13 @@ public class TrackActivity extends Activity {
 								Global.pattern2SegmentPositions.clear();
 								Global.pattern3SegmentPositions.clear();
 								Global.pattern4SegmentPositions.clear();
-								// till this
+
 
 								for (int i = 0; i < 4; i++) {
 									if (Global.soundPool != null) {
 										Global.patternSoundQueues.get(i)
 												.clear();
-										// Global.soundPool.get(i).release();
+		
 
 									}
 								}

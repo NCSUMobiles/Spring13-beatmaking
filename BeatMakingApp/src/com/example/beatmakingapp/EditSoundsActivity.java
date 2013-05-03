@@ -48,19 +48,19 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		setContentView(R.layout.pattern_layout);
 	
 		
-		
+		//create an array list for every row of buttons
 		for(int i = 0; i < 4; i++)
 			pad.add(new ArrayList<Button>());
 		
-		rdf = new RenameDialogFragment();
+		rdf = new RenameDialogFragment();//a dialog fragment to handle the remaining
 
-		buttonNames = PatternActivity.buttonNames;
-		buttonSounds = PatternActivity.buttonSounds;
+		buttonNames = PatternActivity.buttonNames;// for persisting the button names
+		buttonSounds = PatternActivity.buttonSounds;//for persisting the paths of the sound files assigned to drum pads
 		nameEditor = buttonNames.edit();
 		soundEditor = buttonSounds.edit();
 		
 		b = getIntent().getExtras();
-		callingPattern = b.getInt("PatternNo");
+		callingPattern = b.getInt("PatternNo");// get the pattern number of the calling pattern
 
 		sp = Global.soundPool;
 		
@@ -94,15 +94,12 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 
 							public void onClick(DialogInterface arg0, int arg1) {
 								
-	
-				
-				//Button btn;
+
 				for(int i=0;i<4;i++)
 				{
 					for(int j=0;j<4;j++)
 					{
-						//btn = (Button) findViewById(padIds[i][j]);
-						//String s = (String) btn.getText();
+
 						String s = Global.filenames[i][j];
 						if (s.length()>8)
 						{
@@ -117,11 +114,12 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 					}
 				}
 				nameEditor.commit();
+				//Global.initialize();
 				Toast.makeText(context, "Reset Done!", Toast.LENGTH_SHORT).show();
 				
 				finish();
 				
-							}
+				}
 				}).create().show();
 				
 			}
@@ -145,7 +143,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		rec.setEnabled(false);
 		
 		Button btn;
-		
+		//assign buttons to drumpad
 		for(int i=0;i<4;i++)
 		{
 			for(int j=0;j<4;j++)
@@ -163,8 +161,9 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 					public void onClick(View v) {
 						x=ii;
 						y=jj;
+						//launch a dialog showing all apps that can access and pick a music file
 						Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				        intent.setType("audio/*");
+				        intent.setType("audio/*");// changing this to file will allow you to access any kind of files.
 				        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				        startActivityForResult(Intent.createChooser(intent,"Select Audio "), 1);
 					}
@@ -190,6 +189,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		
 	}
 	
+	//runs after a music file is picked 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (resultCode == Activity.RESULT_OK && requestCode == 1) {
@@ -215,25 +215,16 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 			nameEditor.putString("p_"+x+y, path);
 			pad.get(x).get(y).setText(path);
 			final int temp = sid;
-			sp.setOnLoadCompleteListener(new OnLoadCompleteListener() {
-
-				@Override
-				public void onLoadComplete(SoundPool soundPool, int sampleId,
-						int status) {
-					// TODO Auto-generated method stub
-					Toast.makeText(getApplicationContext(), "Loaded\nsid: "+temp+"\nPath: "+temppath+"\n on: "+x+","+y, Toast.LENGTH_LONG).show();
-				}
-
-			});
 	    }
 
 	}
-
+	
+	//called  when the rename dialog box is done renaming the button
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
 		// TODO Auto-generated method stub
 		((Button)findViewById(longPressedButton)).setText(rdf.rename);
-		nameEditor.putString("p_"+rdf.bidx+rdf.bidy, rdf.rename);
+		nameEditor.putString("p_"+rdf.bidx+rdf.bidy, rdf.rename);// store the name in the shared preference to persist it
 		nameEditor.commit();
 	}
 
