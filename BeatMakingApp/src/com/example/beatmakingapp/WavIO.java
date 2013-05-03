@@ -250,7 +250,11 @@ public class WavIO {
 	private String getFileNameFromSound(Sound s) {
 
 		String fileName = Global.filenames[s.getButtonId_i()][s.getButtonId_j()];
-		fileName = fileName.substring(0, fileName.length() - 4);
+		
+		if(!fileName.contains("/"))
+		{
+			fileName = fileName.substring(0, fileName.length() - 4);
+		}
 		return fileName;
 
 	}
@@ -260,14 +264,27 @@ public class WavIO {
 		byte[] myData = null;
 		byte[] tmpLong = new byte[4];
 		byte[] tmpInt = new byte[2];
-
+		InputStream is = null;
 		try {
 			// File projectDir = ctxt.getDir("Project1",Context.MODE_PRIVATE);
 			// File myFile = new File(fileName);
-			int resourceId = com.example.beatmakingapp.R.raw.class
+			
+			if(fileName.contains("/")){
+				//File projectDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),"/Beats/exported/") ;
+				//System.out.println(projectDir.getPath());
+
+				
+				File myFile = new File(fileName);
+				 is = new FileInputStream(myFile);			
+				 
+				
+			}else{
+			
+				int resourceId = com.example.beatmakingapp.R.raw.class
 					.getDeclaredField(fileName).getInt(new Integer(0));
-			InputStream is = ctxt.getResources().openRawResource(resourceId);
+				is = ctxt.getResources().openRawResource(resourceId);
 			// File myFile = new File("");
+			}
 			inFile = new DataInputStream((is));
 
 			// System.out.println("Reading wav file...\n"); // for debugging

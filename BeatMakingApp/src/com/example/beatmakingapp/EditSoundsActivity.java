@@ -205,11 +205,15 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 				path = c.getString(ci);
 			}
 			c.close();
+			Global.filenames[x][y] = path;
 			final String temppath = path;
 			sid = sp.load(path, 1);
 			soundEditor.putString("p_"+x+y, path);
 			Global.soundIds[x][y] = sid;
-			pad.get(x).get(y).setText(""+sid);
+			String splits[] = path.split("/");
+			path = splits[((splits.length)-1)];
+			nameEditor.putString("p_"+x+y, path);
+			pad.get(x).get(y).setText(path);
 			final int temp = sid;
 			sp.setOnLoadCompleteListener(new OnLoadCompleteListener() {
 
@@ -260,6 +264,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		// TODO Auto-generated method stub
 		super.onPause();
 		nameEditor.commit();
+		soundEditor.commit();
 	}
 	
 	@Override
@@ -267,6 +272,7 @@ public class EditSoundsActivity extends FragmentActivity implements RenameDialog
 		// TODO Auto-generated method stub
 		super.onStop();
 		nameEditor.commit();
+		soundEditor.commit();
 	}
 	
 	@Override
