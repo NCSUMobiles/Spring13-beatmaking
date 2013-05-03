@@ -18,8 +18,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -68,6 +66,7 @@ public class PatternActivity extends Activity {
 	public static final String BUTTON_SOUNDS = "ButtonSoundss";
 	public static SharedPreferences buttonSounds;
 
+	// Called when activity is created
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -88,8 +87,8 @@ public class PatternActivity extends Activity {
 		String defValue = "loadDefault";
 		String path;
 
+		// Load default buttons
 		path = buttonSounds.getString("p_00", defValue);
-		;
 		if (!path.equals(defValue))
 			Global.soundIds[0][0] = Global.soundPool.load(path, 1);
 
@@ -153,6 +152,7 @@ public class PatternActivity extends Activity {
 		if (!path.equals(defValue))
 			Global.soundIds[3][3] = Global.soundPool.load(path, 1);
 
+		// Set up an Audio Manager to Return Current Phone Volume State
 		AudioManager audio = (AudioManager) context
 				.getSystemService(Context.AUDIO_SERVICE);
 		switch (audio.getRingerMode()) {
@@ -167,6 +167,7 @@ public class PatternActivity extends Activity {
 			break;
 		}
 
+		// Load appropriate graphics and pattern data to match current pattern
 		String message = "";
 		Intent intent = getIntent();
 		message = intent.getStringExtra("msgFromParent");
@@ -201,23 +202,18 @@ public class PatternActivity extends Activity {
 			updateGradient("purple");
 		}
 
-		// AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-		// context);
-		// alertDialogBuilder.setTitle(((Integer)patternId).toString());
-		// AlertDialog alertDialog = alertDialogBuilder.create();
-		// alertDialog.show();
-	
-
-		
-		
-		
+		// Set sound playback volume
 		AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
 		final float volume = (float) am
 				.getStreamVolume(AudioManager.STREAM_MUSIC);
 
+		// Create Progress Bar to update during pattern loop
 		final ProgressBar progBar = (ProgressBar) findViewById(R.id.progBar);
 		progBar.setProgress(0);
 
+		// During each playback loop, run through thread, comparing the current
+		// beats elapsed with the sound offsets and playing sounds when
+		// necessary
 		playbackThread1 = new Thread(new Runnable() {
 			public void run() {
 				Looper.prepare();
@@ -231,7 +227,6 @@ public class PatternActivity extends Activity {
 							timeSinceStart = currentTime - timeAtStart;
 							timeSinceLastBeat = currentTime - timeAtLastBeat;
 
-							// System.out.println(timeSinceStart*((double)Global.bpm)/60000);
 							if ((timeSinceLastBeat >= 60000 / (double) (Global.bpm) || timeSinceLastBeat == 0)
 									&& Global.metronome == true) {
 								Global.metroPool.play(Global.metroId, volume
@@ -245,10 +240,7 @@ public class PatternActivity extends Activity {
 										&& frontQueue.peek().getOffset() <= (timeSinceStart
 												* (double) (Global.bpm) / 60000 + 1)) {
 									final Sound s = frontQueue.remove();
-									// System.out.println("*****" +
-									// s.getOffset());
-									// System.out.println("^^^^^" +
-									// (timeSinceStart*Global.bpm/60000 + 1));
+
 									mainHandler.post(new Runnable() {
 										public void run() {
 											Button button = (Button) findViewById(padIds[s
@@ -274,25 +266,15 @@ public class PatternActivity extends Activity {
 										}
 
 									});
-									// mainHandler.post(new Runnable() {
-									// public void run() {
 									Global.soundPool.play(s.getSoundPoolId(),
 											volume, volume, 1, 0, (float) 1.0);
-									// }
-									// });
 								}
 							}
 							if (timeSinceLastBeat >= 60000 / Global.bpm) {
 								mainHandler.post(new Runnable() {
 									public void run() {
-										// soundPool.get(0).play(id00,
-										// volume, volume, 1, 0,
-										// (float) 1.0);
 									}
 								});
-
-								// timeAtLastBeat = currentTime;
-								//
 							}
 							if (timeSinceStart >= ((240000 * bars) / Global.bpm)) {
 								timeSinceStart = 0;
@@ -313,8 +295,6 @@ public class PatternActivity extends Activity {
 
 						}
 						handler.postDelayed(this, 1);
-						// handler.post(this);
-
 					}
 
 				});
@@ -323,14 +303,8 @@ public class PatternActivity extends Activity {
 		}, "PlaybackThread");
 		playbackThread1.start();
 
-		// final Button trackButton = (Button) findViewById(R.id.track_button);
-		// trackButton.setOnClickListener(new View.OnClickListener() {
-		// public void onClick(View v) {
-		//
-		//
-		// }
-		// });
-
+		// Initialize pattern activity buttons and set play/stop/record
+		// functionality, etc
 		final ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
 		final ImageButton recordButton = (ImageButton) findViewById(R.id.record_button);
 
@@ -339,7 +313,6 @@ public class PatternActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent editDrumMachineIntent = new Intent().setClass(context,
 						EditSoundsActivity.class).putExtra("PatternNo",
 						patternId);
@@ -437,6 +410,8 @@ public class PatternActivity extends Activity {
 				btn = (Button) findViewById(padIds[i][j]);
 				pad.get(i).add(btn);
 
+				// When button is pressed, play sound. If recording, snap sound
+				// to appropriate beat and add to sound queue
 				pad.get(i).get(j)
 						.setOnClickListener(new View.OnClickListener() {
 							@Override
@@ -445,7 +420,6 @@ public class PatternActivity extends Activity {
 								double exactBeatOffset = ((SystemClock
 										.elapsedRealtime() - timeAtStart))
 										* ((double) (Global.bpm) / 60000) + 1;
-								// TODO: set snap value
 								double a = exactBeatOffset / snapValue;
 								double b = (int) a;
 								double c = (a - b);
@@ -455,13 +429,6 @@ public class PatternActivity extends Activity {
 								else
 									offset = exactBeatOffset + snapValue
 											* (1 - c);
-								// System.out.println("*****************");
-								// System.out.println(exactBeatOffset);
-								// System.out.println(a);
-								// System.out.println(b);
-								// System.out.println(c);
-								// System.out.println(offset);
-								// System.out.println("*****************");
 								new Thread(new Runnable() {
 									public void run() {
 										mainHandler.post(new Runnable() {
@@ -491,30 +458,31 @@ public class PatternActivity extends Activity {
 
 	}
 
+	// Called when activity resumes
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
+
+		// Update button text
 		Button btn;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				String s = Global.filenames[i][j];
-				if (s.length()>8)
-				{
+				if (s.length() > 8) {
 					String s1;
 					String s2;
-					s1 = s.substring(0,1);
-					s2 = s.substring(s.length()-10,s.length()-4);
+					s1 = s.substring(0, 1);
+					s2 = s.substring(s.length() - 10, s.length() - 4);
 					s = s1 + ".." + s2;
 				}
-				
+
 				btn = (Button) (findViewById(padIds[i][j]));
-				btn.setText(buttonNames.getString("p_" + i + j,
-						s));
+				btn.setText(buttonNames.getString("p_" + i + j, s));
 			}
 		}
 	}
 
+	// Transition to Track Activity
 	public void callTrackActivity(View v) {
 		Intent trackIntent = new Intent(this, TrackActivity.class);
 		trackIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -522,6 +490,8 @@ public class PatternActivity extends Activity {
 		finish();
 	}
 
+	// Show pattern options dialog with tempo, bars, export, metronome, and
+	// clear pattern buttons
 	public void callPatternOptions(View v) {
 		final Context context = this;
 		final Dialog patternInfoDialog = new Dialog(this);
@@ -546,123 +516,143 @@ public class PatternActivity extends Activity {
 			barsEdit.setText(String.valueOf(Global.pattern4Bars),
 					TextView.BufferType.EDITABLE);
 
-		
-		final Button metronomeButton = (Button) patternInfoDialog.findViewById(R.id.metronome_button);
+		final Button metronomeButton = (Button) patternInfoDialog
+				.findViewById(R.id.metronome_button);
 		metronomeButton.setOnClickListener(new View.OnClickListener() {
+			// Toggle metronome
 			public void onClick(View v) {
-				
-				//Button metronomeButton = (Button) patternInfoDialog.findViewById(R.id.metronome_button);
-				
+
 				if (Global.metronome == true) {
 					Global.metronome = false;
-					//metronomeButton(R.string.metronomeOff);
 					metronomeButton.setText("Metronome is Off");
 
 				} else {
 					Global.metronome = true;
 					metronomeButton.setText("Metronome is On");
-					//item.setTitle(R.string.metronomeOn);
 				}
 
 			}
 		});
-		
-		
 
-		Button exportButton = (Button) patternInfoDialog.findViewById(R.id.export_button);
+		// Export sound to Wav File
+		Button exportButton = (Button) patternInfoDialog
+				.findViewById(R.id.export_button);
 		exportButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-	
-				
+
 				LayoutInflater inflater = getLayoutInflater();
-				View dialoglayout = inflater.inflate(R.layout.custom_dialog, (ViewGroup) getCurrentFocus());
-				final EditText text = (EditText)dialoglayout.findViewById(R.id.file);
+				View dialoglayout = inflater.inflate(R.layout.custom_dialog,
+						(ViewGroup) getCurrentFocus());
+				final EditText text = (EditText) dialoglayout
+						.findViewById(R.id.file);
 				builder.setView(dialoglayout);
 				builder.setTitle("Save File");
-		        builder.setMessage("Exporting to SD card")
-		               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-		                   public void onClick(DialogInterface dialog, int id) {
-		                	   
-		                	   boolean mExternalStorageAvailable = false;
-		           			boolean mExternalStorageWriteable = false;
-		           			WavIO io = new WavIO();
-		           			File sdcard = Environment.getExternalStorageDirectory();
-		           			String state = Environment.getExternalStorageState();
+				builder.setMessage("Exporting to SD card")
+						.setPositiveButton(R.string.ok,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
 
-		           			// adding to check if external storage available for writing
+										boolean mExternalStorageAvailable = false;
+										boolean mExternalStorageWriteable = false;
+										WavIO io = new WavIO();
+										File sdcard = Environment
+												.getExternalStorageDirectory();
+										String state = Environment
+												.getExternalStorageState();
 
-		           			if (Environment.MEDIA_MOUNTED.equals(state)) {
-		           				// We can read and write the media
-		           				mExternalStorageAvailable = mExternalStorageWriteable = true;
-		           			} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-		           				// We can only read the media
-		           				mExternalStorageAvailable = true;
-		           				mExternalStorageWriteable = false;
-		           			} else {
-		           				// Something else is wrong. It may be one of many other states,
-		           				// but all we need
-		           				// to know is we can neither read nor write
-		           				mExternalStorageAvailable = mExternalStorageWriteable = false;
-		           			}
-		           			// -----------------------------------------------------------------
-		           			if (mExternalStorageAvailable) {
-		           				if (mExternalStorageWriteable) {
-		           					String exportFileName = text.getText().toString()+".wav";
-		           					Toast.makeText(
-		           							context,
-		           							"Exporting To : "+ sdcard.getPath()+"/Music/Beats/exported/"+ exportFileName, Toast.LENGTH_LONG).show();
-		           					synchronized (Global.patternSoundQueues) {
+										// adding to check if external storage
+										// available for writing
 
-		           						boolean result = io.exportSound(exportFileName,Global.patternSoundQueues.get(patternId),context);
-		           						/*byte[] data = io.createDataBuffer(
-		           								Global.patternSoundQueues.get(patternId), this);
-		           						
-		           						boolean result = io.save(this, exportFileName, data)
-		           						*/
-		           						if (result) {
-		           							Toast.makeText(context, "Done!!", Toast.LENGTH_LONG)
-		           									.show();
+										if (Environment.MEDIA_MOUNTED
+												.equals(state)) {
+											// We can read and write the media
+											mExternalStorageAvailable = mExternalStorageWriteable = true;
+										} else if (Environment.MEDIA_MOUNTED_READ_ONLY
+												.equals(state)) {
+											// We can only read the media
+											mExternalStorageAvailable = true;
+											mExternalStorageWriteable = false;
+										} else {
+											// Something else is wrong. It may
+											// be one of many other states,
+											// but all we need
+											// to know is we can neither read
+											// nor write
+											mExternalStorageAvailable = mExternalStorageWriteable = false;
+										}
+										// -----------------------------------------------------------------
+										if (mExternalStorageAvailable) {
+											if (mExternalStorageWriteable) {
+												String exportFileName = text
+														.getText().toString()
+														+ ".wav";
+												Toast.makeText(
+														context,
+														"Exporting To : "
+																+ sdcard.getPath()
+																+ "/Music/Beats/exported/"
+																+ exportFileName,
+														Toast.LENGTH_LONG)
+														.show();
+												synchronized (Global.patternSoundQueues) {
 
-		           						} else {
+													boolean result = io
+															.exportSound(
+																	exportFileName,
+																	Global.patternSoundQueues
+																			.get(patternId),
+																	context);
+													if (result) {
+														Toast.makeText(
+																context,
+																"Done!!",
+																Toast.LENGTH_LONG)
+																.show();
 
-		           							Toast.makeText(context, "Not Done!!",
-		           									Toast.LENGTH_LONG).show();
-		           						}
-		           					}
-		           				} else {
-		           					Toast.makeText(
-		           							context,
-		           							"ERROR : External Storage is available but not writable. Please check Permissions.",
-		           							Toast.LENGTH_LONG).show();
+													} else {
 
-		           				}
+														Toast.makeText(
+																context,
+																"Not Done!!",
+																Toast.LENGTH_LONG)
+																.show();
+													}
+												}
+											} else {
+												Toast.makeText(
+														context,
+														"ERROR : External Storage is available but not writable. Please check Permissions.",
+														Toast.LENGTH_LONG)
+														.show();
 
-		           			} else {
-		           				Toast.makeText(context,
-		           						"ERROR : External Storage is not available.",
-		           						Toast.LENGTH_LONG).show();
+											}
 
-		           			}
-		           			patternInfoDialog.dismiss();
-		                   }
-		               })
-		               .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
-		                   public void onClick(DialogInterface dialog, int id) {
-		                       // User cancelled the dialog
-		                   }
-		               });
-		        // Create the AlertDialog object and return it
-		        builder.create().show();
+										} else {
+											Toast.makeText(
+													context,
+													"ERROR : External Storage is not available.",
+													Toast.LENGTH_LONG).show();
+
+										}
+										patternInfoDialog.dismiss();
+									}
+								})
+						.setNegativeButton(R.string.Cancel,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// User cancelled the dialog
+									}
+								});
+				// Create the AlertDialog object and return it
+				builder.create().show();
 			}
 		});
-		
 
-		
-	
-		
-		
+		// Commit pattern option changes
 		final Button done = (Button) patternInfoDialog
 				.findViewById(R.id.pattern_info_done_button);
 		done.setOnClickListener(new View.OnClickListener() {
@@ -671,16 +661,13 @@ public class PatternActivity extends Activity {
 				if (patternId == 0) {
 					Global.pattern1Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
-				}
-				else if (patternId == 1) {
+				} else if (patternId == 1) {
 					Global.pattern2Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
-				}
-				else if (patternId == 2) {
+				} else if (patternId == 2) {
 					Global.pattern3Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
-				}
-				else if (patternId == 3) {
+				} else if (patternId == 3) {
 					Global.pattern4Bars = Integer.valueOf(barsEdit.getText()
 							.toString());
 				}
@@ -704,6 +691,7 @@ public class PatternActivity extends Activity {
 
 	}
 
+	// set button gradient
 	public void updateGradient(String name) {
 		Button btn;
 		for (int i = 0; i < 4; i++) {
@@ -721,6 +709,7 @@ public class PatternActivity extends Activity {
 		}
 	}
 
+	// Release resources and quit thread
 	public void onDestroy() {
 		super.onDestroy();
 
@@ -728,7 +717,5 @@ public class PatternActivity extends Activity {
 
 		frontQueue.clear();
 	}
-
-	
 
 }
