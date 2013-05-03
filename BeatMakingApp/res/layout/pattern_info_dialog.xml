@@ -62,6 +62,17 @@
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
+                <Button
+                    android:id="@+id/metronome_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Metronome is Off" />
+
+                <Button
+                    android:id="@+id/export_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Export Pattern" />
                
             </LinearLayout>
 
@@ -79,7 +90,7 @@
 
         <Button
             android:id="@+id/clear_pattern_button2"
-            android:layout_width="wrap_content"
+            android:layout_width="118dp"
             android:layout_height="wrap_content"
             android:text="Clear Pattern" />
 
