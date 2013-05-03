@@ -15,6 +15,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author The Beat Making App Team.
+ * This class is used to export a Priority Queue of Sounds as a .wav file.
+ */
+
 public class WavIO {
 	/*
 	 * WAV File Specification FROM
@@ -109,12 +115,11 @@ public class WavIO {
 	}
 
 	/**
-	 * Create the data buffer for the entire track. Use this function before
-	 * calling save.
+	 * Create the data buffer for the entire track. Use this function before calling save.
 	 */
 
-	public boolean createDataBuffer(String exportAsFileName,PriorityQueue<Sound> trackSoundQueue,Context ctxt) {
-		// myByteRate =
+	public boolean createDataBuffer(String exportAsFileName,
+			PriorityQueue<Sound> trackSoundQueue, Context ctxt) {
 		ArrayList<Byte> dataBuffer = new ArrayList<Byte>();
 		PriorityQueue<Sound> tempPQ = new PriorityQueue<Sound>(trackSoundQueue);
 		Sound sound;
@@ -122,22 +127,20 @@ public class WavIO {
 		double differenceInMillisecs = 0.0;
 		double differenceInBeats = 0.0;
 		// for each sound in the track
-		// get the starting position of the sound.
-		// calculate the silence required.
-		// add the silence bytes to the buffer
-		// get the corresponding sound resource file
-		// add the sound bytes to the databuffer
+			// get the starting position of the sound.
+			// calculate the silence required.
+			// add the silence bytes to the buffer
+			// get the corresponding sound resource file
+			// add the sound bytes to the databuffer
 		double offset = 0.0;
 		// int startTime = 0;
-		double currentBeat = 0.0; // shows the amount of track (in millisecs)
-								// already processed.
-		// traverse through each element of the track and calculate the track
-		// length.
+		double currentBeat = 0.0; // shows the amount of track (in millisecs) already processed.
+		// traverse through each element of the track and calculate the track length.
 		while (tempPQ.size() > 0) {
 			dataBuffer.clear();
 			sound = tempPQ.poll();
 			offset = sound.getOffset();
-			
+
 			if (offset > currentBeat) {
 				differenceInBeats = sound.getOffset() - currentBeat;
 				differenceInMillisecs = (double) (differenceInBeats * 60 * 1000)
@@ -145,11 +148,14 @@ public class WavIO {
 				// differenceInMillisecs = sound.getOffset() - currentTime;
 				ArrayList<Byte> silenceBytes = new ArrayList<Byte>();
 				Byte silence = 0;
-				/*Toast.makeText(ctxt, myByteRate+"", Toast.LENGTH_SHORT).show();*/
+				/*
+				 * Toast.makeText(ctxt, myByteRate+"",
+				 * Toast.LENGTH_SHORT).show();
+				 */
 				int numberofsilencebytes = (int) Math
 						.ceil(((float) (myByteRate) / 1000.00)
 								* differenceInMillisecs);
-				
+
 				// myByteRate = 28 bytes/sec = 28/1000 bytes per millisecs.
 				for (int i = 0; i < numberofsilencebytes; i++) {
 					silenceBytes.add(silence);
@@ -175,16 +181,15 @@ public class WavIO {
 			currentBeat = sound.getOffset();
 
 		}
-		/*
-		byte[] dataArray = new byte[dataBuffer.size()];
-		for (int x = 0; x < dataBuffer.size(); x++) {
-			dataArray[x] = dataBuffer.get(x);
-
-		}
-		*/
 		return true;
 	}
 
+	/**
+	 * Used to calculate the total file size of the wave file required for the given input(Priority Queue). 
+	 * @param pQ
+	 * @param ctxt
+	 * @return
+	 */
 	private long calculateTotalFileSize(PriorityQueue<Sound> pQ, Context ctxt) {
 		long totalFileSize = 0;
 		// --------------------------------------
@@ -200,11 +205,11 @@ public class WavIO {
 		// calculate the silence required.
 		// add the silence bytes to the buffer
 		// get the corresponding sound resource file
-		// add the sound bytes to the databuffer
+		// add the length of the sound bytes to the totalFileSize.
 		double offset = 0;
 		// int startTime = 0;
 		double currentBeat = 0; // shows the amount of track (in millisecs)
-								// already processed.
+		// already processed.
 		// traverse through each element of the track and calculate the track
 		// length.
 		while (tempPQ.size() > 0) {
@@ -214,15 +219,11 @@ public class WavIO {
 				differenceInBeats = sound.getOffset() - currentBeat;
 				differenceInMillisecs = (double) (differenceInBeats * 60 * 1000)
 						/ ((double) Global.bpm);
-				// differenceInMillisecs = sound.getOffset() - currentTime;
-				// ArrayList<Byte> silenceBytes = new ArrayList<Byte>();
-				// Byte silence = 0;
-				
+
 				int numberofsilencebytes = (int) Math
 						.ceil(((float) (myByteRate) / 1000.00)
 								* differenceInMillisecs);
 				totalFileSize += numberofsilencebytes;
-			
 
 			}
 
@@ -237,8 +238,12 @@ public class WavIO {
 
 	}
 
-	// read a wav file into this class
-
+	/**
+	 * Used to get the size from the File Name
+	 * @param fileName
+	 * @param ctxt
+	 * @return
+	 */
 	private long getSizeFromFileName(String fileName, Context ctxt) {
 		// TODO Auto-generated method stub
 
@@ -247,18 +252,25 @@ public class WavIO {
 
 	}
 
+	
 	private String getFileNameFromSound(Sound s) {
 
 		String fileName = Global.filenames[s.getButtonId_i()][s.getButtonId_j()];
-		
-		if(!fileName.contains("/"))
-		{
+
+		if (!fileName.contains("/")) {
+			//if FileName doesn't contain a "/" , the sound's corresponding file is in the raw folder. Remove .wav from the file name.
 			fileName = fileName.substring(0, fileName.length() - 4);
 		}
 		return fileName;
 
 	}
 
+	/**
+	 * Read the file contents.
+	 * @param ctxt
+	 * @param fileName
+	 * @return a byte array of the raw contents of the file which we have read.
+	 */
 	public byte[] read(Context ctxt, String fileName) {
 		DataInputStream inFile = null;
 		byte[] myData = null;
@@ -268,22 +280,22 @@ public class WavIO {
 		try {
 			// File projectDir = ctxt.getDir("Project1",Context.MODE_PRIVATE);
 			// File myFile = new File(fileName);
-			
-			if(fileName.contains("/")){
-				//File projectDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),"/Beats/exported/") ;
-				//System.out.println(projectDir.getPath());
 
-				
+			if (fileName.contains("/")) {
+				// File projectDir = new
+				// File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),"/Beats/exported/")
+				// ;
+				// System.out.println(projectDir.getPath());
+
 				File myFile = new File(fileName);
-				 is = new FileInputStream(myFile);			
-				 
-				
-			}else{
-			
+				is = new FileInputStream(myFile);
+
+			} else {
+
 				int resourceId = com.example.beatmakingapp.R.raw.class
-					.getDeclaredField(fileName).getInt(new Integer(0));
+						.getDeclaredField(fileName).getInt(new Integer(0));
 				is = ctxt.getResources().openRawResource(resourceId);
-			// File myFile = new File("");
+				// File myFile = new File("");
 			}
 			inFile = new DataInputStream((is));
 
@@ -314,7 +326,7 @@ public class WavIO {
 			mySubChunk1Size = byteArrayToLong(tmpLong);
 
 			inFile.read(tmpInt); // read the audio format. This should be 1 for
-									// PCM
+			// PCM
 			if (myFormat == 0) {
 				myFormat = byteArrayToInt(tmpInt);
 			}
@@ -328,9 +340,12 @@ public class WavIO {
 			inFile.read(tmpLong); // read the byterate
 			if (myByteRate == 0) {
 				myByteRate = byteArrayToLong(tmpLong);
-				//myByteRate = 28;
-				/*Toast.makeText(ctxt, myByteRate+" 2", Toast.LENGTH_SHORT).show();*/
-				
+				// myByteRate = 28;
+				/*
+				 * Toast.makeText(ctxt, myByteRate+" 2",
+				 * Toast.LENGTH_SHORT).show();
+				 */
+
 			}
 			inFile.read(tmpInt); // read the blockalign
 			if (myBlockAlign == 0) {
@@ -368,97 +383,46 @@ public class WavIO {
 		return myData;
 	}
 
+	/**
+	 * Write the wave file headers to the newly created .wav file.
+	 * @param ctxt
+	 * @param fileName
+	 * @param totalChunkSize
+	 * @return
+	 */
 	boolean writeWaveFileHeaders(Context ctxt, String fileName,
 			long totalChunkSize) {
 
 		try {
-			//File sdcard = Environment.getExternalStorageDirectory();
-			//File projectDir = new File(sdcard.getPath()+"/Music/Beats/exported/");
-			//File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-			File projectDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),"/Beats/exported/") ;
+			File projectDir = new File(
+					Environment
+							.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+					"/Beats/exported/");
 
-			if(!projectDir.exists()) {
+			if (!projectDir.exists()) {
 				boolean ret = projectDir.mkdirs();
 			}
-			
+
 			File myFile = new File(projectDir, fileName);
-			
+
 			DataOutputStream outFile = new DataOutputStream(
 					new FileOutputStream(myFile));
-			//ProjectManager pm = new ProjectManager();
-			//pm.createProject(ctxt);
+			// ProjectManager pm = new ProjectManager();
+			// pm.createProject(ctxt);
 			// write the wav file per the wav file format
 			outFile.writeBytes("RIFF"); // 00 - RIFF
 			// work around ---------------
 			myChunkSize = 36 + totalChunkSize;
 			outFile.write(intToByteArray((int) myChunkSize), 0, 4);
-			// ----------------------------
-			// outFile.write(intToByteArray((int) myChunkSize), 0, 4); // 04 -
-			// how
-			// big is
-			// the rest
-			// of this
-			// file?
 			outFile.writeBytes("WAVE"); // 08 - WAVE
 			outFile.writeBytes("fmt "); // 12 - fmt
-			outFile.write(intToByteArray((int) mySubChunk1Size), 0, 4); // 16 -
-																		// size
-																		// of
-																		// this
-																		// chunk
-			outFile.write(shortToByteArray((short) myFormat), 0, 2); // 20 -
-																		// what
-																		// is
-																		// the
-																		// audio
-																		// format?
-																		// 1 for
-																		// PCM =
-																		// Pulse
-																		// Code
-																		// Modulation
-			outFile.write(shortToByteArray((short) myChannels), 0, 2); // 22 -
-																		// mono
-																		// or
-																		// stereo?
-																		// 1 or
-																		// 2?
-																		// (or 5
-																		// or
-																		// ???)
-			outFile.write(intToByteArray((int) mySampleRate), 0, 4); // 24 -
-																		// samples
-																		// per
-																		// second
-																		// (numbers
-																		// per
-																		// second)
+			outFile.write(intToByteArray((int) mySubChunk1Size), 0, 4); // 16 - size of this chunk
+			outFile.write(shortToByteArray((short) myFormat), 0, 2); 
+			outFile.write(shortToByteArray((short) myChannels), 0, 2); // 22 - mono or stereo? 1 or 2?
+			outFile.write(intToByteArray((int) mySampleRate), 0, 4); // 24 -samples per second numbers per second)
 			outFile.write(intToByteArray((int) myByteRate), 0, 4); // 28 - bytes
-																	// per
-																	// second
 			outFile.write(shortToByteArray((short) myBlockAlign), 0, 2); // 32 -
-																			// #
-																			// of
-																			// bytes
-																			// in
-																			// one
-																			// sample,
-																			// for
-																			// all
-																			// channels
 			outFile.write(shortToByteArray((short) myBitsPerSample), 0, 2); // 34
-																			// -
-																			// how
-																			// many
-																			// bits
-																			// in
-																			// a
-																			// sample(number)?
-																			// usually
-																			// 16
-																			// or
-																			// 24
-
 			long numberOfBytes = totalChunkSize;
 			outFile.writeBytes("data"); // 36 - data
 
@@ -472,23 +436,24 @@ public class WavIO {
 
 	}
 
-	// write out the wav file
+	// write the output to the wav file
 	public boolean save(Context ctxt, String fileName, byte[] myData) {
 		try {
-			/*File sdcard = Environment.getExternalStorageDirectory();
-			File projectDir = new File(sdcard.getPath()+ "/Music/Beats/exported/");
-			projectDir.mkdirs();*/
-			File projectDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),"/Beats/exported/") ;
+			File projectDir = new File(
+					Environment
+							.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+					"/Beats/exported/");
 			System.out.println(projectDir.getPath());
 
-			if(!projectDir.exists()) {
+			if (!projectDir.exists()) {
 				boolean ret = projectDir.mkdirs();
 			}
 			File myFile = new File(projectDir, fileName);
-			DataOutputStream outFile = new DataOutputStream(new FileOutputStream(myFile,true));			
-			
+			DataOutputStream outFile = new DataOutputStream(
+					new FileOutputStream(myFile, true));
+
 			outFile.write(myData); // 44 - the actual data itself - just a long
-									// string of numbers
+			// string of numbers
 			outFile.close();
 
 		} catch (Exception e) {
@@ -497,19 +462,6 @@ public class WavIO {
 		}
 
 		return true;
-	}
-
-	// return a printable summary of the wav file
-	public String getSummary() {
-		// String newline = System.getProperty("line.separator");
-		String newline = "<br>";
-		String summary = "<html>Format: " + myFormat + newline + "Channels: "
-				+ myChannels + newline + "SampleRate: " + mySampleRate
-				+ newline + "ByteRate: " + myByteRate + newline
-				+ "BlockAlign: " + myBlockAlign + newline + "BitsPerSample: "
-				+ myBitsPerSample + newline + "DataSize: " + myDataSize
-				+ "</html>";
-		return summary;
 	}
 
 	// ===========================
@@ -562,14 +514,24 @@ public class WavIO {
 		return new byte[] { (byte) (data & 0xff), (byte) ((data >>> 8) & 0xff) };
 	}
 
-	public boolean exportSound(String fileName , PriorityQueue<Sound> priorityQueue, Context ctxt) {
+	
+	/**
+	 * Function used to export the priority queue of sounds as a wav file.
+	 * @param fileName
+	 * @param priorityQueue
+	 * @param ctxt
+	 * @return
+	 */
+	
+	public boolean exportSound(String fileName,
+			PriorityQueue<Sound> priorityQueue, Context ctxt) {
 		// TODO Auto-generated method stub
 
 		long fileSize = calculateTotalFileSize(priorityQueue, ctxt);
-		
+
 		if (fileSize > 1) {
 			boolean result = writeWaveFileHeaders(ctxt, fileName, fileSize);
-			if(result){
+			if (result) {
 				createDataBuffer(fileName, priorityQueue, ctxt);
 				return true;
 			}
