@@ -496,8 +496,7 @@ public class PatternActivity extends Activity {
 			for (int j = 0; j < 4; j++) {
 
 				btn = (Button) (findViewById(padIds[i][j]));
-				btn.setText(buttonNames.getString("p_" + i + j,
-						Global.filenames[i][j]));
+				btn.setText(buttonNames.getString("p_" + i + j, Global.filenames[i][j]));
 			}
 		}
 
