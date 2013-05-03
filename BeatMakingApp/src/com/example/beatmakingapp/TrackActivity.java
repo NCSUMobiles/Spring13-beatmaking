@@ -57,7 +57,7 @@ public class TrackActivity extends Activity {
 	private static Thread playbackThread1;
 	private static Looper l1;
 	private ImageButton playButton;
-	private ImageButton stopButton;
+	private Button exportButton;
 	private static Handler mainHandler = new Handler();
 	private double timeOfLastBeat;
 
@@ -122,7 +122,9 @@ public class TrackActivity extends Activity {
 										
 										//progBar.setProgress(0);
 										enableAllButtons();
-										playButton.setImageResource(R.drawable.play_button_normal);
+										playButton.setImageResource(R.drawable.play_button_pressed);
+										playButton
+										.setBackgroundResource(android.R.drawable.btn_default);
 									}
 								});
 							}
@@ -157,24 +159,41 @@ public class TrackActivity extends Activity {
 		playButton = (ImageButton) findViewById(R.id.play_button_track);
 		playButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				createTrackQueue();
-				Iterator it = Global.trackSoundQueue.iterator();
-				while(it.hasNext())
-				{
-					Sound s = (Sound)it.next();
-					if(timeOfLastBeat < s.getOffset())
-					timeOfLastBeat = s.getOffset();
+				if(state_playing == false) {
+					createTrackQueue();
+					Iterator it = Global.trackSoundQueue.iterator();
+					while(it.hasNext())
+					{
+						Sound s = (Sound)it.next();
+						if(timeOfLastBeat < s.getOffset())
+						timeOfLastBeat = s.getOffset();
+					}
+					disableAllButtons();
+					//Toast.makeText(context, timeOfLastBeat+"", Toast.LENGTH_SHORT).show();
+					state_playing = true;
+					//playButton.setImageResource(R.drawable.play_button_pressed);
+					playButton.setImageResource(R.drawable.stop_button_normal);
+					playButton
+							.setBackgroundResource(R.drawable.stop_border_play);
+					timeAtStart = SystemClock.elapsedRealtime();
+					timeSinceStart = 0;
 				}
-				disableAllButtons();
-				//Toast.makeText(context, timeOfLastBeat+"", Toast.LENGTH_SHORT).show();
-				state_playing = true;
-				playButton.setImageResource(R.drawable.play_button_pressed);
-				timeAtStart = SystemClock.elapsedRealtime();
-				timeSinceStart = 0;
+				else {
+					state_playing = false;
+					//timeAtStart = SystemClock.elapsedRealtime();
+					enableAllButtons();
+					Global.trackSoundQueue.clear();
+					createTrackQueue();
+					timeAtStart = SystemClock.elapsedRealtime();
+					timeSinceStart = 0;				
+					playButton.setImageResource(R.drawable.play_button_pressed);
+					playButton
+					.setBackgroundResource(android.R.drawable.btn_default);
+				}
 			}
 		});
-		stopButton = (ImageButton) findViewById(R.id.stop_button_track);
-		stopButton.setOnClickListener(new View.OnClickListener() {
+		exportButton = (Button) findViewById(R.id.export_button_track);
+		exportButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				state_playing = false;
 				//timeAtStart = SystemClock.elapsedRealtime();

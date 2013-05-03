@@ -158,15 +158,15 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/play_button_normal" />
+            android:src="@drawable/play_button_pressed" />
 
-        <ImageButton
-            android:id="@+id/stop_button_track"
+        <Button
+            android:id="@+id/export_button_track"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/stop_button_normal" />
+            android:text="Export Track" />
     </LinearLayout>
  <ProgressBar
         android:id="@+id/progBar"
